@@ -8,8 +8,8 @@ import type {
  // importing the indicator rules from the data file
  import indicatorRules from "@/data/indicators.json";
 
- // constant value
- export const STALE_AFTER_HOURS = 48;
+// Constant value: readings older than this are treated as unknown (demo parameter).
+export const STALE_AFTER_HOURS = 48; // demo parameter
 
 // Stub: returns a fixed result so the screens and scripts can be built before
 // the real rules exist. 
@@ -83,7 +83,62 @@ export function checkReading(
     };
   }
 
-  // 
+  // check the critical limit CHECK 2
+  const referenceRange = {
+    low: rule.earthRange.low,
+    high: rule.earthRange.high,
+    adjusted: false,
+    source: rule.earthRange.source,
+  }
+
+  if (rule.criticalLimit !== null) {
+    if (rule.criticalLimit.low !== null && reading.value < rule.criticalLimit.low) {
+      return {
+        status: "red",
+        reasons: [`Critical limit crossed: ${reading.value} < ${rule.criticalLimit.low}`],
+        referenceRange,
+        baseline: null,
+        criticalLimitCrossed: true,
+      }
+    }
+    if (rule.criticalLimit.high !== null && reading.value > rule.criticalLimit.high) {
+      return {
+        status: "red",
+        reasons: [`Critical limit crossed: ${reading.value} > ${rule.criticalLimit.high}`],
+        referenceRange,
+        baseline: null,
+        criticalLimitCrossed: true,
+      }
+    }
+  }
+
+  // did it cross the reference range CHECK 3 
+  // Amber: outside the reference range
+  if (referenceRange.low !== null && reading.value < referenceRange.low) {
+    return {
+      status: "amber",
+      reasons: [
+        `${reading.indicator} ${reading.value} ${reading.unit} is below the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
+      ],
+      referenceRange,
+      baseline: null,
+      criticalLimitCrossed: false,
+    };
+  }
+
+  if (referenceRange.high !== null && reading.value > referenceRange.high) {
+    return {
+      status: "amber",
+      reasons: [
+        `${reading.indicator} ${reading.value} ${reading.unit} is above the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
+      ],
+      referenceRange,
+      baseline: null,
+      criticalLimitCrossed: false,
+    };
+  }
+
+  
   // demo return value
   return {                                                                                                    
     status: "green",                                                                                          
