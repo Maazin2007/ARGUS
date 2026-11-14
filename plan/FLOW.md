@@ -33,7 +33,7 @@ checkFeelVsData()          src/lib/feelVsData.ts   compares the rating with the 
 Results screen: six StatusBadges, the reasons, the feel vs. data message
         │ any red
         ▼
-EscalationCard: who to notify, what to do meanwhile, simulated signal delay
+EscalationCard: who to notify, what to do meanwhile, simulated signal delay (from src/data/environments.json)
 ```
 
 ## Flow 2: how a status is decided
@@ -94,7 +94,9 @@ The frontend uses only these. If a screen needs something else, ask the owner to
 | `checkFeelVsData(selfRating, statuses)` | James | a message or `null` |
 | `getStep(id)`, `nextStepId(step, answer)` | James | emergency steps |
 | `isCheckInDue(lastTimestamp, now)` | James | true or false |
-| `src/data/cards.json` | Angad | card text |
 | `src/data/seed.json` | James | demo readings, all marked simulated |
+| `loadDemoProfile()` | James | fills storage from `seed.json` for the pitch |
+| `src/data/environments.json` | James | label and simulated signal delay per environment |
+| `src/data/cards.json` | Cards writer | card text |
 
 `getStatus` already exists as a stub that returns "unknown", so screens can be built today.

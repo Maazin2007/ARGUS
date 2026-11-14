@@ -86,6 +86,15 @@ export type IndicatorRule = {
   adjustments: Adjustment[];
 };
 
+// ---- Environments (src/data/environments.json) ----
+
+export type EnvironmentConfig = {
+  id: Environment;
+  label: string;
+  signalDelaySeconds: number; // simulated one-way delay; the only place this value lives
+  source: string;
+};
+
 // ---- Card content (src/data/cards.json) ----
 
 export type Sourced = { text: string; source: string };

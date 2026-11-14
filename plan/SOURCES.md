@@ -13,7 +13,7 @@ Sources support background and engineering choices. They do not medically valida
 | Norsk et al. 2015, Fluid shifts, vasodilatation and ambulatory blood pressure reduction during long duration spaceflight, Journal of Physiology. doi:10.1113/jphysiol.2014.284869 | Blood pressure adjustment | | |
 | Hinkelbein et al. 2020, CPR during spaceflight: a guideline for CPR in microgravity, Scand J Trauma Resusc Emerg Med | Emergency cardiac-arrest branch | | |
 | Institute of Medicine 2001, Safe Passage: Astronaut Care for Exploration Missions, chapter 6 | Background | | |
-| American Heart Association: Target Heart Rates Chart | Heart rate range | | |
+| American Heart Association: Target Heart Rates Chart | Exercise zones only. Weak source for a resting range: use a page that states a resting range directly, or mark it a demo parameter | | |
 | American Heart Association: Understanding Blood Pressure Readings | Blood pressure range | | |
 | NIDDK: Continuous Glucose Monitoring | Glucose range | | |
 | MedlinePlus: Temperature measurement | Temperature range, how to measure | | |
@@ -27,4 +27,5 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 
 | Parameter | Value | Where |
 |---|---|---|
-| | | |
+| Simulated one-way signal delay, station | 1 s | `src/data/environments.json` |
+| Simulated one-way signal delay, Mars transit | 720 s (12 min) | `src/data/environments.json` |

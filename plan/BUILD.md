@@ -18,6 +18,12 @@ Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Ti
 - **Baseline.** Unusual readings are left out of the baseline, so a slow fever cannot pull the baseline up with it (`BACKEND.md`, Maazin step 5).
 - **Config shape.** One rule per measure and context. Blood pressure has two measures; glucose has a fasting rule and an after-meal rule. A reading with no matching rule is unknown.
 - **Emergency steps** gain a `next` field for instruction steps.
+- **Today's target** is heart rate end to end plus temperature on Earth versus Mars transit, because temperature is what we demo.
+- **Papers first.** Angad opens Stahn 2017 and Norsk 2015 before writing code; they are the critical path. Cards move to a separate writer so Angad is not carrying five jobs.
+- **List before figure.** The list view does everything; the body figure is drawn on top of the same data afterwards.
+- **Demo profile.** A "Load demo profile" button fills the app from `seed.json`, so the pitch never starts from an empty dashboard.
+- **Signal delay** lives in one file, `src/data/environments.json`, as labelled demo values.
+- **Feel vs. data** is pitched as a small extra, not a headline. The honest results table is the differentiator.
 - **Owners.** Backend parts A, C and E, plus the emergency data from D, are split across three people. The frontend team owns the screens.
 
 ## Owners
@@ -25,42 +31,47 @@ Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Ti
 | Area | Owner |
 |---|---|
 | Status engine | Maazin |
-| Storage, input checks, thresholds, cards | Angad |
-| Simulation, results table, feel vs. data, emergency tree | James |
+| Sources, storage, input checks, thresholds | Angad |
+| Simulation, results table, feel vs. data, emergency tree, signal delay, demo profile | James |
+| Cards (`src/data/cards.json`) | To be named (a frontend person; no code needed) |
 | Screens and components | Frontend team |
 | Deployment, project page, video, slides, AI disclosure | To be named |
 
 ## Milestone 0: kickoff (today)
 
 - [x] Next.js app scaffolded; `types.ts`, `getStatus` stub and `npm test` working
-- [ ] Commit and push the scaffold
+- [x] Commit and push the scaffold
+- [ ] Angad: open Stahn 2017, Norsk 2015 and a resting heart-rate source; fill "Opened by" in `SOURCES.md`
+- [ ] Name the cards writer and the submission owner
 - [ ] Deploy on Vercel (vercel.com → Add New Project → pick this repo → Deploy) and share the URL
 - [ ] Everyone has read `FLOW.md` and `CODING_STANDARDS.md`
 - [ ] Frontend: `npm install recharts`
 - [ ] Ask organizers about video length and slide limit
 
-## Milestone 1: heart rate end to end (today, 6:00 PM)
+## Milestone 1: heart rate and temperature (today, 6:00 PM)
 
-- [ ] Maazin: median and spread; unknown, red, amber, green rules with tests
-- [ ] Angad: `storage.ts`; `validate.ts`; heart-rate rule and card with sources
-- [ ] James: `feelVsData.ts`; generator with a fixed seed; `seed.json`
-- [ ] Frontend: heart-rate entry, `StatusBadge`, indicator screen with chart, body figure with placeholder statuses, list view
-- [ ] All, 5:30 PM: demo heart rate together and list what is missing
+- [ ] Maazin: median and spread; unknown, red, amber, green rules; environment adjustment; tests
+- [ ] Angad: `storage.ts`; `validate.ts`; resting heart-rate and temperature rules with sources
+- [ ] James: `feelVsData.ts`; generator with a fixed seed; `seed.json` with the demo path
+- [ ] Cards writer: heart-rate and temperature cards
+- [ ] Frontend: list view first; heart-rate and temperature entry; `StatusBadge`; indicator screen with chart; environment switch; then the body figure
+- [ ] All, 5:30 PM: demo heart rate and temperature (Earth versus Mars transit) together and list what is missing
 
 ## Milestone 2: the differentiators (Sunday, 10:00 AM)
 
-- [ ] Angad: temperature and blood pressure rules with adjustments and sources
-- [ ] Maazin: environment adjustment; personal baseline; blood pressure
-- [ ] James: emergency tree with sources and labels; fever scenario committed
-- [ ] Frontend: emergency screens with timer; environment switch and mission day in the header; "Adjusted for environment" tag
+- [ ] Angad: blood pressure rules with adjustments and sources
+- [ ] Maazin: personal baseline; blood pressure
+- [ ] James: emergency tree with sources and labels; fever scenario committed; `loadDemoProfile()`
+- [ ] Frontend: emergency screens with timer; mission day in the header; "Adjusted for environment" tag; "Load demo profile" button
 - [ ] Frontend: feel vs. data message on the results screen
 
 ## Milestone 3: six indicators and evidence (Sunday, 11:00 AM)
 
-- [ ] Angad: glucose, sleep and mood rules; remaining cards
+- [ ] Angad: glucose, sleep and mood rules
+- [ ] Cards writer: remaining cards
 - [ ] Maazin: all six indicators return real statuses; full test list passes
 - [ ] James: `npm run evaluate` writes `results/fever.md` from the real engine
-- [ ] Frontend: full check-in; dashboard on real statuses; escalation card with signal delay; "Simulated" tag
+- [ ] Frontend: full check-in; dashboard on real statuses; escalation card with signal delay from `environments.json`; "Simulated" tag
 
 ## Milestone 4: freeze (Sunday, 2:30 PM)
 
@@ -76,7 +87,7 @@ Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Ti
 3. Results table stays at one scenario
 4. Glucose, sleep and mood shown as "input only"
 
-Never cut: the heart-rate flow, the body figure, the cards, temperature with environment adjustment, emergency mode.
+Never cut: the heart-rate flow, the list view, the cards, temperature with environment adjustment, emergency mode, the demo profile. The body figure stays too, but if time is short it is a simple outline with clickable regions, not an illustration.
 
 ## Rules for every merge
 

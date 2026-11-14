@@ -13,8 +13,8 @@ Read `FLOW.md` first for the big picture, and `CODING_STANDARDS.md` before your 
 
 | | Maazin | Angad | James |
 |---|---|---|---|
-| Area | Status engine | Storage, input checks, thresholds | Simulation, evidence, emergency tree |
-| Files | `src/lib/status.ts`, `src/lib/baseline.ts`, `tests/status.test.ts`, `tests/baseline.test.ts` | `src/lib/storage.ts`, `src/lib/validate.ts`, `src/data/indicators.json`, `src/data/cards.json`, `tests/validate.test.ts`, `tests/data.test.ts` | `src/lib/feelVsData.ts`, `src/lib/emergency.ts`, `src/data/emergency.json`, `src/data/seed.json`, `scripts/`, `results/`, `tests/feelVsData.test.ts`, `tests/emergency.test.ts` |
+| Area | Status engine | Sources, storage, input checks, thresholds | Simulation, evidence, emergency tree, demo profile |
+| Files | `src/lib/status.ts`, `src/lib/baseline.ts`, `tests/status.test.ts`, `tests/baseline.test.ts` | `src/lib/storage.ts`, `src/lib/validate.ts`, `src/data/indicators.json`, `tests/validate.test.ts`, `tests/data.test.ts` | `src/lib/feelVsData.ts`, `src/lib/emergency.ts`, `src/data/emergency.json`, `src/data/seed.json`, `src/data/environments.json`, `src/lib/demoProfile.ts`, `scripts/`, `results/`, `tests/feelVsData.test.ts`, `tests/emergency.test.ts` |
 | You will learn | Pure functions, writing tests, turning rules into code | Browser storage, JSON, input validation, reading a scientific source | Reproducible random data, command-line scripts, measuring whether a method works |
 
 Commands everyone uses:
@@ -96,9 +96,19 @@ It has two numbers, so it has two measures, `systolic` and `diastolic`, each wit
 
 ---
 
-## Angad: storage, input checks and thresholds
+## Angad: sources, storage, input checks and thresholds
 
-**Goal:** readings are saved and loaded safely, typing mistakes are caught, and every medical number in the app has a source.
+**Goal:** every medical number in the app has a source, readings are saved and loaded safely, and typing mistakes are caught.
+
+### Step 0. Open the papers first (today, before any code)
+The demo is temperature and blood pressure shifting with the environment. Those numbers come from two papers, and `SOURCES.md` says no number may be used until someone has opened its source. That makes this step the critical path for the whole team.
+
+1. Open Stahn et al. 2017 and Norsk et al. 2015 (links in `SOURCES.md`).
+2. For each, write down: the size of the shift, how long it took to build up, how it was measured, and how many astronauts were studied.
+3. Find a source for the resting heart-rate range. The American Heart Association "Target Heart Rates" chart is about exercise zones, so it is a weak source for a resting range. Use a page that states a resting range directly, or mark the range a demo parameter.
+4. Put your name and the date in the "Opened by" column of each row you checked, and post the numbers in the group chat so Maazin can test with them.
+
+**The idea to learn:** reading a paper for one number. Read the abstract, then go straight to the results table or figure. Note the units and how it was measured; that is what the card has to say.
 
 ### Step 1. Storage (`src/lib/storage.ts`)
 **The idea to learn:** `localStorage` is a small key-value store built into every browser. It only stores text, so you turn objects into text with `JSON.stringify` and back with `JSON.parse`.
@@ -154,16 +164,16 @@ Rules for filling it in:
 - If no source gives a number, write `"demo parameter"` as the source, or set `criticalLimit` to `null` so there is no red rule.
 - Only add a rule for a context you have a range for. Resting heart rate gets a rule; exercise heart rate does not, and will correctly show as unknown.
 
-Order: heart rate first (the team needs it today), then body temperature and both blood pressure measures with their `adjustments` (Stahn 2017 and Norsk 2015, listed in the docx), then glucose (fasting and after a meal are separate rules), sleep and mood (both with `criticalLimit: null`).
+Order: resting heart rate and body temperature first (both are in today's target), then both blood pressure measures with their `adjustments` (Stahn 2017 and Norsk 2015, listed in the docx), then glucose (fasting and after a meal are separate rules), sleep and mood (both with `criticalLimit: null`).
 
 ### Step 4. A test that guards the data (`tests/data.test.ts`)
 Import the JSON and check every rule: `source` is not empty, and `low` is less than `high` where both exist. This turns the team's rule "every number has a source" into something the computer checks on every run.
 
-### Step 5. Cards (`src/data/cards.json`)
-One `Card` per indicator, five sections each. Write them while the source is still open from step 3. Short sentences, written for someone who is not a doctor. Heart rate first. If the frontend team has a spare person, hand this step over; it needs no code.
+### Cards are not yours
+`src/data/cards.json` is owned by the cards writer (see `BUILD.md`), so you are not carrying five jobs. Send them your notes from step 0; they need no code.
 
 ### Done when
-A reading saved on one page appears after a refresh; bad input shows a helpful message; all six indicators have rules with sources; `npm test` passes.
+Stahn and Norsk are opened and recorded; a reading saved on one page appears after a refresh; bad input shows a helpful message; all six indicators have rules with sources; `npm test` passes.
 
 ---
 
@@ -201,7 +211,7 @@ Run the scenario's readings through `getStatus` three ways. You do not need to c
 
 For each method count: days from fever start to the first alert, missed alerts, and false alerts before the fever started. Count amber and red separately. Write the table to `results/fever.md`. Run with `npm run evaluate`.
 
-Until Maazin's engine is merged the table will show "unknown" everywhere. That is fine: build the script against the stub, and the real numbers appear later with no change from you. Report what the table shows, even if the adjusted method is slower.
+Until Maazin's engine is merged the table will show "unknown" everywhere. That is fine: build the script against the stub, and the real numbers appear later with no change from you. Report what the table shows, even if the adjusted method is slower. This table is our strongest evidence only because it is honest; a table tuned until our method wins is worth less than one that shows a trade-off.
 
 ### Step 5. Emergency tree (`src/data/emergency.json`, `src/lib/emergency.ts`)
 The tree is a list of `EmergencyStep` objects. A question step points to its `yes` and `no` steps; an instruction step points to `next`. Start with the shape and placeholder text, then fill in the wording.
@@ -209,13 +219,30 @@ The tree is a list of `EmergencyStep` objects. A question step points to its `ye
 - Cardiac-arrest branch: take method, rate, depth and ratio from Hinkelbein et al. 2020. Open the paper; do not write it from memory. Label those steps "Published".
 - Anything without a source is labelled "Demo copy". No medication or dosing advice.
 
-In `emergency.ts` write `getStep(id)` and `nextStepId(step, answer)`. In `tests/emergency.test.ts` check that every `yes`, `no` and `next` points to a step that exists, and every step has a label. This catches a broken link before a judge finds it.
+- Hinkelbein 2020 covers CPR in weightlessness only, and CPR has never been performed on a person in flight. The screen must say so.
+- The conscious chest-pain branch is not covered by that paper. Keep it short: notify the crew medical officer and the ground, keep the crewmate still, keep watching for collapse. Every step there is "Demo copy" unless you find and open a source.
+- Until the PDF is open, every step is "Demo copy". Never invent an urgent instruction to make the tree look complete.
 
-### Step 6, if time allows. Check-in due (`src/lib/checkInDue.ts`)
+In `emergency.ts` write `getStep(id)` and `nextStepId(step, answer)`. In `tests/emergency.test.ts` check that:
+- every `yes`, `no` and `next` points to a step that exists;
+- every step has a label;
+- every step labelled "Published" has a non-empty `source`.
+
+These catch a broken link or an unsourced "Published" step before a judge finds it.
+
+### Step 6. Signal delay (`src/data/environments.json`)
+The file already exists with one simulated one-way delay per environment, all demo parameters. This is the only place the number lives: the escalation card and your scripts both read it, so they cannot disagree. Do not compute orbits; if the team changes the Mars transit value, change it here only.
+
+### Step 7. Demo profile (`src/lib/demoProfile.ts`)
+The pitch must not start from an empty dashboard. Write `loadDemoProfile()`: it calls `clearAll()`, then saves every reading from `seed.json` with Angad's `saveReading`. Seed readings already carry `simulated: true`, so the "Simulated" tag shows on screen. The frontend adds a "Load demo profile" button that calls it.
+
+Make sure `seed.json` sets up the demo path in `DESIGN_IDEAS.md`: Mars transit, mission day 212, with a late-mission temperature that is amber on Earth ranges and green after adjustment.
+
+### Step 8, if time allows. Check-in due (`src/lib/checkInDue.ts`)
 `isCheckInDue(lastCheckInTimestamp, now)` returns true when the last check-in is older than a demo-parameter number of hours.
 
 ### Done when
-`npm run generate` and `npm run evaluate` each work with one command; the tree can be walked on both branches; `npm test` passes.
+`npm run generate` and `npm run evaluate` each work with one command; the tree can be walked on both branches; the demo profile loads the demo path; `npm test` passes.
 
 ---
 
@@ -223,7 +250,7 @@ In `emergency.ts` write `getStep(id)` and `nextStepId(step, answer)`. In `tests/
 
 | When | What |
 |---|---|
-| Today, 5:30 PM | Each of you shows your part running alone. Then try heart rate through the real screen. |
+| Today, 5:30 PM | Each of you shows your part running alone. Then try heart rate and temperature (Earth versus Mars transit) through the real screen. |
 | Sunday, 9:00 AM | Maazin's engine and Angad's rules are both on `main`. James re-runs `npm run evaluate`. |
 | Sunday, 11:00 AM | All six indicators give real statuses on the dashboard. |
 

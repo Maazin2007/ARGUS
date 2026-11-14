@@ -1,0 +1,5 @@
+[
+  { "id": "earth", "label": "Earth", "signalDelaySeconds": 0, "source": "demo parameter" },
+  { "id": "station", "label": "Space station", "signalDelaySeconds": 1, "source": "demo parameter" },
+  { "id": "marsTransit", "label": "Mars transit", "signalDelaySeconds": 720, "source": "demo parameter" }
+]

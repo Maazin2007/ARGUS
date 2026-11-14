@@ -33,10 +33,10 @@ Define these once in `src/app/globals.css` and use them everywhere, so a colour 
 
 ### Dashboard
 - A header strip that is always visible: mission day, environment, and the emergency button. The environment is a switch, because changing it is the best moment in the demo.
-- Body figure on the left, list of the six indicators on the right. On a phone, list first.
+- Build the list first; it must do everything on its own. Then add the body figure on the left of the list, using the same data. On a phone, list first. If time is short, the figure is a simple outline with clickable regions.
 - The figure is a way to navigate, not an anatomy lesson. Heart rate and blood pressure sit on the chest and arm, temperature on the forehead; sleep, mood and glucose have no organ, so give them icons beside the figure. The list must do everything the figure does.
 - Each row: icon, name, latest value with unit, status badge, how long ago.
-- Empty state for a new user: "No readings yet. Start your first check-in." with one button.
+- Empty state for a new user: "No readings yet. Start your first check-in." with one button, plus a smaller "Load demo profile" button for the pitch.
 
 ### Check-in
 - One indicator per step, with a progress line ("3 of 6"). It feels shorter than one long form and leaves room for "how to measure" help beside each input.
@@ -66,7 +66,7 @@ Define these once in `src/app/globals.css` and use them everywhere, so a colour 
 
 ### Escalation card
 - Three parts, in this order: what to do now, who to notify, and the simulated one-way signal delay.
-- Show the delay as a plain sentence: "A message takes about 12 minutes to reach Earth (simulated)." Never suggest waiting for a reply before acting.
+- Show the delay as a plain sentence built from `signalDelaySeconds` in `src/data/environments.json`, for example "A message takes about N minutes to reach Earth (simulated)." Never type the number into the component. Never suggest waiting for a reply before acting.
 
 ## Smaller things worth doing
 
@@ -81,7 +81,7 @@ Define these once in `src/app/globals.css` and use them everywhere, so a colour 
 
 Design the 30-second path first and make it flawless before anything else:
 
-1. Dashboard on Mars transit, mission day 212, all six statuses visible.
+1. Press "Load demo profile". Dashboard on Mars transit, mission day 212, all six statuses visible, "Simulated" tags showing. Never start the pitch from an empty dashboard.
 2. Open body temperature. Switch the environment to Earth and back, and watch the reference band and the status change.
 3. Press the emergency button and walk three steps.
 
