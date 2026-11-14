@@ -30,6 +30,45 @@ export function getStatus(
   );
 }
 
+// Shift the Earth reference range when the rule has an adjustment for this environment.                      
+// Formula: adjusted limit = earth limit + shift * min(missionDay / rampDays, 1)  
+export function adjustRange(
+  rule: IndicatorRule,
+  environment: Environment,
+  missionDay: number,
+) {
+  // check if there is an adjustment for this environment
+  const adjustment = rule.adjustments.find((a) => a.environments.includes(environment));
+  
+  // if no adjustment or missionDay is less than 0 or rampDays is less than 0, return the original range
+  if (!adjustment || missionDay <= 0 || adjustment.rampDays <= 0) {
+    return {
+      low: rule.earthRange.low,
+      high: rule.earthRange.high,
+      adjusted: false,
+      source: rule.earthRange.source,
+    }
+  }
+
+  // Calculate the adjusted range
+  const progress = Math.min(missionDay / adjustment.rampDays, 1);
+  const shiftAmount = adjustment.shift * progress;
+
+  return {                                                                                                    
+    low:                                                                                                      
+      rule.earthRange.low !== null                                                                            
+        ? Number((rule.earthRange.low + shiftAmount).toFixed(2))                                              
+        : null,                                                                                               
+    high:                                                                                                     
+      rule.earthRange.high !== null                                                                           
+        ? Number((rule.earthRange.high + shiftAmount).toFixed(2))                                             
+        : null,                                                                                               
+    adjusted: true,                                                                                           
+    source: `${rule.earthRange.source}; ${adjustment.source}`,                                                
+  };   
+  
+}
+
 
 // checkReadingFunction
 export function checkReading(                                                                                 
@@ -84,12 +123,7 @@ export function checkReading(
   }
 
   // check the critical limit CHECK 2
-  const referenceRange = {
-    low: rule.earthRange.low,
-    high: rule.earthRange.high,
-    adjusted: false,
-    source: rule.earthRange.source,
-  }
+  const referenceRange = adjustRange(rule, environment, missionDay);  
 
   if (rule.criticalLimit !== null) {
     if (rule.criticalLimit.low !== null && reading.value < rule.criticalLimit.low) {
@@ -143,12 +177,7 @@ export function checkReading(
   return {                                                                                                    
     status: "green",                                                                                          
     reasons: ["No checks fired."],                                                                            
-    referenceRange: {                                                                                         
-      low: rule.earthRange.low,                                                                               
-      high: rule.earthRange.high,                                                                             
-      adjusted: false,                                                                                        
-      source: rule.earthRange.source,                                                                         
-    },                                                                                                        
+    referenceRange,                                                                                                        
     baseline: null,                                                                                           
     criticalLimitCrossed: false,                                                                              
   };
