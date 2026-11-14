@@ -1,0 +1,66 @@
+[
+  {
+    "indicator": "heartRate",
+    "howToMeasure": {
+      "text": "Rest quietly for at least 5 minutes before checking. Place your index and middle fingers on the inside of your wrist below the thumb, and count the beats for 60 seconds while seated.",
+      "source": "American Heart Association: All About Heart Rate (Pulse)"
+    },
+    "whyItMatters": {
+      "text": "A typical resting heart rate for adults ranges from 60 to 100 beats per minute. Highly trained athletes may have a resting heart rate between 40 and 60 beats per minute.",
+      "source": "American Heart Association: All About Heart Rate (Pulse)"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Gravity Fields",
+        "text": "In microgravity, fluids shift upward toward the head and blood plasma volume decreases, which can alter cardiovascular regulation and increase resting pulse.",
+        "source": "NASA Human Research Program: Five Hazards of Human Spaceflight"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "Rest seated quietly for 5 to 10 minutes and repeat the measurement to verify the reading.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Maintain adequate daily hydration and electrolyte intake, particularly following countermeasure exercise sessions.",
+        "source": "NASA Human Research Roadmap: Risk of Orthostatic Intolerance"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if resting heart rate is consistently above 100 bpm, drops below 45 bpm, or occurs alongside chest pain, shortness of breath, or dizziness.",
+      "source": "Demo copy"
+    }
+  },
+  {
+    "indicator": "bodyTemperature",
+    "howToMeasure": {
+      "text": "Position the forehead Double Sensor heat-flux device securely against the skin during pre-exercise rest. Avoid taking measurements immediately after intense physical activity.",
+      "source": "Stahn et al. 2017, Scientific Reports"
+    },
+    "whyItMatters": {
+      "text": "Body temperature measures the body's ability to generate and dissipate heat. Typical resting temperature in adults averages around 37°C (98.6°F) and fluctuates across the daily cycle.",
+      "source": "MedlinePlus: Body Temperature"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Gravity Fields",
+        "text": "Resting core body temperature in astronauts gradually increases by approximately 1°C over the first 75 mission days in microgravity due to reduced convective heat dissipation and systemic inflammation.",
+        "source": "Stahn et al. 2017, Scientific Reports"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "Rest in an area with active cabin ventilation and airflow to promote convective cooling.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Drink water and repeat the temperature measurement after 20 to 30 minutes of inactive rest.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if core temperature exceeds 38.5°C (101.3°F), does not return toward baseline after resting, or is accompanied by chills or acute malaise.",
+      "source": "Demo copy"
+    }
+  }
+]
