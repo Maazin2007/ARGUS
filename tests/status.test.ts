@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { adjustRange, checkReading, getStatus } from "@/lib/status";
-import type { IndicatorRule, Reading } from "@/lib/types";
+import type { IndicatorRule, Reading, ValueReading } from "@/lib/types";
 
 const now = new Date("2026-11-14T13:05:00Z");
 
@@ -68,6 +68,28 @@ const lateMissionTemperature: Reading = {
   simulated: false,
 };
 
+function makeHrHistory(
+  values: number[],
+  endDateIso = "2026-11-14T12:00:00Z",
+): ValueReading[] {
+  const endMs = new Date(endDateIso).getTime();
+  return values.map((val, idx) => {
+    const daysAgo = values.length - idx;
+    const ts = new Date(endMs - daysAgo * 24 * 60 * 60 * 1000).toISOString();
+    return {
+      id: `hr-${idx + 1}`,
+      indicator: "heartRate",
+      value: val,
+      unit: "bpm",
+      timestamp: ts,
+      missionDay: 212 - daysAgo,
+      environment: "marsTransit",
+      context: "resting",
+      simulated: false,
+    };
+  });
+}
+
 test("getStatus returns the agreed shape", () => {
   const result = getStatus(restingHeartRate, [], "marsTransit", 212, now);
   assert.ok(["green", "amber", "red", "unknown"].includes(result.status));
@@ -122,10 +144,11 @@ test("reading outside reference range returns amber", () => {
   assert.equal(result.criticalLimitCrossed, false);
 });
 
-test("reading inside reference range returns green", () => {
+test("reading inside reference range returns green and notes when baseline is not ready", () => {
   const result = checkReading(restingHeartRate, [], testRules, "earth", 0, now);
   assert.equal(result.status, "green");
-  assert.equal(result.criticalLimitCrossed, false);
+  assert.equal(result.baseline, null);
+  assert.ok(result.reasons.includes("Baseline not available yet."));
 });
 
 test("mission day 0 gives the unadjusted Earth range", () => {
@@ -183,4 +206,24 @@ test("temperature above criticalLimit stays red even after space adjustment", ()
   );
   assert.equal(result.status, "red");
   assert.equal(result.criticalLimitCrossed, true);
+});
+
+test("three consecutive readings outside the personal baseline return amber, never red", () => {
+  // 5 normal readings at 60 bpm (baseline 50..70), followed by 2 high readings (85, 86)
+  const history = makeHrHistory([60, 60, 60, 60, 60, 85, 86]);
+  const thirdDeviating: Reading = {
+    ...restingHeartRate,
+    value: 87, // inside Earth range (60..100), but 3rd reading above personal baseline (50..70)
+  };
+  const result = checkReading(
+    thirdDeviating,
+    history,
+    testRules,
+    "marsTransit",
+    212,
+    now,
+  );
+  assert.equal(result.status, "amber");
+  assert.equal(result.criticalLimitCrossed, false);
+  assert.deepEqual(result.baseline, { low: 50, high: 70, count: 5 });
 });
