@@ -49,34 +49,56 @@
     "context": "resting",
     "unit": "mmHg",
     "earthRange": {
-      "low": null,
+      "low": 90,
       "high": 119,
-      "source": "American Heart Association, Understanding Blood Pressure Readings: https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings (normal is less than 120 mmHg; the engine flags readings above the limit, so the limit is 119 for whole-number readings)"
+      "source": "American Heart Association, Understanding Blood Pressure Readings: https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings (upper limit 119 mmHg because AHA defines normal as less than 120 mmHg; lower bound 90 mmHg is a demo parameter)"
     },
     "criticalLimit": {
       "low": null,
       "high": 180,
       "source": "American Heart Association, Understanding Blood Pressure Readings (severe/hypertensive crisis > 180 mmHg): https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
     },
-    "baselineFloor": null,
-    "adjustments": []
+    "baselineFloor": 6,
+    "adjustments": [
+      {
+        "environments": [
+          "station",
+          "marsTransit"
+        ],
+        "shift": -8,
+        "rampDays": 85,
+        "source": "Norsk et al. (2015), Journal of Physiology, https://doi.org/10.1113/jphysiol.2014.284869",
+        "note": "In 8 male ISS astronauts measured between flight days 85 and 192, 24-hour ambulatory systolic blood pressure fell by 8 mmHg. Linear 85-day ramp and Mars transit application are demo assumptions."
+      }
+    ]
   },
   {
     "measure": "diastolic",
     "context": "resting",
     "unit": "mmHg",
     "earthRange": {
-      "low": null,
+      "low": 60,
       "high": 79,
-      "source": "American Heart Association, Understanding Blood Pressure Readings: https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings (normal is less than 80 mmHg; the engine flags readings above the limit, so the limit is 79 for whole-number readings)"
+      "source": "American Heart Association, Understanding Blood Pressure Readings: https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings (upper limit 79 mmHg because AHA defines normal as less than 80 mmHg; lower bound 60 mmHg is a demo parameter)"
     },
     "criticalLimit": {
       "low": null,
       "high": 120,
       "source": "American Heart Association, Understanding Blood Pressure Readings (severe/hypertensive crisis > 120 mmHg): https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
     },
-    "baselineFloor": null,
-    "adjustments": []
+    "baselineFloor": 5,
+    "adjustments": [
+      {
+        "environments": [
+          "station",
+          "marsTransit"
+        ],
+        "shift": -9,
+        "rampDays": 85,
+        "source": "Norsk et al. (2015), Journal of Physiology, https://doi.org/10.1113/jphysiol.2014.284869",
+        "note": "In 8 male ISS astronauts measured between flight days 85 and 192, 24-hour ambulatory diastolic blood pressure fell by 9 mmHg. Linear 85-day ramp and Mars transit application are demo assumptions."
+      }
+    ]
   },
   {
     "measure": "bloodGlucose",
@@ -85,12 +107,12 @@
     "earthRange": {
       "low": 70,
       "high": 99,
-      "source": "demo parameter (same fasting band as the blood glucose card in cards.json; not a validated medical range)"
+      "source": "NIDDK, Diabetes Tests & Diagnosis (normal fasting plasma glucose <= 99 mg/dL) and American Diabetes Association Standards of Care (Level 1 hypoglycaemia alert < 70 mg/dL): https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis"
     },
     "criticalLimit": {
       "low": 54,
       "high": 250,
-      "source": "demo parameter (same escalation thresholds as the blood glucose card in cards.json)"
+      "source": "American Diabetes Association Standards of Care (Level 2 clinically significant hypoglycaemia < 54 mg/dL); upper limit 250 mg/dL is a demo parameter"
     },
     "baselineFloor": null,
     "adjustments": []
@@ -102,12 +124,12 @@
     "earthRange": {
       "low": null,
       "high": 139,
-      "source": "demo parameter (the blood glucose card in cards.json gives below 140 mg/dL after a meal; the engine flags readings above the limit, so the limit is 139; not a validated medical range)"
+      "source": "NIDDK, Diabetes Tests & Diagnosis (normal 2-hour post-load glucose < 140 mg/dL; stored as 139 for whole-number readings): https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis"
     },
     "criticalLimit": {
       "low": 54,
       "high": 250,
-      "source": "demo parameter (same escalation thresholds as the blood glucose card in cards.json)"
+      "source": "American Diabetes Association Standards of Care (Level 2 clinically significant hypoglycaemia < 54 mg/dL); upper limit 250 mg/dL is a demo parameter"
     },
     "baselineFloor": null,
     "adjustments": []

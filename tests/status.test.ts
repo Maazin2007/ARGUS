@@ -447,3 +447,21 @@ test("a temperature that is ordinary on Earth stays green late in the mission", 
   const result = checkReading(ordinary, [], testRules, "marsTransit", 212, now);
   assert.equal(result.status, "green");
 });
+
+test("late-mission blood pressure that is amber-low on Earth is green in Mars transit after Norsk adjustment", () => {
+  const inFlightBp: BloodPressureReading = {
+    ...restingBloodPressure,
+    systolic: 85,
+    diastolic: 55,
+    missionDay: 212,
+    environment: "marsTransit",
+  };
+  const onEarth = getStatus(inFlightBp, [], "earth", 212, now);
+  const inTransit = getStatus(inFlightBp, [], "marsTransit", 212, now);
+
+  assert.equal(onEarth.status, "amber");
+  assert.equal(inTransit.status, "green");
+  assert.equal(inTransit.referenceRange?.adjusted, true);
+  assert.equal(inTransit.referenceRange?.low, 82);
+  assert.equal(inTransit.referenceRange?.high, 119);
+});

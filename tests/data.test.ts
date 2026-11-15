@@ -105,6 +105,13 @@ test("heart rate and body temperature demo parameters are configured", () => {
     "station",
     "marsTransit",
   ]);
+
+  const sys = indicators.find((r) => r.measure === "systolic");
+  const dia = indicators.find((r) => r.measure === "diastolic");
+  assert.equal(sys?.adjustments[0]?.shift, -8);
+  assert.equal(sys?.adjustments[0]?.rampDays, 85);
+  assert.equal(dia?.adjustments[0]?.shift, -9);
+  assert.equal(dia?.adjustments[0]?.rampDays, 85);
 });
 
 test("seed day-212 body temperature 37.4°C is amber on Earth and green on Mars transit", () => {
