@@ -127,3 +127,45 @@ test("invalid stored JSON returns an empty array", () => {
   assert.deepEqual(getReadings(), []);
   assert.deepEqual(getCheckIns(), []);
 });
+
+test("a full or blocked storage returns a message instead of throwing", () => {
+  const realSetItem = localStorageMock.setItem;
+  localStorageMock.setItem = () => {
+    throw new Error("QuotaExceededError");
+  };
+  const realConsoleError = console.error;
+  console.error = () => {}; // keep the expected error out of the test output
+
+  try {
+    const savedReading = saveReading(reading);
+    const savedCheckIn = saveCheckIn({ id: "c1", timestamp: "2026-11-14T10:00:00Z", selfRating: 4 });
+
+    assert.equal(savedReading.ok, false);
+    assert.equal(savedCheckIn.ok, false);
+    assert.deepEqual(getReadings(), []);
+  } finally {
+    localStorageMock.setItem = realSetItem;
+    console.error = realConsoleError;
+  }
+});
+
+test("a successful save returns ok", () => {
+  assert.deepEqual(saveReading(reading), { ok: true });
+});
+
+test("clearAll returns a message instead of throwing when storage is blocked", () => {
+  const realRemoveItem = localStorageMock.removeItem;
+  localStorageMock.removeItem = () => {
+    throw new Error("SecurityError");
+  };
+  const realConsoleError = console.error;
+  console.error = () => {};
+
+  try {
+    const cleared = clearAll();
+    assert.equal(cleared.ok, false);
+  } finally {
+    localStorageMock.removeItem = realRemoveItem;
+    console.error = realConsoleError;
+  }
+});

@@ -41,6 +41,9 @@ type ArgusState = {
   setLastIndicator: (id: IndicatorId) => void;
   // Call after saving readings or a check-in so every screen re-reads storage.
   reload: () => void;
+  // Message shown above every screen when a storage write failed; null when all is well.
+  storageError: string | null;
+  setStorageError: (message: string | null) => void;
   statusFor: (id: IndicatorId) => IndicatorState;
 };
 
@@ -60,13 +63,17 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
   const [checkInTimes, setCheckInTimes] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const [lastIndicator, setLastIndicator] = useState<IndicatorId>("heartRate");
+  const [storageError, setStorageError] = useState<string | null>(null);
   const missionDay = DEMO_MISSION_DAY;
   const statusTime = useMemo(() => missionDate(missionDay), [missionDay]);
 
   const reload = useCallback(() => {
     // Storage starts empty in a new browser. Load the demo profile so the first
     // screen always has data; the "Simulated data" tags say what it is.
-    if (getReadings().length === 0) loadDemoProfile();
+    if (getReadings().length === 0) {
+      const loaded = loadDemoProfile();
+      if (!loaded.ok) setStorageError(loaded.message);
+    }
     setReadings(getReadings());
     setCheckInTimes(getCheckIns().map((c) => c.timestamp));
     setReady(true);
@@ -115,6 +122,8 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
     lastIndicator,
     setLastIndicator,
     reload,
+    storageError,
+    setStorageError,
     statusFor,
   };
 

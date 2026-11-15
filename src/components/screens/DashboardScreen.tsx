@@ -19,7 +19,7 @@ const BODY_SITES: IndicatorId[] = ["heartRate", "bodyTemperature", "bloodPressur
 const MISSED_WINDOW_DAYS = 14;
 
 export function DashboardScreen() {
-  const { ready, missionDay, readings, lastCheckInDay, reload } = useArgus();
+  const { ready, missionDay, readings, lastCheckInDay, reload, setStorageError } = useArgus();
   const statuses = useAllStatuses();
   const router = useRouter();
 
@@ -93,7 +93,8 @@ export function DashboardScreen() {
                 className="btn btn-ghost btn-sm"
                 title="Clears saved readings and check-ins, then reloads the simulated demo profile"
                 onClick={() => {
-                  loadDemoProfile();
+                  const loaded = loadDemoProfile();
+                  setStorageError(loaded.ok ? null : loaded.message);
                   reload();
                 }}
               >

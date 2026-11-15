@@ -3,11 +3,17 @@
 // `simulated: true`, which keeps the "Simulated data" tags on screen.
 
 import seed from "@/data/seed.json";
-import { clearAll, saveReading } from "@/lib/storage";
+import { clearAll, saveReading, type SaveResult } from "@/lib/storage";
 import type { Reading } from "@/lib/types";
 
 // Replaces whatever is stored: saved readings and check-ins are cleared first.
-export function loadDemoProfile(): void {
-  clearAll();
-  for (const reading of seed as Reading[]) saveReading(reading);
+// Stops at the first failed write and returns its message for the screen.
+export function loadDemoProfile(): SaveResult {
+  const cleared = clearAll();
+  if (!cleared.ok) return cleared;
+  for (const reading of seed as Reading[]) {
+    const saved = saveReading({ ...reading, provenance: "seed" });
+    if (!saved.ok) return saved;
+  }
+  return { ok: true };
 }
