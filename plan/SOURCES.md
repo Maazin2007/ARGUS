@@ -16,7 +16,7 @@ Sources support background and engineering choices. They do not medically valida
 | Institute of Medicine 2001, Safe Passage: Astronaut Care for Exploration Missions, chapter 6 | Background | | |
 | American Heart Association: [All About Heart Rate (Pulse)](https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse) | Resting heart rate range (60–100 bpm in `indicators.json`) and measurement method. Not a universal emergency threshold | Ihsan / Angad | 14 Nov 2026 |
 | American Heart Association: Target Heart Rates Chart | Exercise zones only. Weak source for a resting range: use a page that states a resting range directly, or mark it a demo parameter | | |
-| American Heart Association: Understanding Blood Pressure Readings | Blood pressure range, measurement and hypertensive crisis | Ihsan | 14 Nov 2026 |
+| American Heart Association: [Understanding Blood Pressure Readings](https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings) | Blood pressure range, measurement and hypertensive crisis (> 180 / > 120 mmHg critical limits in `indicators.json`) | Ihsan / Angad | 14 Nov 2026 |
 | NIDDK: Continuous Glucose Monitoring | Glucose measurement and ranges | Ihsan | 14 Nov 2026 |
 | MedlinePlus: Temperature measurement | Temperature range, how to measure | Ihsan | 14 Nov 2026 |
 | CDC: [About Sleep](https://www.cdc.gov/sleep/about/index.html) | Sleep range (at least 7 hours per 24 hours for adults aged 18–60 in `indicators.json`) and measurement. Not an emergency threshold | Ihsan / Angad | 14 Nov 2026 |

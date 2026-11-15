@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateEntry } from "../src/lib/validate";
+import { validateEntry } from "@/lib/validate";
 
 test("accepts a valid heart rate", () => {
   assert.deepEqual(validateEntry("heartRate", "72"), { ok: true, value: 72 });

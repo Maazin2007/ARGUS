@@ -3,7 +3,7 @@ import type { Reading, CheckIn, IndicatorId } from "@/lib/types";
 const READINGS_KEY = "argus.readings";
 const CHECK_INS_KEY = "argus.checkIns";
 
-//get readings, optionally filtered by indicator
+// Get readings, optionally filtered by indicator.
 export function getReadings(indicator?: IndicatorId): Reading[] {
   if (typeof window === "undefined") {
     return [];
@@ -22,8 +22,9 @@ export function getReadings(indicator?: IndicatorId): Reading[] {
       return [];
     }
 
-    const sorted = [...readings].sort((a: Reading, b: Reading) =>
-      a.timestamp.localeCompare(b.timestamp),
+    const sorted = [...readings].sort(
+      (a: Reading, b: Reading) =>
+        Date.parse(a.timestamp) - Date.parse(b.timestamp),
     ) as Reading[];
 
     if (indicator) {
@@ -37,7 +38,7 @@ export function getReadings(indicator?: IndicatorId): Reading[] {
   }
 }
 
-//adding readings
+// Add a reading.
 export function saveReading(reading: Reading): void {
   if (typeof window === "undefined") {
     return;
@@ -49,7 +50,7 @@ export function saveReading(reading: Reading): void {
   localStorage.setItem(READINGS_KEY, JSON.stringify(readings));
 }
 
-//get check-ins
+// Get check-ins.
 export function getCheckIns(): CheckIn[] {
   if (typeof window === "undefined") {
     return [];
@@ -68,8 +69,8 @@ export function getCheckIns(): CheckIn[] {
       return [];
     }
 
-    return (checkIns as CheckIn[]).sort((a, b) =>
-      a.timestamp.localeCompare(b.timestamp),
+    return (checkIns as CheckIn[]).sort(
+      (a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp),
     );
   } catch (error) {
     console.error("Failed to load ARGUS check-ins:", error);
@@ -77,7 +78,7 @@ export function getCheckIns(): CheckIn[] {
   }
 }
 
-//adding check-ins
+// Add a check-in.
 export function saveCheckIn(checkIn: CheckIn): void {
   if (typeof window === "undefined") {
     return;
@@ -89,7 +90,7 @@ export function saveCheckIn(checkIn: CheckIn): void {
   localStorage.setItem(CHECK_INS_KEY, JSON.stringify(checkIns));
 }
 
-//clear stored data
+// Clear stored data.
 export function clearAll(): void {
   if (typeof window === "undefined") {
     return;

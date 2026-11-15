@@ -82,7 +82,7 @@ test("filters readings by indicator", () => {
     indicator: "bloodGlucose",
     value: 90,
     unit: "mg/dL",
-    context: "fastingPlasma",
+    context: "fasting",
   };
 
   saveReading(reading);
