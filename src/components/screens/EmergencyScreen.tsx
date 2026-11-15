@@ -101,9 +101,7 @@ function VitalsPanel({
   const patient = crewMember(patientId);
   const head = (
     <div className="head">
-      <h2>
-        Latest vitals
-      </h2>
+      <h2>Latest vitals</h2>
       {access === "emergency" ? (
         <span className="hint mono">Limited emergency view</span>
       ) : access === "full" ? (
