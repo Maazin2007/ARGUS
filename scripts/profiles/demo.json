@@ -1,5 +1,5 @@
 {
-  "note": "Simulated astronaut for the demo. Every value here is a demo parameter chosen by the team, not a medical reference. bodyTemperature.base must be re-checked once Angad's temperature rule is in src/data/indicators.json: it should be amber on Earth ranges and green after the Mars transit adjustment.",
+  "note": "Simulated astronaut for the demo. Every value here is a demo parameter chosen by the team, not a medical reference. bodyTemperature.base must be re-checked once Angad's temperature rule is in src/data/indicators.json: it should be amber on Earth ranges and green after the Mars transit adjustment. Units and contexts must match Angad's rules, or the reading shows as unknown.",
   "seed": 20261114,
   "environment": "marsTransit",
   "lastMissionDay": 212,
@@ -23,6 +23,40 @@
       "noise": 0.1,
       "decimals": 1,
       "source": "demo parameter"
+    },
+    {
+      "indicator": "bloodGlucose",
+      "unit": "mg/dL",
+      "context": "fasting",
+      "base": 92,
+      "noise": 6,
+      "decimals": 0,
+      "source": "demo parameter"
+    },
+    {
+      "indicator": "sleepDuration",
+      "unit": "hours",
+      "context": "overnight",
+      "base": 6.8,
+      "noise": 0.6,
+      "decimals": 1,
+      "source": "demo parameter"
+    },
+    {
+      "indicator": "mood",
+      "unit": "rating 1-5",
+      "context": "selfReport",
+      "base": 4,
+      "noise": 1,
+      "decimals": 0,
+      "source": "demo parameter"
     }
-  ]
+  ],
+  "bloodPressure": {
+    "unit": "mmHg",
+    "context": "resting",
+    "systolic": { "base": 118, "noise": 5 },
+    "diastolic": { "base": 76, "noise": 4 },
+    "source": "demo parameter"
+  }
 }

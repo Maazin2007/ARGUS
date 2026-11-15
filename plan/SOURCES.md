@@ -39,3 +39,7 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 | Critical low heart rate escalation threshold | 40 bpm | `src/data/cards.json` |
 | Fever escalation threshold | 38.5 °C | `src/data/cards.json` |
 
+| Simulated demo astronaut: fasting blood glucose, 30 days | 92 ± 6 mg/dL | `scripts/profiles/demo.json` |
+| Simulated demo astronaut: sleep duration, 30 days | 6.8 ± 0.6 hours | `scripts/profiles/demo.json` |
+| Simulated demo astronaut: mood self-rating, 30 days | 4 ± 1 (whole number, 1 to 5) | `scripts/profiles/demo.json` |
+| Simulated demo astronaut: resting blood pressure, 30 days | 118 ± 5 / 76 ± 4 mmHg | `scripts/profiles/demo.json` |
