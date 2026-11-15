@@ -104,6 +104,20 @@ export function fmt(value: number, decimals: number): string {
   return value.toFixed(decimals);
 }
 
+// Where a reading came from, in words. Older stored readings have no provenance.
+export function provenanceLabel(reading: Reading): string {
+  switch (reading.provenance) {
+    case "manual":
+      return "Typed in check-in";
+    case "device":
+      return "Device import";
+    case "seed":
+      return "Demo profile";
+    default:
+      return "Not recorded";
+  }
+}
+
 // "72", "37.8" or "118/76".
 export function formatReading(reading: Reading | null): string {
   if (!reading) return "--";

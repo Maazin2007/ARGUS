@@ -37,6 +37,7 @@ function buildReading(
     unit: meta.unit,
     context,
     simulated: true, // demo profile: everything entered here joins the simulated history
+    provenance: "manual" as const, // typed in by the crew
   };
   if (step.indicator === "bloodPressure") {
     return {
