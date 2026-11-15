@@ -4,7 +4,7 @@ Short rules so six people's code reads like one person's. When a rule and a dead
 
 ## Keep it simple
 
-- No new library without asking the team. We have React, Next.js, Tailwind and (for charts) Recharts. A few lines of your own code beat a new dependency.
+- No new library without asking the team. We have React, Next.js, Tailwind and three.js (for the body figure). Charts are hand-built SVG. A few lines of your own code beat a new dependency.
 - No server code, no database, no login, no state-management library. React's `useState` and our `storage.ts` are enough.
 - Write the plain version first. Make it clever only if it is too slow or too long, which this weekend it will not be.
 - If you do not understand a line, do not merge it. This includes lines an AI tool wrote. Ask it, or a teammate, to explain first.

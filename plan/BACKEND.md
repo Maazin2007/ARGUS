@@ -4,6 +4,21 @@
 
 Read `FLOW.md` first for the big picture, and `CODING_STANDARDS.md` before your first commit.
 
+## What was built (15 November)
+
+The steps below are the plan the team worked from. They are kept as written, because they explain the idea behind each piece. The build differs in these places; `FLOW.md` describes the code as it is.
+
+| Planned | Built |
+|---|---|
+| Maazin: status engine and baseline | As planned, in `src/lib/status.ts` and `src/lib/baseline.ts`. Two rules were added: a rule with no reference range returns unknown, and the adjustment moves only one end of the range. |
+| Angad: storage, input checks, thresholds | As planned. Thresholds cover all six indicators, with an extra after-meal glucose rule. Cards were written by Ihsan. |
+| James: feel vs. data, generator, seed data | As planned, in `src/lib/feelVsData.ts`, `scripts/generate.ts`, `scripts/random.ts` and `src/data/seed.json`. |
+| James: fever scenario and results table | Built by Maazin as `scripts/scenarios/fever.json`, `scripts/scenario.ts` and `scripts/evaluate.ts`, with output in `results/`. |
+| James: `emergency.json` and `emergency.ts` | Not built. The emergency tree is in `src/data/emergencyPlaceholder.json` and `src/lib/placeholders.ts`, written with the screens. |
+| James: `demoProfile.ts` | Built as planned in `src/lib/demoProfile.ts`. It also loads by itself when storage is empty. |
+| James: `checkInDue.ts` | Not built as a file. The dashboard works out the due banner from the last check-in's mission day. |
+| Emergency numbers from Hinkelbein 2020 | The paper gives no compression rate, depth or ratio of its own, so none are shown. The method and defibrillator wording follow its recommendations 2, 3 and 10. |
+
 ## How the three of you stay independent
 
 1. **Each person owns their own files.** Nobody edits a file in someone else's column. That removes merge conflicts.

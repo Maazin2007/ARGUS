@@ -1,6 +1,10 @@
 # Design ideas for the frontend team
 
-Suggestions, not requirements, except the section marked "Rules". The user is an astronaut who is not a doctor, may be tired or frightened, and has nobody to ask for 20 minutes. Design for that person.
+Suggestions, not requirements, except the section marked "Rules".
+
+**What was adopted (15 November).** The screens were built from the team's ARGUS_v13 mockup. It uses a light theme, not the dark one suggested below, and a 3D suit figure with three measurement sites beside the list. The rules, the one-step-per-screen check-in and emergency mode, the status word with symbol and colour, the "Simulated data" tags and the demo path were all followed. Colours are tokens in `src/app/globals.css`. The compressions step shows elapsed time with no pulse, because no source gives a rate.
+
+The rest of this file is the original guidance. The user is an astronaut who is not a doctor, may be tired or frightened, and has nobody to ask for 20 minutes. Design for that person.
 
 ## The feel
 
@@ -60,7 +64,7 @@ Define these once in `src/app/globals.css` and use them everywhere, so a colour 
 - Reachable in one press from every screen. Consider a full-width bar on phones.
 - One question per screen, in very large type. Two buttons, YES and NO, each at least a thumb wide, far enough apart that they cannot be pressed by mistake.
 - No scrolling on a step. If the text does not fit, split the step.
-- For compressions, a large pulsing circle at the published rate with a count. Add sound only if it can be muted.
+- For compressions, show how long the step has been open. Add a pulse at a compression rate only if a source gives that rate; a pulse with no source would read as an instruction.
 - A "Back one step" button, and the step label ("Published" or "Demo copy") small at the bottom.
 - High contrast, no animation except the pulse.
 
@@ -81,8 +85,9 @@ Define these once in `src/app/globals.css` and use them everywhere, so a colour 
 
 Design the 30-second path first and make it flawless before anything else:
 
-1. Press "Load demo profile". Dashboard on Mars transit, mission day 212, all six statuses visible, "Simulated" tags showing. Never start the pitch from an empty dashboard.
+1. Dashboard on Mars transit, mission day 212, all six statuses visible, "Simulated" tags showing. The demo profile loads by itself; press "Load demo profile" to reset it. Never start the pitch from an empty dashboard.
 2. Open body temperature. Switch the environment to Earth and back, and watch the reference band and the status change.
-3. Press the emergency button and walk three steps.
+3. Open the alert test: three methods, one fever, the results table.
+4. Press the emergency button and walk three steps.
 
 Record a backup video of this path once it works.
