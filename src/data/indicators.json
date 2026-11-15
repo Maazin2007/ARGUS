@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "measure": "heartRate",
+    "context": "resting",
+    "unit": "bpm",
+    "earthRange": {
+      "low": 60,
+      "high": 100,
+      "source": "American Heart Association, All About Heart Rate: https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "bodyTemperature",
+    "context": "restingCore",
+    "unit": "°C",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified: method-compatible resting core-temperature bounds not yet confirmed (MedlinePlus temperature measurement guidance not yet reviewed)."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": [
+      {
+        "environments": ["station"],
+        "shift": 1.01,
+        "rampDays": 75,
+        "source": "Stahn et al. (2017), https://doi.org/10.1038/s41598-017-15560-w",
+        "note": "Research-inspired demo using resting core temperature. The linear ramp is a modeling assumption, not a validated medical reference adjustment."
+      }
+    ]
+  },
+  {
+    "measure": "systolic",
+    "context": "resting",
+    "unit": "mmHg",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified: American Heart Association Understanding Blood Pressure Readings not yet reviewed."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "diastolic",
+    "context": "resting",
+    "unit": "mmHg",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified: American Heart Association Understanding Blood Pressure Readings not yet reviewed."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "bloodGlucose",
+    "context": "fasting",
+    "unit": "mg/dL",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified: NIDDK / MedlinePlus fasting blood glucose guidance not yet reviewed."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "sleepDuration",
+    "context": "dailyTotal18to60",
+    "unit": "hours",
+    "earthRange": {
+      "low": 7,
+      "high": null,
+      "source": "CDC, About Sleep, adults aged 18-60: https://www.cdc.gov/sleep/about/index.html"
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "mood",
+    "context": "selfReported",
+    "unit": "1-5",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Demo parameter: project-defined 1-5 self-report scale; no external clinical reference range."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  }
+]
