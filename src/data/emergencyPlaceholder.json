@@ -35,13 +35,14 @@
     {
       "id": "a3", "type": "instruction",
       "text": "Start chest compressions now and call for the defibrillator",
-      "hint": "Evetts-Russomano method until they are restrained, then on the crew medical restraint system. 100 to 120 compressions a minute, 5 to 6 cm deep, 30 compressions to 2 breaths. Use the defibrillator as soon as it arrives.",
+      "hint": "Use the Evetts-Russomano method first. If you cannot compress well with it, switch to the Reverse-Bear-Hug method. Once they are restrained on the crew medical restraint system, use the Handstand method. Rate, depth and breaths are the same as in your Earth-based CPR training. Use the defibrillator only once they are restrained on an electrically isolated, safe surface.",
       "yes": null, "no": null, "next": null, "timerSeconds": null,
       "yesLabel": "DONE", "noLabel": "UNABLE",
       "logYes": "Compressions started, defibrillator called", "logNo": "Not completed, flagged for ground",
       "showLimits": true,
+      "showElapsed": true,
       "label": "Demo copy",
-      "source": "Mockup cites Hinkelbein et al. 2020 (not yet opened by the team). Numbers must be checked against the paper before this is labelled Published."
+      "source": "Wording follows recommendations 2, 3 and 10 of Hinkelbein et al. 2020 (https://doi.org/10.1186/s13049-020-00793-y). The guideline gives no compression rate, depth or ratio of its own and refers to the Earth-based AHA/ERC guidelines, so no numbers are shown. Stays Demo copy until a team member has opened the paper."
     },
     {
       "id": "c1", "type": "question",

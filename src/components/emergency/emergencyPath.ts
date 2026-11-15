@@ -2,7 +2,8 @@ import { EMERGENCY_FIRST_STEP_ID, getStep, nextStepId } from "@/lib/placeholders
 import type { EmergencyStepUi } from "@/lib/placeholders";
 
 // One answer the crew gave, with the UTC time it was given.
-export type EmergencyAnswer = { answer: "yes" | "no"; time: string };
+// `at` is the same moment in milliseconds, so the next step can show how long it has been open.
+export type EmergencyAnswer = { answer: "yes" | "no"; time: string; at: number };
 
 // One row of the step log: the step that was answered, and the answer.
 export type AnsweredStep = { step: EmergencyStepUi; answer: EmergencyAnswer };

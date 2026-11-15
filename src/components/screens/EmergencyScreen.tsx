@@ -20,6 +20,28 @@ const LIVE_GROUND_MAX_DELAY_SECONDS = 5; // demo parameter
 // Every path through the tree is three answers long (question, question, action).
 const STEP_COUNT = 3;
 
+// "MM:SS" since `since` (a time in milliseconds), ticking once a second. It counts from the
+// moment the step opened, so leaving the screen and coming back does not reset it.
+// It only counts time: no beat or pulse, because a pulse would read as a compression rate
+// and the guideline gives none of its own.
+function ElapsedTimer({ since }: { since: number }) {
+  const [nowMs, setNowMs] = useState(since);
+  useEffect(() => {
+    const id = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const seconds = Math.max(0, Math.floor((nowMs - since) / 1000));
+  const two = (n: number) => String(n).padStart(2, "0");
+  return (
+    <p style={{ margin: "16px 0 0" }}>
+      <span className="lbl">Time on this step</span>{" "}
+      <span className="mono" role="timer" aria-live="off" style={{ fontSize: 28, fontWeight: 500 }}>
+        {two(Math.floor(seconds / 60))}:{two(seconds % 60)}
+      </span>
+    </p>
+  );
+}
+
 // Emergency mode: a yes/no tree read from the data file. The screen only shows the
 // wording from the data; it never adds medical text of its own.
 export function EmergencyScreen() {
@@ -43,8 +65,9 @@ export function EmergencyScreen() {
   // The clock is read here, in the handler, never during render.
   // The updater re-checks the tree, so a fast double key press cannot answer past the end.
   const answer = useCallback((value: "yes" | "no") => {
-    const time = utcTime(new Date());
-    setPath((old) => (walkPath(old).current ? [...old, { answer: value, time }] : old));
+    const now = new Date();
+    const entry = { answer: value, time: utcTime(now), at: now.getTime() };
+    setPath((old) => (walkPath(old).current ? [...old, entry] : old));
   }, []);
 
   // Y and N answer while this screen is open. Skip typing in fields, shortcuts with
@@ -129,6 +152,9 @@ export function EmergencyScreen() {
               <p className="em-hint" ref={hintRef}>
                 {hint}
               </p>
+              {current?.showElapsed && path.length > 0 ? (
+                <ElapsedTimer key={current.id} since={path[path.length - 1].at} />
+              ) : null}
               <p className="src" style={{ marginTop: 10 }}>
                 {current ? `Source: ${current.source}` : ""}
               </p>

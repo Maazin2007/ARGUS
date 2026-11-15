@@ -7,7 +7,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { Environment, IndicatorId, Reading, StatusResult } from "@/lib/types";
 import { getStatus } from "@/lib/status";
-import { getCheckIns, getReadings } from "@/lib/placeholders";
+import { getCheckIns, getReadings } from "@/lib/storage";
+import { loadDemoProfile } from "@/lib/demoProfile";
 import { INDICATOR_ORDER } from "@/lib/indicatorMeta";
 
 // demo parameter: the pitch runs on Mars transit, mission day 212 (plan/DESIGN_IDEAS.md).
@@ -63,6 +64,9 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
   const statusTime = useMemo(() => missionDate(missionDay), [missionDay]);
 
   const reload = useCallback(() => {
+    // Storage starts empty in a new browser. Load the demo profile so the first
+    // screen always has data; the "Simulated data" tags say what it is.
+    if (getReadings().length === 0) loadDemoProfile();
     setReadings(getReadings());
     setCheckInTimes(getCheckIns().map((c) => c.timestamp));
     setReady(true);
