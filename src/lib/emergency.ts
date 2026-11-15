@@ -31,3 +31,15 @@ export function nextStepId(step: EmergencyStep, answer: "yes" | "no"): string | 
   if (step.type === "instruction") return step.next;
   return answer === "yes" ? step.yes : step.no;
 }
+
+// How many steps are left from this step to the end of the tree, counting this step,
+// along the longest route. The screen uses it for "step 2 of 5". Paths differ in
+// length (3 to 5 steps), so the count is worked out from the tree, not typed in.
+export function stepsLeft(id: string): number {
+  const step = getStep(id);
+  if (!step) return 0;
+  const next = [nextStepId(step, "yes"), nextStepId(step, "no")].filter(
+    (n): n is string => n !== null,
+  );
+  return 1 + Math.max(0, ...next.map(stepsLeft));
+}

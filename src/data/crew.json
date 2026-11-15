@@ -1,0 +1,33 @@
+{
+  "_note": "Demo crew for emergency mode. Roles only, no real people. Each crewmember has their own ARGUS console, and a console holds only its owner's readings. consoleOwnerId is whose console this demo is. A responder opens the patient's full record with one tap, and every opening is logged: accountability comes from the log, not from a secret, since code running in a browser cannot keep one.",
+  "source": "demo parameter",
+  "consoleOwnerId": "ms1",
+  "crew": [
+    {
+      "id": "cdr",
+      "code": "CDR",
+      "role": "Commander"
+    },
+    {
+      "id": "plt",
+      "code": "PLT",
+      "role": "Pilot"
+    },
+    {
+      "id": "ms1",
+      "code": "MS1",
+      "role": "Mission specialist 1"
+    },
+    {
+      "id": "ms2",
+      "code": "MS2",
+      "role": "Mission specialist 2"
+    },
+    {
+      "id": "cmo",
+      "code": "CMO",
+      "role": "Crew medical officer"
+    }
+  ],
+  "medicalOfficerId": "cmo"
+}
