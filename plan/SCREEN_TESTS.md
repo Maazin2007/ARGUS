@@ -53,10 +53,11 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 ## 5. Emergency (`/emergency`)
 
 - [ ] The red EMERGENCY button in the header opens it from every screen.
-- [ ] Signed in as MS1: emergency mode asks "Who needs help?". Tapping PLT starts the steps at once, with MS1 as the responder. Y and N do nothing before a patient is picked.
+- [ ] Signed in as MS1, EMERGENCY from the header: it asks only "Who needs help?", with no "Who is responding?". Tapping PLT starts the steps at once, with MS1 as the responder. Y and N do nothing before a patient is picked.
 - [ ] Signed in as MS1, patient PLT: "Limited emergency view" shows only heart rate, blood pressure, temperature (38.7 °C, Critical) and glucose. "Open full record (logged)" adds sleep and mood with one tap, no PIN. "Copy message for the ground" lists who opened it and when.
-- [ ] Below the steps, the body figure faces front and does not move. For PLT it shows one red tag on the forehead (T 38.7 °C) and small quiet markers for the other rescue vitals. After "Open full record (logged)" the sleep and mood sites appear too. Dragging it does nothing.
-- [ ] Signed in as MS1, patient MS1: the steps wait until a responder is chosen; with responder CDR the limited view shows.
+- [ ] Below the steps, centred with no grey box behind it, the body figure faces front and does not move. For PLT it shows one red tag on the forehead (T 38.7 °C) and small quiet markers for the other rescue vitals. After "Open full record (logged)" the sleep and mood sites appear too. Dragging it does nothing.
+- [ ] From the dashboard, "Open emergency" on the PLT row opens the steps for PLT directly, with no questions. Restart returns to "Who needs help?". "Open emergency" on the MS2 row then starts a fresh emergency for MS2 with an empty step log.
+- [ ] Signed in as MS1, patient MS1: "Who is responding?" appears (without MS1), and the steps wait until a responder is chosen; with responder CDR the limited view shows.
 - [ ] Nobody signed in (press Switch, then EMERGENCY): emergency mode still opens and asks for both the patient and the responder.
 - [ ] **Y** and **N** keys answer; DONE / UNABLE on instruction steps.
 - [ ] Path "responsive → main problem not chest pain" reaches the general branch: read vitals, then red or worse? → call the crew medical officer, otherwise recheck in five minutes. The step counter shows "of 5".

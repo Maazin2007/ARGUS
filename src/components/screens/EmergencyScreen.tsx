@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { EmergencyBodyMap } from "@/components/BodyMap";
 import { Screen, replayAnimation } from "@/components/Screen";
 import { useArgus } from "@/components/ArgusProvider";
@@ -170,7 +170,16 @@ function ElapsedTimer({ since }: { since: number }) {
 
 // Emergency mode: a yes/no tree read from the data file. The screen only shows the
 // wording from the data; it never adds medical text of its own.
+//
+// The dashboard's crew table opens it as /emergency?patient=<crew id>, so the crewmember is
+// already chosen. The key remounts the screen when that crewmember changes, which starts a
+// fresh emergency (new steps, new log) instead of carrying over the previous one.
 export function EmergencyScreen() {
+  const requested = crewMember(useSearchParams().get("patient"))?.id ?? null;
+  return <EmergencySession key={requested ?? "none"} initialPatientId={requested} />;
+}
+
+function EmergencySession({ initialPatientId }: { initialPatientId: string | null }) {
   const router = useRouter();
 
   // Turn the whole page red while this screen is open (the CSS is in globals.css, "Emergency mode").
@@ -187,8 +196,11 @@ export function EmergencyScreen() {
   // so usually only the patient is asked. The one case the console cannot know is when
   // the patient is the person signed in (someone else stepped up to help), or nobody is:
   // then it asks who is responding. The steps start once both are known.
-  const [patientId, setPatientId] = useState<string | null>(null);
+  const [patientId, setPatientId] = useState<string | null>(initialPatientId);
   const [chosenResponderId, setResponderId] = useState<string | null>(null);
+  // Only ask who is responding when the console cannot know: nobody is signed in, or the
+  // patient is the person signed in.
+  const asksResponder = !activeCrewId || patientId === activeCrewId;
   const responderId =
     chosenResponderId ?? (activeCrewId && patientId && activeCrewId !== patientId ? activeCrewId : null);
   const [copyMessage, setCopyMessage] = useState<string | null>(null);
@@ -331,6 +343,8 @@ export function EmergencyScreen() {
               setCopyMessage(null);
               setRecordOpened(false);
               setAccessLog([]);
+              // Drop ?patient= from the address, so the next "Open emergency" starts fresh.
+              router.replace("/emergency");
             }}
           >
             Restart
@@ -347,8 +361,9 @@ export function EmergencyScreen() {
                 <span className="lbl">Before the steps</span>
                 <h1 className="em-q">Who needs help?</h1>
                 <p className="em-hint">
-                  Tap the crewmember. You are the responder, so the steps start at once. If you are
-                  helping the person signed in to this console, also choose who is responding.
+                  {asksResponder
+                    ? "Tap the crewmember, then who is responding. The steps start once both are chosen."
+                    : "Tap the crewmember. You are the responder, so the steps start at once."}
                 </p>
               </div>
               {/* Big targets: this is tapped in a hurry, maybe with gloves. */}
@@ -381,21 +396,23 @@ export function EmergencyScreen() {
                   </button>
                 ))}
               </div>
-              <div>
-                <span className="lbl" style={{ display: "block" }}>Who is responding?</span>
-                <div className="seg" role="group" aria-label="Who is responding" style={{ flexWrap: "wrap", marginTop: 8 }}>
-                  {CREW.map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      aria-pressed={c.id === responderId}
-                      onClick={() => setResponderId(c.id)}
-                    >
-                      {c.code}
-                    </button>
-                  ))}
+              {asksResponder ? (
+                <div>
+                  <span className="lbl" style={{ display: "block" }}>Who is responding?</span>
+                  <div className="seg" role="group" aria-label="Who is responding" style={{ flexWrap: "wrap", marginTop: 8 }}>
+                    {CREW.filter((c) => c.id !== patientId).map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        aria-pressed={c.id === responderId}
+                        onClick={() => setResponderId(c.id)}
+                      >
+                        {c.code}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : null}
               <p className="hint">
                 Crew roles are demo data. A responder sees only the vitals a rescuer needs; opening
                 the full record is logged.

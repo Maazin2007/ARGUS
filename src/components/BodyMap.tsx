@@ -357,8 +357,9 @@ function BodyMapFigure({ dashboard, emergency }: { dashboard?: BodyMapProps; eme
 
   if (isEmergency) {
     return (
-      <div style={{ maxWidth: 440 }}>
-        <div className={hasGl ? "bm well has-gl" : "bm well"} style={{ margin: 0 }}>
+      // Centred in the panel, with no background of its own, so it sits on the panel seamlessly.
+      <div style={{ maxWidth: 440, margin: "0 auto" }}>
+        <div className={hasGl ? "bm has-gl" : "bm"} style={{ margin: 0, background: "transparent" }}>
           <div ref={glHostRef} />
           <canvas
             ref={overlayRef}
@@ -367,7 +368,7 @@ function BodyMapFigure({ dashboard, emergency }: { dashboard?: BodyMapProps; eme
             aria-label="Front view of a crewmember in a flight suit with the patient's latest stored readings marked at their sites. Sites that need review or are critical carry a tag with the reading. The same readings are in the Latest vitals list."
           />
         </div>
-        <p className="hint" style={{ margin: "8px 0 0" }}>
+        <p className="hint" style={{ margin: "8px 0 0", textAlign: "center" }}>
           Latest stored readings, not live. Only sites that need attention are labelled.
         </p>
       </div>
