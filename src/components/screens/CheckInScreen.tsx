@@ -10,6 +10,7 @@ import { Screen } from "@/components/Screen";
 import { useArgus } from "@/components/ArgusProvider";
 import { CHECK_IN_STEPS, type CheckInStep, type LogEntry } from "@/components/checkin/steps";
 import { StepPanel } from "@/components/checkin/StepPanel";
+import { DeviceImport } from "@/components/checkin/DeviceImport";
 import {
   CheckInResults,
   useResultRows,
@@ -208,6 +209,7 @@ export function CheckInScreen() {
             )}
           </div>
         </div>
+        <DeviceImport />
       </div>
     </Screen>
   );

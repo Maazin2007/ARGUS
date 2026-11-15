@@ -18,6 +18,11 @@ const MISSION_DAY_ZERO_UTC = Date.UTC(2026, 3, 16);
 // demo parameter: statuses are worked out as of this hour (UTC) on the current mission day.
 const STATUS_HOUR_UTC = 23;
 
+// The mission day a moment falls on (used for imported device readings).
+export function missionDayOf(timestampMs: number): number {
+  return Math.floor((timestampMs - MISSION_DAY_ZERO_UTC) / 86_400_000);
+}
+
 // The date of a mission day, at the given hour UTC.
 export function missionDate(missionDay: number, hourUtc = STATUS_HOUR_UTC): Date {
   return new Date(MISSION_DAY_ZERO_UTC + missionDay * 86_400_000 + hourUtc * 3_600_000);

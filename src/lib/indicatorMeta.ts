@@ -95,7 +95,8 @@ export const INDICATOR_ORDER: IndicatorId[] = [
 ];
 
 export function isIndicatorId(value: string): value is IndicatorId {
-  return value in INDICATORS;
+  // hasOwn, not `in`: `in` also matches built-ins every object has, like "toString".
+  return Object.hasOwn(INDICATORS, value);
 }
 
 // ---------- formatting ----------
