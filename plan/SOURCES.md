@@ -17,7 +17,7 @@ Sources support background and engineering choices. They do not medically valida
 | American Heart Association: All About Heart Rate (Pulse) | Resting heart rate range and measurement method | Ihsan | 14 Nov 2026 |
 | American Heart Association: Target Heart Rates Chart | Exercise zones only. Weak source for a resting range: use a page that states a resting range directly, or mark it a demo parameter | | |
 | American Heart Association: Understanding Blood Pressure Readings | Blood pressure range, measurement and hypertensive crisis | Ihsan | 14 Nov 2026 |
-| NIDDK: Continuous Glucose Monitoring | Glucose measurement and ranges | Ihsan | 14 Nov 2026 |
+| NIDDK: Blood Glucose Tests | Fingerstick glucometer testing and target ranges | Ihsan | 14 Nov 2026 |
 | MedlinePlus: Temperature measurement | Temperature range, how to measure | Ihsan | 14 Nov 2026 |
 | CDC: About Sleep | Sleep range and measurement | Ihsan | 14 Nov 2026 |
 | NASA Human Research Program: Risk of Adverse Health Outcomes from Altered Nutrition | Glucose metabolism & nutrition context in microgravity | Ihsan | 14 Nov 2026 |
@@ -38,4 +38,8 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 | Simulated demo astronaut: body temperature 37.4 ± 0.1 °C, 30 days (re-check against the temperature rule once it lands) | 37.4 ± 0.1 °C | `scripts/profiles/demo.json` |
 | Critical low heart rate escalation threshold | 40 bpm | `src/data/cards.json` |
 | Fever escalation threshold | 38.5 °C | `src/data/cards.json` |
+| Low glucose escalation threshold | 54 mg/dL | `src/data/cards.json` |
+| High glucose escalation threshold | 250 mg/dL | `src/data/cards.json` |
+| Fasting and post-meal glucose reference ranges | 70–99 mg/dL fasting, < 140 mg/dL post-meal | `src/data/cards.json` |
+| Short sleep escalation threshold | Less than 4 hours on two or more consecutive duty cycles | `src/data/cards.json` |
 
