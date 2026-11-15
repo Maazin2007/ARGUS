@@ -148,6 +148,8 @@ Take this from `plan/AI_USE.md`. It lists every tool the team used and what for.
 | Did you tune the fever test until you won? | No. `scripts/scenarios/fever.json` and its expected outcomes were committed before `scripts/evaluate.ts` existed; the git history shows the order. |
 | Why trust station data for Mars transit? | Mars transit is weightless like the station, making ISS studies (Stahn et al. 2017; Norsk et al. 2015) the closest published human evidence. We cap the shift at the published value, label the extrapolation, and never move the critical limit. |
 | What about the CPR instructions? | Step `a3` follows Recommendations 2, 3 and 10 of the published microgravity CPR guideline (Hinkelbein et al. 2020). Because the paper gives no compression rate or depth of its own and refers to Earth guidelines, we show an elapsed timer without inventing numbers, and note that CPR has never been performed on a human in spaceflight. |
+| How does the crew find out about each other? | ARGUS runs as one shared console. Each crewmember taps their name and sees their own readings; everyone else sees a status word and the last reading day. A critical status or a missed check-in is flagged on the crew board. A flight version would also take a live wearable feed. |
+| Why no login password? | A password in a browser app protects nothing. Privacy comes from what is shown: status only on ordinary days, rescue vitals in an emergency, and the full record in one logged tap. |
 
 ## Before submitting
 
