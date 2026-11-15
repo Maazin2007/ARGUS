@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import type { IndicatorId } from "@/lib/types";
 import { INDICATORS, contextLabel, formatReading } from "@/lib/indicatorMeta";
 import { loadDemoProfile } from "@/lib/demoProfile";
+import { CREW } from "@/lib/crew";
 import { useAllStatuses, useArgus } from "@/components/ArgusProvider";
 import { Screen } from "@/components/Screen";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -15,6 +16,68 @@ import { Sparkline } from "@/components/dashboard/Sparkline";
 
 // The due banner counts missed days over this window.
 const MISSED_WINDOW_DAYS = 14;
+
+// The crew board: every crewmember as a status word and the last day they logged a reading.
+// It never shows a value, so the crew sees who needs attention without seeing their data.
+// A critical status or an overdue check-in gets a button into emergency mode.
+function CrewBoard() {
+  const { ready, activeCrewId, crewSummary } = useArgus();
+  return (
+    <div className="cell c12 flush">
+      <div className="head">
+        <div className="row">
+          <h2>Crew</h2>
+          <span className="pill">Simulated data</span>
+          <span className="hint mono">Status only. Readings stay private.</span>
+        </div>
+      </div>
+      <div className="tw">
+        <table className="plain">
+          <thead>
+            <tr>
+              <th>Crewmember</th>
+              <th>Status</th>
+              <th>Last reading</th>
+              <th className="r">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ready
+              ? CREW.map((member) => {
+                  const summary = crewSummary(member.id);
+                  const needsHelp = summary.status === "red" || summary.overdue;
+                  return (
+                    <tr key={member.id}>
+                      <td>
+                        <span className="mono">{member.code}</span> · {member.role}
+                        {member.id === activeCrewId ? " · you" : ""}
+                      </td>
+                      <td>
+                        <StatusBadge status={summary.status} />
+                      </td>
+                      <td>
+                        {summary.lastReadingDay === null ? "None" : `MD-${summary.lastReadingDay}`}
+                        {summary.overdue ? (
+                          <strong style={{ marginLeft: 8 }}>Check-in overdue</strong>
+                        ) : null}
+                      </td>
+                      <td className="r">
+                        {needsHelp && member.id !== activeCrewId ? (
+                          <Link className="btn btn-sm" href="/emergency">
+                            Open emergency
+                          </Link>
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
 
 export function DashboardScreen() {
   const { ready, missionDay, readings, lastCheckInDay, reload, setStorageError } = useArgus();
@@ -77,6 +140,8 @@ export function DashboardScreen() {
         <div className="c12" style={critical.length ? undefined : { display: "none" }}>
           <EscalationCard items={critical} />
         </div>
+
+        <CrewBoard />
 
         {/* The body map and the table share one row. The button on the body map switches the
             row between "table wide" and "body map wide"; CSS animates the column widths. */}

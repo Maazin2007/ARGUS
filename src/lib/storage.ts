@@ -1,16 +1,49 @@
 import type { Reading, CheckIn, IndicatorId } from "@/lib/types";
+import { CONSOLE_OWNER_ID, CREW } from "@/lib/crew";
 
-const READINGS_KEY = "argus.readings";
-const CHECK_INS_KEY = "argus.checkIns";
+// The console is shared, so every crewmember has their own readings and check-ins.
+// Each function works on the active crewmember unless it is given a crew id.
+const ACTIVE_CREW_KEY = "argus.activeCrew";
+const readingsKey = (crewId: string) => `argus.readings.${crewId}`;
+const checkInsKey = (crewId: string) => `argus.checkIns.${crewId}`;
+
+// Who is using the console, or null when nobody has chosen yet.
+export function getActiveCrewId(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const id = localStorage.getItem(ACTIVE_CREW_KEY);
+    return CREW.some((c) => c.id === id) ? id : null;
+  } catch {
+    return null;
+  }
+}
+
+// null signs the current person out, back to "Who is using this console?".
+export function setActiveCrewId(crewId: string | null): SaveResult {
+  if (typeof window === "undefined") return { ok: true };
+  try {
+    if (crewId === null) localStorage.removeItem(ACTIVE_CREW_KEY);
+    else localStorage.setItem(ACTIVE_CREW_KEY, crewId);
+    return { ok: true };
+  } catch (error) {
+    console.error("Failed to save the active crewmember:", error);
+    return SAVE_FAILED;
+  }
+}
+
+// The crewmember a call works on when no id is passed.
+function currentCrewId(): string {
+  return getActiveCrewId() ?? CONSOLE_OWNER_ID;
+}
 
 // Get readings, optionally filtered by indicator.
-export function getReadings(indicator?: IndicatorId): Reading[] {
+export function getReadings(indicator?: IndicatorId, crewId: string = currentCrewId()): Reading[] {
   if (typeof window === "undefined") {
     return [];
   }
 
   try {
-    const stored = localStorage.getItem(READINGS_KEY);
+    const stored = localStorage.getItem(readingsKey(crewId));
 
     if (stored === null) {
       return [];
@@ -61,25 +94,33 @@ function writeKey(key: string, value: string): SaveResult {
 }
 
 // Add a reading.
-export function saveReading(reading: Reading): SaveResult {
+export function saveReading(reading: Reading, crewId: string = currentCrewId()): SaveResult {
   if (typeof window === "undefined") {
     return { ok: true };
   }
 
-  const readings = getReadings();
+  const readings = getReadings(undefined, crewId);
   readings.push(reading);
 
-  return writeKey(READINGS_KEY, JSON.stringify(readings));
+  return writeKey(readingsKey(crewId), JSON.stringify(readings));
+}
+
+// Replace one crewmember's readings in a single write (used by the demo profile).
+export function replaceReadings(readings: Reading[], crewId: string): SaveResult {
+  if (typeof window === "undefined") {
+    return { ok: true };
+  }
+  return writeKey(readingsKey(crewId), JSON.stringify(readings));
 }
 
 // Get check-ins.
-export function getCheckIns(): CheckIn[] {
+export function getCheckIns(crewId: string = currentCrewId()): CheckIn[] {
   if (typeof window === "undefined") {
     return [];
   }
 
   try {
-    const stored = localStorage.getItem(CHECK_INS_KEY);
+    const stored = localStorage.getItem(checkInsKey(crewId));
 
     if (stored === null) {
       return [];
@@ -101,25 +142,27 @@ export function getCheckIns(): CheckIn[] {
 }
 
 // Add a check-in.
-export function saveCheckIn(checkIn: CheckIn): SaveResult {
+export function saveCheckIn(checkIn: CheckIn, crewId: string = currentCrewId()): SaveResult {
   if (typeof window === "undefined") {
     return { ok: true };
   }
 
-  const checkIns = getCheckIns();
+  const checkIns = getCheckIns(crewId);
   checkIns.push(checkIn);
 
-  return writeKey(CHECK_INS_KEY, JSON.stringify(checkIns));
+  return writeKey(checkInsKey(crewId), JSON.stringify(checkIns));
 }
 
-// Clear stored data.
+// Clear every crewmember's stored data. Who is using the console is kept.
 export function clearAll(): SaveResult {
   if (typeof window === "undefined") {
     return { ok: true };
   }
   try {
-    localStorage.removeItem(READINGS_KEY);
-    localStorage.removeItem(CHECK_INS_KEY);
+    for (const member of CREW) {
+      localStorage.removeItem(readingsKey(member.id));
+      localStorage.removeItem(checkInsKey(member.id));
+    }
     return { ok: true };
   } catch (error) {
     console.error("Failed to clear ARGUS data:", error);

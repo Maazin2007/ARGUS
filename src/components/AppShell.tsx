@@ -12,6 +12,7 @@ import { ENVIRONMENTS, STATUS_TEXT, environmentInfo } from "@/lib/indicatorMeta"
 import { useAllStatuses, useArgus } from "@/components/ArgusProvider";
 import { replayAnimation } from "@/components/Screen";
 import { ThemeButton } from "@/components/ThemeButton";
+import { CREW, crewMember } from "@/lib/crew";
 
 function pad2(n: number): string {
   return (n < 10 ? "0" : "") + n;
@@ -25,7 +26,8 @@ function utcClock(d: Date): string {
 const ENV_BUTTON_LABEL: Record<string, string> = { station: "Station" };
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { environment, setEnvironment, missionDay } = useArgus();
+  const { environment, setEnvironment, missionDay, ready, activeCrewId, setActiveCrew } = useArgus();
+  const active = crewMember(activeCrewId);
   const statuses = useAllStatuses();
   const delay = environmentInfo(environment).delaySeconds;
 
@@ -60,6 +62,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div>
           <span className="brand">ARGUS</span>
           <span className="brand-sub">Crew health monitoring</span>
+        </div>
+        <div>
+          <span className="lbl">Using this console</span>
+          <span className="val mono">
+            {active ? active.code : "--"}{" "}
+            {active ? (
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                style={{ minHeight: 28, padding: "0 10px" }}
+                onClick={() => setActiveCrew(null)}
+              >
+                Switch
+              </button>
+            ) : null}
+          </span>
         </div>
         <div>
           <span className="lbl">Six indicators</span>
@@ -124,7 +142,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <ThemeButton />
       </div>
 
-      <main>{children}</main>
+      <main>
+        <Suspense fallback={null}>
+          <CrewGate ready={ready} activeCrewId={activeCrewId} onChoose={setActiveCrew}>
+            {children}
+          </CrewGate>
+        </Suspense>
+      </main>
 
       {/* Footer: the one statement a reader must not miss comes first and darker. */}
       <footer className="foot">
@@ -139,6 +163,60 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <span>NASA Space Apps Challenge 2026 · Team SpaceRangers · prototype</span>
       </footer>
     </div>
+  );
+}
+
+// The shared console asks who is using it before it shows anyone's readings.
+// Emergency mode is never blocked: it opens even when nobody has chosen.
+function CrewGate({
+  ready,
+  activeCrewId,
+  onChoose,
+  children,
+}: {
+  ready: boolean;
+  activeCrewId: string | null;
+  onChoose: (crewId: string) => void;
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  if (!ready || activeCrewId || pathname.startsWith("/emergency")) return <>{children}</>;
+  return (
+    <section className="screen on" aria-label="Who is using this console">
+      <div className="grid">
+        <div className="cell c12" style={{ padding: 32 }}>
+          <span className="lbl">Shared crew console</span>
+          <h1 className="em-q">Who is using this console?</h1>
+          <p className="em-hint">
+            Tap your name. You see your own readings; your crewmates see only your status. No
+            password: this is a demo crew, and every emergency access is logged.
+          </p>
+          <div
+            role="group"
+            aria-label="Who is using this console"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gap: 12,
+              marginTop: 24,
+            }}
+          >
+            {CREW.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                className="btn"
+                style={{ minHeight: 72, fontSize: 18, borderRadius: 20, flexDirection: "column", gap: 2 }}
+                onClick={() => onChoose(c.id)}
+              >
+                <span className="mono" style={{ fontWeight: 500 }}>{c.code}</span>
+                <small style={{ color: "var(--mu)", fontSize: 13 }}>{c.role}</small>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

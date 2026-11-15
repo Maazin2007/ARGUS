@@ -1,22 +1,27 @@
-// The demo crew from src/data/crew.json. Each crewmember has their own ARGUS
-// console, and a console only ever holds its owner's readings: the app never
-// stores or shows another crewmember's health data.
-//
-// Access to a patient's readings in emergency mode ("break-the-glass" access in
-// healthcare): private by default, opened in an emergency, and always logged.
-//   none:      the patient's readings are not on this console
-//   emergency: a responder sees only the vitals a rescuer needs
-//   full:      the patient themselves, or a responder who opened the full record.
-//              Every opening is logged and goes in the message for the ground.
-// There is no PIN: a responder must not be blocked by a code they do not know, and
-// code that runs in a browser cannot keep a secret anyway. The log is the safeguard.
+// The demo crew from src/data/crew.json. ARGUS runs as one shared console on the
+// ship: it holds every crewmember's readings, and each person taps their name to
+// use it. There is no password, because code that runs in a browser cannot keep a
+// secret. Privacy comes from what is shown:
+//   - On an ordinary day a crewmate sees only a status word and the last check-in.
+//   - In emergency mode a responder sees the vitals a rescuer needs ("emergency").
+//   - The full record is shown to the patient themselves, or to a responder who
+//     opens it with one tap ("break-the-glass" access in healthcare). Every opening
+//     is logged and goes in the message for the ground.
 
 import crewData from "@/data/crew.json";
 
-export type CrewMember = { id: string; code: string; role: string };
-export type Access = "none" | "emergency" | "full";
+// Demo parameters that shape a crewmember's simulated readings (src/lib/demoProfile.ts).
+export type CrewDemo = {
+  heartRateOffset?: number; // added to every simulated heart rate
+  lastDayTemperature?: number; // replaces the newest body temperature (a fever for the demo)
+  missedLastDays?: number; // drops the newest days, so the check-in shows as overdue
+};
+
+export type CrewMember = { id: string; code: string; role: string; demo: CrewDemo };
+export type Access = "emergency" | "full";
 
 export const CREW = crewData.crew as CrewMember[];
+// Who is selected when nobody has chosen yet (also the default for stored data).
 export const CONSOLE_OWNER_ID: string = crewData.consoleOwnerId;
 export const MEDICAL_OFFICER_ID: string = crewData.medicalOfficerId;
 
@@ -29,14 +34,7 @@ export function crewLabel(member: CrewMember): string {
   return `${member.code} · ${member.role}`;
 }
 
-// Whether this console holds the crewmember's readings. Only the owner's do.
-export function isConsoleOwner(id: string): boolean {
-  return id === CONSOLE_OWNER_ID;
-}
-
 // `opened`: a responder has opened the full record (and it was logged).
 export function accessFor(patientId: string, responderId: string, opened: boolean): Access {
-  if (!isConsoleOwner(patientId)) return "none";
-  if (patientId === responderId || opened) return "full";
-  return "emergency";
+  return patientId === responderId || opened ? "full" : "emergency";
 }
