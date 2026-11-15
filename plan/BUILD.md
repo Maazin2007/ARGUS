@@ -50,7 +50,7 @@ Live site: https://argus-delta-gules.vercel.app
 - [x] Light and dark console themes (`ThemeButton.tsx`) and all six indicators mapped to sites on the 3D body figure (`BodyMap.tsx`)
 - [x] CI runs lint, tests and build on every push; Vercel deploys `main`
 
-All 149 tests pass.
+All 150 tests pass.
 
 ## Left before the freeze (Sunday, 2:30 PM)
 

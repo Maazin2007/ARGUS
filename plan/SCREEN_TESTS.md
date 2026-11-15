@@ -7,9 +7,10 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 ## 0. Shared console
 
 - [ ] A new browser opens on "Who is using this console?" with five crew buttons. No password.
-- [ ] Tapping MS1 opens the dashboard; the header shows "Using this console: MS1" and a Switch button.
-- [ ] The Crew table lists all five with a status word and last reading day, and no values. PLT is Critical, MS2 is Unknown with "Check-in overdue"; both have "Open emergency".
-- [ ] Switch, then CDR: the dashboard shows the commander's own readings (heart rate differs from MS1's).
+- [ ] Tapping MS1 opens the dashboard; the header shows a "Using this console" menu set to MS1.
+- [ ] The Crew table lists all five with a status word and last reading day, and no values. PLT is Critical, MS2 is Unknown with "Check-in overdue" (both have "Open emergency"), CMO is Needs review, and CDR and MS1 are Within range.
+- [ ] Choosing CDR in the header menu switches straight to the commander on the same screen, with their own readings (every value differs from MS1's). "Sign out" in the menu returns to "Who is using this console?".
+- [ ] Start a check-in as MS1, then choose CDR in the menu: the check-in starts again empty, so nothing MS1 typed is saved for CDR.
 - [ ] A check-in saved as CDR does not appear after switching to MS1.
 - [ ] EMERGENCY opens from the "Who is using this console?" screen without choosing anyone.
 
@@ -58,7 +59,7 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 - [ ] Below the steps, centred with no grey box behind it, the body figure faces front and does not move. For PLT it shows one red tag on the forehead (T 38.7 °C) and small quiet markers for the other rescue vitals. After "Open full record (logged)" the sleep and mood sites appear too. Dragging it does nothing.
 - [ ] From the dashboard, "Open emergency" on the PLT row opens the steps for PLT directly, with no questions. Restart returns to "Who needs help?". "Open emergency" on the MS2 row then starts a fresh emergency for MS2 with an empty step log.
 - [ ] Signed in as MS1, patient MS1: "Who is responding?" appears (without MS1), and the steps wait until a responder is chosen; with responder CDR the limited view shows.
-- [ ] Nobody signed in (press Switch, then EMERGENCY): emergency mode still opens and asks for both the patient and the responder.
+- [ ] Nobody signed in (choose "Sign out", then EMERGENCY): emergency mode still opens and asks for both the patient and the responder.
 - [ ] **Y** and **N** keys answer; DONE / UNABLE on instruction steps.
 - [ ] Path "responsive → main problem not chest pain" reaches the general branch: read vitals, then red or worse? → call the crew medical officer, otherwise recheck in five minutes. The step counter shows "of 5".
 - [ ] Path "unresponsive → not breathing" reaches the compressions step: it shows the weightlessness-only note and the elapsed time, and no compression rate, depth or ratio.

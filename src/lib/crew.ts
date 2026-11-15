@@ -12,8 +12,12 @@ import crewData from "@/data/crew.json";
 
 // Demo parameters that shape a crewmember's simulated readings (src/lib/demoProfile.ts).
 export type CrewDemo = {
-  heartRateOffset?: number; // added to every simulated heart rate
+  // Added to every simulated reading of that measure, so each crewmember has their own usual values.
+  offsets?: Partial<
+    Record<"heartRate" | "bodyTemperature" | "systolic" | "diastolic" | "bloodGlucose" | "sleepDuration", number>
+  >;
   lastDayTemperature?: number; // replaces the newest body temperature (a fever for the demo)
+  lastDaySleep?: number; // replaces the newest sleep duration (a short night for the demo)
   missedLastDays?: number; // drops the newest days, so the check-in shows as overdue
 };
 
