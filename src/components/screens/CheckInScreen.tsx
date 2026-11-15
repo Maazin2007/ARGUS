@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CheckIn, Reading } from "@/lib/types";
 import { INDICATORS } from "@/lib/indicatorMeta";
-import { getCheckIns, saveCheckIn, saveReading } from "@/lib/placeholders";
+import { getCheckIns, saveCheckIn, saveReading } from "@/lib/storage";
 import { Screen } from "@/components/Screen";
 import { useArgus } from "@/components/ArgusProvider";
 import { CHECK_IN_STEPS, type CheckInStep, type LogEntry } from "@/components/checkin/steps";

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { Card, IndicatorId, Measure } from "@/lib/types";
 import { INDICATORS, formatRange, formatReading, measuresFor } from "@/lib/indicatorMeta";
-import { validateEntry } from "@/lib/placeholders";
+import { validateEntry } from "@/lib/validate";
 import { useArgus } from "@/components/ArgusProvider";
 import cardsData from "@/data/cards.json";
 import type { CheckInStep, LogEntry } from "@/components/checkin/steps";

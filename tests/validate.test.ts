@@ -34,3 +34,12 @@ test("accepts decimal body temperature", () => {
     value: 37.5,
   });
 });
+
+test("rejects exponent and hex notation", () => {
+  assert.equal(validateEntry("heartRate", "1e2").ok, false);
+  assert.equal(validateEntry("heartRate", "0x48").ok, false);
+});
+
+test("accepts a value with spaces around it", () => {
+  assert.deepEqual(validateEntry("heartRate", " 72 "), { ok: true, value: 72 });
+});

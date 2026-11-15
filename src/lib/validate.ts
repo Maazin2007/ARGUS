@@ -28,10 +28,11 @@ export function validateEntry(
     };
   }
 
-  const value = Number(text);
+  const trimmed = text.trim();
+  const value = Number(trimmed);
 
-  // Not a finite number.
-  if (!Number.isFinite(value)) {
+  // Not a plain number. Number() alone would accept "1e2" and "0x10".
+  if (!/^\d+(\.\d+)?$/.test(trimmed) || !Number.isFinite(value)) {
     return {
       ok: false,
       message: `Please enter a valid number in ${limits.unit}, for example ${limits.example}.`,

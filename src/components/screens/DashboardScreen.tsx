@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { IndicatorId } from "@/lib/types";
 import { INDICATORS, contextLabel, formatReading } from "@/lib/indicatorMeta";
+import { loadDemoProfile } from "@/lib/demoProfile";
 import { useAllStatuses, useArgus } from "@/components/ArgusProvider";
 import { Screen } from "@/components/Screen";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -18,7 +19,7 @@ const BODY_SITES: IndicatorId[] = ["heartRate", "bodyTemperature", "bloodPressur
 const MISSED_WINDOW_DAYS = 14;
 
 export function DashboardScreen() {
-  const { ready, missionDay, readings, lastCheckInDay } = useArgus();
+  const { ready, missionDay, readings, lastCheckInDay, reload } = useArgus();
   const statuses = useAllStatuses();
   const router = useRouter();
 
@@ -87,6 +88,17 @@ export function DashboardScreen() {
             <div className="row">
               <span className="pill">SIMULATED DATA</span>
               <span className="hint mono">{ready ? `Last check-in ${lastCheckInText}` : ""}</span>
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                title="Clears saved readings and check-ins, then reloads the simulated demo profile"
+                onClick={() => {
+                  loadDemoProfile();
+                  reload();
+                }}
+              >
+                Load demo profile
+              </button>
               <Link className="btn btn-pri btn-sm" href="/check-in">
                 Start check-in
               </Link>
