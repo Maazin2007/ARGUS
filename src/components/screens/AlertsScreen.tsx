@@ -132,9 +132,8 @@ function ScenarioTrace() {
       />
       {result.trace.map((row, i) => (
         <circle key={row.missionDay} cx={xMid(i)} cy={y(row.value)} r="5" fill="transparent">
-          <title>
-            Mission day {row.missionDay}: {row.value.toFixed(scenario.decimals)} {scenario.unit}
-          </title>
+          {/* One string child: React needs a single text child inside an SVG <title>, or hydration fails. */}
+          <title>{`Mission day ${row.missionDay}: ${row.value.toFixed(scenario.decimals)} ${scenario.unit}`}</title>
         </circle>
       ))}
 
@@ -178,10 +177,7 @@ function ScenarioTrace() {
                   >
                     {STATUS_TEXT[status].symbol}
                   </text>
-                  <title>
-                    {method.label}, mission day {row.missionDay} ({row.value.toFixed(scenario.decimals)}{" "}
-                    {scenario.unit}): {STATUS_TEXT[status].label}
-                  </title>
+                  <title>{`${method.label}, mission day ${row.missionDay} (${row.value.toFixed(scenario.decimals)} ${scenario.unit}): ${STATUS_TEXT[status].label}`}</title>
                 </g>
               );
             })}
