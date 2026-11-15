@@ -1,8 +1,11 @@
 // importing all the required types
 import type {
+  BloodPressureReading,
   Environment,
   IndicatorRule,
+  Measure,
   Reading,
+  Status,
   StatusResult,
   ValueReading,
 } from "@/lib/types";
@@ -13,6 +16,14 @@ import indicatorRules from "@/data/indicators.json";
 // Constant value: readings older than this are treated as unknown (demo parameter).
 export const STALE_AFTER_HOURS = 48; // demo parameter
 export const CONSECUTIVE_BASELINE_DEVIATIONS = 3; // demo parameter
+
+// Priority order so we can pick the worse status when checking blood pressure (systolic vs. diastolic).
+const STATUS_PRIORITY: Record<Status, number> = {
+  green: 0,
+  unknown: 1,
+  amber: 2,
+  red: 3,
+};
 
 export function getStatus(
   reading: Reading,
@@ -38,12 +49,10 @@ export function adjustRange(
   environment: Environment,
   missionDay: number,
 ) {
-  // check if there is an adjustment for this environment
   const adjustment = rule.adjustments.find((a) =>
     a.environments.includes(environment),
   );
 
-  // if no adjustment or missionDay is less than 0 or rampDays is less than 0, return the original range
   if (!adjustment || missionDay <= 0 || adjustment.rampDays <= 0) {
     return {
       low: rule.earthRange.low,
@@ -53,7 +62,6 @@ export function adjustRange(
     };
   }
 
-  // Calculate the adjusted range
   const progress = Math.min(missionDay / adjustment.rampDays, 1);
   const shiftAmount = adjustment.shift * progress;
 
@@ -80,43 +88,31 @@ function isOutsideRange(
   return false;
 }
 
-// checkReadingFunction
-export function checkReading(
-  reading: Reading,
-  history: Reading[],
+// Check one single number (like heartRate, or just systolic, or just diastolic).
+function checkSingleMeasure(
+  measure: Measure,
+  reading: ValueReading,
+  history: ValueReading[],
   rules: IndicatorRule[],
   environment: Environment,
   missionDay: number,
   now: Date,
 ): StatusResult {
-  // for now we handle single value readings only (bloodPressure in Section 6)
-  if (reading.indicator === "bloodPressure") {
-    return {
-      status: "unknown",
-      reasons: ["Blood pressure is not built yet."],
-      referenceRange: null,
-      baseline: null,
-      criticalLimitCrossed: false,
-    };
-  }
-
-  // find the rule for this reading
   const rule = rules.find(
-    (r) => r.measure === reading.indicator && r.context === reading.context,
+    (r) => r.measure === measure && r.context === reading.context,
   );
 
-  // if no rule found, return unknown
   if (!rule) {
     return {
       status: "unknown",
-      reasons: [`No rule found for ${reading.indicator} in ${reading.context}`],
+      reasons: [`No rule found for ${measure} in ${reading.context}`],
       referenceRange: null,
       baseline: null,
       criticalLimitCrossed: false,
     };
   }
 
-  // check if the data is older than STALE_AFTER_HOURS hours CHECK 1
+  // CHECK 1: Stale reading
   const readingTimeMs = new Date(reading.timestamp).getTime();
   const staleTimeMs = (now.getTime() - readingTimeMs) / (1000 * 60 * 60);
   if (Number.isNaN(readingTimeMs) || staleTimeMs > STALE_AFTER_HOURS) {
@@ -132,7 +128,7 @@ export function checkReading(
   const referenceRange = adjustRange(rule, environment, missionDay);
   const baseline = buildBaseline(reading, history, rule.baselineFloor);
 
-  // check the critical limit CHECK 2 (Red)
+  // CHECK 2: Red (critical limit)
   if (rule.criticalLimit !== null) {
     if (
       rule.criticalLimit.low !== null &&
@@ -141,7 +137,7 @@ export function checkReading(
       return {
         status: "red",
         reasons: [
-          `Critical limit crossed: ${reading.value} < ${rule.criticalLimit.low}`,
+          `Critical limit crossed: ${measure} ${reading.value} < ${rule.criticalLimit.low}`,
         ],
         referenceRange,
         baseline,
@@ -155,7 +151,7 @@ export function checkReading(
       return {
         status: "red",
         reasons: [
-          `Critical limit crossed: ${reading.value} > ${rule.criticalLimit.high}`,
+          `Critical limit crossed: ${measure} ${reading.value} > ${rule.criticalLimit.high}`,
         ],
         referenceRange,
         baseline,
@@ -164,12 +160,12 @@ export function checkReading(
     }
   }
 
-  // did it cross the reference range CHECK 3 (Amber)
+  // CHECK 3: Amber (reference range)
   if (referenceRange.low !== null && reading.value < referenceRange.low) {
     return {
       status: "amber",
       reasons: [
-        `${reading.indicator} ${reading.value} ${reading.unit} is below the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
+        `${measure} ${reading.value} ${reading.unit} is below the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
       ],
       referenceRange,
       baseline,
@@ -181,7 +177,7 @@ export function checkReading(
     return {
       status: "amber",
       reasons: [
-        `${reading.indicator} ${reading.value} ${reading.unit} is above the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
+        `${measure} ${reading.value} ${reading.unit} is above the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
       ],
       referenceRange,
       baseline,
@@ -189,12 +185,11 @@ export function checkReading(
     };
   }
 
-  // CHECK 4: Personal baseline check (Amber if this reading and the 2 before it sit outside the baseline)
+  // CHECK 4: Amber (personal baseline - 3 consecutive readings outside baseline)
   if (baseline !== null) {
     const earlierMatching = history
       .filter(
-        (item): item is ValueReading =>
-          item.indicator !== "bloodPressure" &&
+        (item) =>
           item.indicator === reading.indicator &&
           item.context === reading.context &&
           item.simulated === reading.simulated &&
@@ -217,7 +212,7 @@ export function checkReading(
       return {
         status: "amber",
         reasons: [
-          `${reading.indicator} ${reading.value} ${reading.unit} and the two prior readings are outside the personal baseline of ${baseline.low} to ${baseline.high} ${reading.unit}.`,
+          `${measure} ${reading.value} ${reading.unit} and the two prior readings are outside the personal baseline of ${baseline.low} to ${baseline.high} ${reading.unit}.`,
         ],
         referenceRange,
         baseline,
@@ -226,6 +221,7 @@ export function checkReading(
     }
   }
 
+  // CHECK 5: Green (nothing fired)
   const reasons = ["No checks fired."];
   if (baseline === null && rule.baselineFloor !== null) {
     reasons.push("Baseline not available yet.");
@@ -238,4 +234,102 @@ export function checkReading(
     baseline,
     criticalLimitCrossed: false,
   };
+}
+
+// Convert one half of a BloodPressureReading ("systolic" or "diastolic") into a single-value reading.
+function bpToValueReading(
+  bp: BloodPressureReading,
+  part: "systolic" | "diastolic",
+): ValueReading {
+  return {
+    id: `${bp.id}-${part}`,
+    indicator: "heartRate", // placeholder single-value tag so buildBaseline groups them together
+    value: bp[part],
+    unit: bp.unit,
+    timestamp: bp.timestamp,
+    missionDay: bp.missionDay,
+    environment: bp.environment,
+    context: bp.context,
+    simulated: bp.simulated,
+  };
+}
+
+export function checkReading(
+  reading: Reading,
+  history: Reading[],
+  rules: IndicatorRule[],
+  environment: Environment,
+  missionDay: number,
+  now: Date,
+): StatusResult {
+  // Section 6: Blood pressure has two numbers (systolic and diastolic).
+  // Run the check on each and return the worse of the two results, with reasons from both.
+  if (reading.indicator === "bloodPressure") {
+    const bpHistory = history.filter(
+      (item): item is BloodPressureReading =>
+        item.indicator === "bloodPressure",
+    );
+
+    const systolicResult = checkSingleMeasure(
+      "systolic",
+      bpToValueReading(reading, "systolic"),
+      bpHistory.map((h) => bpToValueReading(h, "systolic")),
+      rules,
+      environment,
+      missionDay,
+      now,
+    );
+
+    const diastolicResult = checkSingleMeasure(
+      "diastolic",
+      bpToValueReading(reading, "diastolic"),
+      bpHistory.map((h) => bpToValueReading(h, "diastolic")),
+      rules,
+      environment,
+      missionDay,
+      now,
+    );
+
+    // Pick whichever status is worse (red > amber > unknown > green).
+    const worseStatus =
+      STATUS_PRIORITY[systolicResult.status] >=
+      STATUS_PRIORITY[diastolicResult.status]
+        ? systolicResult.status
+        : diastolicResult.status;
+
+    // Combine reasons from both without duplicating "No checks fired."
+    const combinedReasons = Array.from(
+      new Set([...systolicResult.reasons, ...diastolicResult.reasons]),
+    );
+    const reasons =
+      worseStatus === "green"
+        ? combinedReasons
+        : combinedReasons.filter((r) => r !== "No checks fired.");
+
+    return {
+      status: worseStatus,
+      reasons,
+      referenceRange:
+        systolicResult.referenceRange ?? diastolicResult.referenceRange,
+      baseline: systolicResult.baseline ?? diastolicResult.baseline,
+      criticalLimitCrossed:
+        systolicResult.criticalLimitCrossed ||
+        diastolicResult.criticalLimitCrossed,
+    };
+  }
+
+  // Single-number indicators (heartRate, bodyTemperature, bloodGlucose, sleepDuration, mood):
+  const singleHistory = history.filter(
+    (item): item is ValueReading => item.indicator !== "bloodPressure",
+  );
+
+  return checkSingleMeasure(
+    reading.indicator,
+    reading,
+    singleHistory,
+    rules,
+    environment,
+    missionDay,
+    now,
+  );
 }

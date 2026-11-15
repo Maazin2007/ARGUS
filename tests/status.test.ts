@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { adjustRange, checkReading, getStatus } from "@/lib/status";
-import type { IndicatorRule, Reading, ValueReading } from "@/lib/types";
+import type {
+  BloodPressureReading,
+  IndicatorRule,
+  Reading,
+  ValueReading,
+} from "@/lib/types";
 
 const now = new Date("2026-11-14T13:05:00Z");
 
@@ -27,6 +32,40 @@ const testRules: IndicatorRule[] = [
       {
         environments: ["station", "marsTransit"],
         shift: 1,
+        rampDays: 75,
+        source: "test value",
+        note: "Test adjustment",
+      },
+    ],
+  },
+  {
+    measure: "systolic",
+    context: "resting",
+    unit: "mmHg",
+    earthRange: { low: 90, high: 120, source: "test value" },
+    criticalLimit: { low: 70, high: 180, source: "test value" },
+    baselineFloor: 10,
+    adjustments: [
+      {
+        environments: ["station", "marsTransit"],
+        shift: -8,
+        rampDays: 75,
+        source: "test value",
+        note: "Test adjustment",
+      },
+    ],
+  },
+  {
+    measure: "diastolic",
+    context: "resting",
+    unit: "mmHg",
+    earthRange: { low: 60, high: 80, source: "test value" },
+    criticalLimit: { low: 40, high: 120, source: "test value" },
+    baselineFloor: 8,
+    adjustments: [
+      {
+        environments: ["station", "marsTransit"],
+        shift: -9,
         rampDays: 75,
         source: "test value",
         note: "Test adjustment",
@@ -64,6 +103,19 @@ const lateMissionTemperature: Reading = {
   timestamp: "2026-11-14T13:00:00Z",
   missionDay: 212,
   environment: "marsTransit",
+  context: "resting",
+  simulated: false,
+};
+
+const restingBloodPressure: BloodPressureReading = {
+  id: "r-003",
+  indicator: "bloodPressure",
+  systolic: 110,
+  diastolic: 70,
+  unit: "mmHg",
+  timestamp: "2026-11-14T13:00:00Z",
+  missionDay: 0,
+  environment: "earth",
   context: "resting",
   simulated: false,
 };
@@ -209,11 +261,10 @@ test("temperature above criticalLimit stays red even after space adjustment", ()
 });
 
 test("three consecutive readings outside the personal baseline return amber, never red", () => {
-  // 5 normal readings at 60 bpm (baseline 50..70), followed by 2 high readings (85, 86)
   const history = makeHrHistory([60, 60, 60, 60, 60, 85, 86]);
   const thirdDeviating: Reading = {
     ...restingHeartRate,
-    value: 87, // inside Earth range (60..100), but 3rd reading above personal baseline (50..70)
+    value: 87,
   };
   const result = checkReading(
     thirdDeviating,
@@ -226,4 +277,29 @@ test("three consecutive readings outside the personal baseline return amber, nev
   assert.equal(result.status, "amber");
   assert.equal(result.criticalLimitCrossed, false);
   assert.deepEqual(result.baseline, { low: 50, high: 70, count: 5 });
+});
+
+test("blood pressure returns green when both systolic and diastolic are within range", () => {
+  const result = checkReading(
+    restingBloodPressure,
+    [],
+    testRules,
+    "earth",
+    0,
+    now,
+  );
+  assert.equal(result.status, "green");
+  assert.equal(result.criticalLimitCrossed, false);
+});
+
+test("blood pressure returns the worse status and combines reasons from systolic and diastolic", () => {
+  const mixedBp: BloodPressureReading = {
+    ...restingBloodPressure,
+    systolic: 135, // amber (above 120)
+    diastolic: 130, // red (above criticalLimit 120)
+  };
+  const result = checkReading(mixedBp, [], testRules, "earth", 0, now);
+  assert.equal(result.status, "red");
+  assert.equal(result.criticalLimitCrossed, true);
+  assert.equal(result.reasons.length, 2);
 });
