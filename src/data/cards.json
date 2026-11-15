@@ -62,5 +62,133 @@
       "text": "Notify the Crew Medical Officer if core temperature exceeds 38.5°C (101.3°F), does not return toward baseline after resting, or is accompanied by chills or acute malaise.",
       "source": "demo parameter"
     }
+  },
+  {
+    "indicator": "bloodPressure",
+    "howToMeasure": {
+      "text": "Rest seated quietly for 5 minutes with feet flat and arm supported at heart level before taking a brachial cuff measurement. Avoid talking during cuff inflation.",
+      "source": "American Heart Association: Understanding Blood Pressure Readings"
+    },
+    "whyItMatters": {
+      "text": "Blood pressure reflects systemic vascular resistance and arterial load. A typical resting terrestrial reading is systolic below 120 mmHg and diastolic below 80 mmHg.",
+      "source": "American Heart Association: Understanding Blood Pressure Readings"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Gravity Fields",
+        "text": "Long-duration microgravity induces cephalad fluid redistribution and arterial remodeling, resulting in an average drop of ~8 mmHg systolic and ~9 mmHg diastolic over 24-hour ambulatory monitoring.",
+        "source": "Norsk et al. 2015, Journal of Physiology"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "If a spot measurement is unusually high or low, remain quietly seated for 5 minutes and repeat the measurement on the same arm.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Stay mindful of hydration status, as plasma volume depletion directly exacerbates orthostatic blood pressure drops.",
+        "source": "NASA Human Research Roadmap: Risk of Orthostatic Intolerance"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer immediately if systolic exceeds 180 mmHg, diastolic exceeds 120 mmHg, or if blood pressure deviation is accompanied by vision changes, acute headache, or chest pain.",
+      "source": "American Heart Association: Understanding Blood Pressure Readings (Hypertensive Crisis)"
+    }
+  },
+  {
+    "indicator": "bloodGlucose",
+    "howToMeasure": {
+      "text": "Clean the puncture site, dry thoroughly, and apply a fresh capillary blood sample to an approved glucometer test strip, noting whether the test is fasting or post-meal.",
+      "source": "NIDDK: Continuous Glucose Monitoring and Blood Glucose Testing"
+    },
+    "whyItMatters": {
+      "text": "Blood glucose reflects metabolic carbohydrate regulation. In fasting adults, typical levels sit between 70 and 99 mg/dL, rising below 140 mg/dL two hours post-meal.",
+      "source": "American Diabetes Association / NIDDK"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Hostile/Closed Environment & Confinement",
+        "text": "Physical inactivity in confined habitats combined with spaceflight-induced insulin resistance can alter glucose tolerance and postprandial glycemic clearance.",
+        "source": "NASA Human Research Program: Risk of Adverse Health Outcomes from Altered Nutrition"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "If a fasting reading is unexpectedly low, consume 15 grams of fast-acting carbohydrates (e.g., fruit pouch) and re-check in 15 minutes.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Log nutritional intake and schedule physical countermeasure exercise to assist insulin sensitivity.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if blood glucose drops below 54 mg/dL (severe hypoglycemia) or exceeds 250 mg/dL with associated nausea, weakness, or mental confusion.",
+      "source": "demo parameter"
+    }
+  },
+  {
+    "indicator": "sleepDuration",
+    "howToMeasure": {
+      "text": "Log total sleep duration over the preceding 24-hour crew duty cycle, including any planned or unplanned restorative naps.",
+      "source": "CDC: About Sleep"
+    },
+    "whyItMatters": {
+      "text": "Adequate sleep is critical for neurobehavioral performance, vigilance, and immune function. Adults typically require 7 or more hours per night.",
+      "source": "CDC: About Sleep"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Isolation and Confinement",
+        "text": "Circadian rhythm disruption, lack of natural sunlight cycles, operational noise, and sleep cabin microgravity discomfort frequently cause fragmented sleep and cumulative sleep debt.",
+        "source": "NASA Human Research Program: Risk of Performance Decrements from Sleep Loss"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "Optimize personal sleep station environment: verify earplugs are secured, use sleep mask to block ambient light, and ensure cabin ventilation fan is unobstructed.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Review sleep hygiene: minimize bright screen and high-intensity blue light exposure within 60 minutes of scheduled sleep.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if cumulative sleep drops below 4 hours for consecutive duty cycles or if daytime drowsiness impairs critical operational mission tasks.",
+      "source": "demo parameter"
+    }
+  },
+  {
+    "indicator": "mood",
+    "howToMeasure": {
+      "text": "Select an integer rating from 1 (very low) to 5 (very good) reflecting subjective emotional state and operational stress over the last 24 hours.",
+      "source": "Demo parameter (Argus self-rating protocol)"
+    },
+    "whyItMatters": {
+      "text": "Self-reported mood tracks cognitive resilience, psychological adaptation, and interpersonal crew dynamics during isolated, confined, and extreme mission phases.",
+      "source": "Demo parameter"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Isolation and Confinement",
+        "text": "Prolonged confinement in small quarters, extreme distance from family, and heavy mission workloads can contribute to asthenia, sensory monotony, and interpersonal tension.",
+        "source": "NASA Human Research Program: Risk of Adverse Behavioral Conditions and Psychiatric Disorders"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "Engage in planned recreational time, private communications with ground support networks, or personal audio/visual decompression activities.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Discuss workload adjustments with crewmates if cognitive fatigue is compounding.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Reach out to the Crew Medical Officer or operational psychologist if sustained low mood, anxiety, or apathy begins impacting daily mission tasks.",
+      "source": "demo parameter"
+    }
   }
 ]

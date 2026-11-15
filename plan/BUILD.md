@@ -68,7 +68,7 @@ Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Ti
 ## Milestone 3: six indicators and evidence (Sunday, 11:00 AM)
 
 - [ ] Angad: glucose, sleep and mood rules
-- [ ] Ihsan: Cards writer: remaining cards
+- [x] Ihsan: Cards writer: remaining cards
 - [ ] Maazin: all six indicators return real statuses; full test list passes
 - [ ] James: `npm run evaluate` writes `results/fever.md` from the real engine
 - [ ] Frontend: full check-in; dashboard on real statuses; escalation card with signal delay from `environments.json`; "Simulated" tag

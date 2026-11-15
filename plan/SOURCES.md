@@ -38,4 +38,6 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 | Simulated demo astronaut: body temperature 37.4 ± 0.1 °C, 30 days (re-check against the temperature rule once it lands) | 37.4 ± 0.1 °C | `scripts/profiles/demo.json` |
 | Critical low heart rate escalation threshold | 40 bpm | `src/data/cards.json` |
 | Fever escalation threshold | 38.5 °C | `src/data/cards.json` |
+| Severe hypoglycemia escalation threshold | 54 mg/dL | `src/data/cards.json` |
+| Cumulative sleep loss escalation threshold | 4 h | `src/data/cards.json` |
 
