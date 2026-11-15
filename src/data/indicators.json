@@ -30,7 +30,7 @@
       "high": 38.5,
       "source": "demo parameter"
     },
-    "baselineFloor": null,
+    "baselineFloor": 0.3,
     "adjustments": [
       {
         "environments": ["station", "marsTransit"],

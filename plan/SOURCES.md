@@ -42,6 +42,8 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 | Simulated demo astronaut: sleep duration, 30 days | 7.6 ± 0.4 h | `scripts/profiles/demo.json` |
 | Simulated demo astronaut: mood self-rating, 30 days | 4 ± 1 (whole number, 1 to 5) | `scripts/profiles/demo.json` |
 | Simulated demo astronaut: resting blood pressure, 30 days | 118 ± 5 / 76 ± 4 mmHg | `scripts/profiles/demo.json` |
+| Body temperature personal-baseline floor (smallest deviation that counts) | 0.3 °C | `src/data/indicators.json` |
+| Fever scenario: base 37.4 ± 0.1 °C for 30 healthy days, then a rise of 0.15 °C per day for 10 days, Mars transit days 173 to 212 | see file | `scripts/scenarios/fever.json` |
 | Critical low heart rate escalation threshold                                                                            | 40 bpm                                                   | `src/data/cards.json`        |
 | Fever escalation threshold                                                                                              | 38.5 °C                                                  | `src/data/cards.json`        |
 | Low glucose escalation threshold                                                                                        | 54 mg/dL                                                 | `src/data/cards.json`        |
