@@ -120,6 +120,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="foot">
         <span>Design prototype v13</span>
         <span>NASA Space Apps Challenge 2026 · Team SpaceRangers</span>
+        <span
+          className="offline-badge"
+          title="ARGUS makes no server calls: readings stay in this browser's storage. Once the page has loaded it keeps working with no network link."
+        >
+          ON-BOARD STORAGE · WORKS OFFLINE (0 EARTH LINK)
+        </span>
         <span>Simulated data</span>
         <span>Every number has a source or is marked demo parameter</span>
         <span>Not a medical device. No diagnosis, no medication advice.</span>

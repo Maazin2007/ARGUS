@@ -143,7 +143,11 @@ export function DashboardScreen() {
                           className={mapHot === id ? "hot" : undefined}
                           onClick={() => openIndicator(id)}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") openIndicator(id);
+                            // Enter or Space, like a button. preventDefault stops Space scrolling the page.
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              openIndicator(id);
+                            }
                           }}
                           onMouseEnter={() => setRowHot(BODY_SITES.includes(id) ? id : null)}
                         >
