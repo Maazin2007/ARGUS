@@ -1,6 +1,6 @@
 {
-  "_note": "Emergency decision tree for the 'crewmate collapsed' scenario. Each step is labelled 'Published' (wording checked against an opened publication, cited in source) or 'Demo copy' (team wording, not a protocol). tests/emergency.test.ts checks every link, label and source. No medication or dosing advice anywhere.",
-  "scenario": "Crewmate collapsed after chest pain",
+  "_note": "Emergency decision tree: a crewmate collapses or feels unwell. Collapse and chest pain have their own branches; anything else goes to a general branch that measures, records and escalates, without trying to diagnose. Each step is labelled 'Published' (wording checked against an opened publication, cited in source) or 'Demo copy' (team wording, not a protocol). tests/emergency.test.ts checks every link, label and source. No medication or dosing advice anywhere.",
+  "scenario": "Crewmate unwell or collapsed",
   "firstStepId": "s1",
   "limitsNote": "Hinkelbein et al. 2020 covers weightlessness only. CPR has never been performed on a human in spaceflight.",
   "steps": [
@@ -9,7 +9,7 @@
       "type": "question",
       "text": "Is the crewmember conscious and responsive to voice?",
       "hint": "Say their name, tap the shoulder. Ten seconds, no longer.",
-      "yes": "c1",
+      "yes": "p1",
       "no": "a1",
       "next": null,
       "timerSeconds": null,
@@ -17,6 +17,20 @@
       "logNo": "Unresponsive to voice",
       "label": "Demo copy",
       "source": "Mockup cites Hinkelbein et al. 2020 (not yet opened by the team)."
+    },
+    {
+      "id": "p1",
+      "type": "question",
+      "text": "Is the main problem chest pain?",
+      "hint": "Ask them what is wrong. If they cannot say, or you are not sure, answer NO.",
+      "yes": "c1",
+      "no": "o1",
+      "next": null,
+      "timerSeconds": null,
+      "logYes": "Main problem: chest pain",
+      "logNo": "Main problem: something else",
+      "label": "Demo copy",
+      "source": "Team draft. Routes to the chest-pain branch or the general branch. Not from a published protocol."
     },
     {
       "id": "a1",
@@ -111,6 +125,68 @@
       "logNo": "Not completed, flagged for ground",
       "label": "Demo copy",
       "source": "Team draft. Not from a published protocol."
+    },
+    {
+      "id": "o1",
+      "type": "instruction",
+      "text": "Read their vitals and note what they describe",
+      "hint": "Heart rate, blood pressure, temperature and glucose if you can. The panel on the right shows their latest stored readings. Write down where it hurts and when it started.",
+      "yes": null,
+      "no": null,
+      "next": "o2",
+      "timerSeconds": null,
+      "yesLabel": "DONE",
+      "noLabel": "UNABLE",
+      "logYes": "Vitals read, symptoms noted",
+      "logNo": "Could not read vitals",
+      "label": "Demo copy",
+      "source": "Team draft. General steps (measure, record, escalate) for problems outside the collapse and chest-pain branches. Not from a published protocol and not a diagnosis."
+    },
+    {
+      "id": "o2",
+      "type": "question",
+      "text": "Are any readings red, or are they getting worse?",
+      "hint": "Red means a reading crossed a critical limit. Worse means pain, breathing or alertness changing for the worse.",
+      "yes": "o3",
+      "no": "o4",
+      "next": null,
+      "timerSeconds": null,
+      "logYes": "Red reading or getting worse",
+      "logNo": "No red reading, not getting worse",
+      "label": "Demo copy",
+      "source": "Team draft. General steps (measure, record, escalate) for problems outside the collapse and chest-pain branches. Not from a published protocol and not a diagnosis."
+    },
+    {
+      "id": "o3",
+      "type": "instruction",
+      "text": "Keep them at rest, call the crew medical officer now and stay with them",
+      "hint": "Send the step log and their latest readings to the ground. If they stop responding, restart from step 1.",
+      "yes": null,
+      "no": null,
+      "next": null,
+      "timerSeconds": null,
+      "yesLabel": "DONE",
+      "noLabel": "UNABLE",
+      "logYes": "Medical officer called",
+      "logNo": "Not completed, flagged for ground",
+      "label": "Demo copy",
+      "source": "Team draft. General steps (measure, record, escalate) for problems outside the collapse and chest-pain branches. Not from a published protocol and not a diagnosis."
+    },
+    {
+      "id": "o4",
+      "type": "instruction",
+      "text": "Keep them at rest and recheck their vitals in five minutes",
+      "hint": "Tell the crew medical officer. If anything gets worse or they stop responding, restart from step 1.",
+      "yes": null,
+      "no": null,
+      "next": null,
+      "timerSeconds": null,
+      "yesLabel": "DONE",
+      "noLabel": "UNABLE",
+      "logYes": "At rest, recheck in five minutes",
+      "logNo": "Not completed, flagged for ground",
+      "label": "Demo copy",
+      "source": "Team draft. General steps (measure, record, escalate) for problems outside the collapse and chest-pain branches. Not from a published protocol and not a diagnosis."
     }
   ]
 }

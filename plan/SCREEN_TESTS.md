@@ -44,7 +44,12 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 ## 5. Emergency (`/emergency`)
 
 - [ ] The red EMERGENCY button in the header opens it from every screen.
+- [ ] Emergency mode first asks "Who needs help?" (big buttons) and "Who is responding?". Y and N do nothing until a patient is picked.
+- [ ] Responder CDR, patient MS1 (this console): "Limited emergency view" shows only heart rate, blood pressure, temperature and glucose. PIN 4444 is refused; PIN 5555 (medical officer) opens the full record (adds sleep and mood). "Copy message for the ground" lists who opened it and when.
+- [ ] Responder MS1, patient MS1: the full record shows straight away, with no PIN box.
+- [ ] Patient CDR (another console): no readings shown; the panel says they are on CDR's own console. The message has no readings.
 - [ ] **Y** and **N** keys answer; DONE / UNABLE on instruction steps.
+- [ ] Path "responsive → main problem not chest pain" reaches the general branch: read vitals, then red or worse? → call the crew medical officer, otherwise recheck in five minutes. The step counter shows "of 5".
 - [ ] Path "unresponsive → not breathing" reaches the compressions step: it shows the weightlessness-only note and the elapsed time, and no compression rate, depth or ratio.
 - [ ] Every step shows its label ("Published" or "Demo copy").
 - [ ] "Back one step" works; the step log lists every answer with a UTC time.

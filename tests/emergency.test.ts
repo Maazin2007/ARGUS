@@ -6,6 +6,7 @@ import {
   EMERGENCY_STEPS,
   getStep,
   nextStepId,
+  stepsLeft,
 } from "@/lib/emergency";
 
 const ids = new Set(EMERGENCY_STEPS.map((s) => s.id));
@@ -98,4 +99,34 @@ test("no step uses the words healthy, safe or normal", () => {
     const words = [step.text, step.hint, step.logYes, step.logNo, step.yesLabel ?? "", step.noLabel ?? ""].join(" ");
     assert.doesNotMatch(words, /\b(healthy|safe|normal(ly)?)\b/i, `${step.id} uses a banned word`);
   }
+});
+
+// Every path, as the list of step ids from the first step to an end.
+function allPaths(id: string, path: string[] = []): string[][] {
+  const here = [...path, id];
+  const next = targets(id);
+  return next.length === 0 ? [here] : next.flatMap((n) => allPaths(n, here));
+}
+
+test("every path ends on an instruction, after at most five steps", () => {
+  const paths = allPaths(EMERGENCY_FIRST_STEP_ID);
+  assert.ok(paths.length >= 6, "collapse, chest-pain and general branches all exist");
+  for (const p of paths) {
+    assert.equal(getStep(p[p.length - 1])?.type, "instruction", `path ${p.join(" -> ")} ends on an action`);
+    assert.ok(p.length <= 5, `path ${p.join(" -> ")} is too long for an emergency`);
+  }
+});
+
+test("stepsLeft matches the longest path from the first step", () => {
+  const longest = Math.max(...allPaths(EMERGENCY_FIRST_STEP_ID).map((p) => p.length));
+  assert.equal(stepsLeft(EMERGENCY_FIRST_STEP_ID), longest);
+  assert.equal(stepsLeft("missing-step"), 0);
+});
+
+test("a conscious crewmember without chest pain reaches the general branch", () => {
+  const s1 = getStep(EMERGENCY_FIRST_STEP_ID);
+  assert.ok(s1);
+  const p1 = getStep(nextStepId(s1, "yes") ?? "");
+  assert.ok(p1);
+  assert.equal(nextStepId(p1, "no"), "o1");
 });
