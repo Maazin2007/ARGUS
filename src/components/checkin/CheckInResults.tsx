@@ -105,7 +105,7 @@ export function CheckInResults({ rows, selfRating, onEdit, onDiscard, onSave }: 
                   </span>
                   {row.skipped ? (
                     <span className="pill">
-                      SKIPPED · {row.reading ? `MD-${row.reading.missionDay} READING` : "NO READING"}
+                      Skipped · {row.reading ? `MD-${row.reading.missionDay} reading` : "no reading"}
                     </span>
                   ) : null}
                 </div>

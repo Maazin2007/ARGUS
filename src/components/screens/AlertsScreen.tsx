@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Screen } from "@/components/Screen";
 import { StatusBadge } from "@/components/StatusBadge";
-import { COLOR_TOKENS, STATUS_COLOR, STATUS_TEXT, environmentInfo, ruleFor } from "@/lib/indicatorMeta";
+import { COLOR_VAR, STATUS_COLOR, STATUS_TEXT, environmentInfo, ruleFor } from "@/lib/indicatorMeta";
 import { adjustRange } from "@/lib/status";
 import type { Status } from "@/lib/types";
 import type { CountStat, DayStat, Summary, SummaryEntry } from "../../../scripts/scenario";
@@ -52,8 +52,8 @@ const CELL_H = 18;
 const AXIS_Y = STRIP_TOP + STRIP_STEP * 3 + 8;
 const H = AXIS_Y + 24;
 
-const MUTED = COLOR_TOKENS.muted; // SVG presentation attributes cannot read var()
-const INK = COLOR_TOKENS.ink;
+const MUTED = COLOR_VAR.muted;
+const INK = COLOR_VAR.ink;
 
 type Limit = { label: string; value: number };
 
@@ -212,7 +212,7 @@ function ScenarioTrace({ entry }: { entry: SummaryEntry }) {
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fontSize="8"
-                    fill={COLOR_TOKENS.panel}
+                    fill={COLOR_VAR.panel}
                     aria-hidden="true"
                   >
                     {STATUS_TEXT[status].symbol}
@@ -278,10 +278,8 @@ export function AlertsScreen() {
       <div className="grid">
         <div className="cell c12 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">01</span>Alert results, all scenarios
-            </h2>
-            <span className="pill">SIMULATED DATA · FROZEN SEED + {summary.seedCount} SEEDS</span>
+            <h2>Alert results, all scenarios</h2>
+            <span className="pill">Simulated data · frozen seed + {summary.seedCount} seeds</span>
           </div>
           <div style={{ padding: "0 24px 16px" }}>
             <p className="note" style={{ margin: 0 }}>
@@ -362,9 +360,7 @@ export function AlertsScreen() {
 
         <div className="cell c12 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">02</span>Scenario trace
-            </h2>
+            <h2>Scenario trace</h2>
             <div className="seg" role="group" aria-label="Scenario">
               {summary.scenarios.map((entry) => (
                 <button

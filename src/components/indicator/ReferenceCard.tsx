@@ -52,10 +52,8 @@ export function ReferenceCard({ id }: { id: IndicatorId }) {
   return (
     <div className="cell c12 flush">
       <div className="head">
-        <h2>
-          <span className="ix mono">03</span>Reference card
-        </h2>
-        <span className="pill">CARDS.JSON</span>
+        <h2>Reference card</h2>
+        <span className="pill">cards.json</span>
       </div>
       <div>
         {sections.map((section, i) => (

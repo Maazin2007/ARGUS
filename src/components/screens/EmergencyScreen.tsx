@@ -46,6 +46,15 @@ function ElapsedTimer({ since }: { since: number }) {
 // wording from the data; it never adds medical text of its own.
 export function EmergencyScreen() {
   const router = useRouter();
+
+  // Turn the whole page red while this screen is open (the CSS is in globals.css, "Emergency mode").
+  // The cleanup runs when the crew leaves the screen, so every other screen goes back to normal.
+  useEffect(() => {
+    document.documentElement.dataset.mode = "emergency";
+    return () => {
+      delete document.documentElement.dataset.mode;
+    };
+  }, []);
   const { environment } = useArgus();
   const [path, setPath] = useState<EmergencyAnswer[]>([]);
 
@@ -198,9 +207,7 @@ export function EmergencyScreen() {
 
         <div className="cell c4 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">01</span>Step log
-            </h2>
+            <h2>Step log</h2>
           </div>
           <ul className="log mono">
             {answered.length === 0 ? (
@@ -221,9 +228,7 @@ export function EmergencyScreen() {
             )}
           </ul>
           <div className="head" style={{ borderTop: "1px solid var(--line)" }}>
-            <h2>
-              <span className="ix mono">02</span>Ground contact
-            </h2>
+            <h2>Ground contact</h2>
           </div>
           <div className="kv">
             <span className="lbl">Simulated one-way signal delay</span>

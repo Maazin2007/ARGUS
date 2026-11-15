@@ -176,12 +176,30 @@ export function startSolidFigure(
       T: [[0, 163, 300], [0, 0, -1]],
       HR: [[7, 128, 300], [0, 0, -1]],
       BP: [[300, 124, 0], [-1, 0, 0]],
+      // Display-only sites: the head from each side. GLU (the hand) is found below.
+      MOOD: [[300, 166, 0], [-1, 0, 0]],
+      SLP: [[-300, 166, 0], [1, 0, 0]],
     };
     for (const mark of marks) {
+      if (mark.ref === "GLU") continue;
       const [origin, dir] = aim[mark.ref];
       ray.set(new T.Vector3(...origin), new T.Vector3(...dir));
       const hit = ray.intersectObject(pivot, true)[0];
       if (hit) mark.p = [hit.point.x, hit.point.y, hit.point.z];
+    }
+    // GLU goes on the hand. The hand can be in front of or behind the body's middle, so shoot
+    // rays from the left at hand height, front to back, and keep the hit furthest out to the left.
+    const glu = marks.find((mark) => mark.ref === "GLU");
+    if (glu) {
+      let leftmost = Infinity;
+      for (let z = -28; z <= 28; z += 4) {
+        ray.set(new T.Vector3(-300, 94, z), new T.Vector3(1, 0, 0));
+        const hit = ray.intersectObject(pivot, true)[0];
+        if (hit && hit.point.x < leftmost) {
+          leftmost = hit.point.x;
+          glu.p = [hit.point.x, hit.point.y, hit.point.z];
+        }
+      }
     }
 
     isReady = true;
