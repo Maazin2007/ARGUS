@@ -16,7 +16,7 @@
       "logYes": "Conscious, answers to voice",
       "logNo": "Unresponsive to voice",
       "label": "Demo copy",
-      "source": "Mockup cites Hinkelbein et al. 2020 (not yet opened by the team)."
+      "source": "Team draft based on the design mockup. Not checked against a published protocol."
     },
     {
       "id": "a1",
@@ -30,7 +30,7 @@
       "logYes": "Breathing regularly",
       "logNo": "Not breathing regularly",
       "label": "Demo copy",
-      "source": "Mockup cites Hinkelbein et al. 2020 (not yet opened by the team)."
+      "source": "Team draft based on the design mockup. Not checked against a published protocol."
     },
     {
       "id": "a2",
