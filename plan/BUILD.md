@@ -62,7 +62,7 @@ After the freeze: record the demo video from the live site, rehearse the pitch t
 
 ## Not built
 
-- The emergency tree still lives in `src/data/emergencyPlaceholder.json` and `src/lib/placeholders.ts`. It works; the planned `emergency.json` and `emergency.ts` would be a rename plus a link test.
+- The emergency tree lives in `src/data/emergency.json` and `src/lib/emergency.ts`. `tests/emergency.test.ts` checks every link, that every step is reachable with no loops, and every label and source.
 - Blood pressure has no environment adjustment. The Norsk 2015 shift is cited on the card but not applied by the engine, so only temperature adjusts.
 - Optional items from the docx: Moon and Mars surface, points and streaks, a second scenario, the report to the ground.
 - `recharts` is installed but unused; the charts are hand-built SVG.

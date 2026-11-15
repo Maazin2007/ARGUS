@@ -14,7 +14,7 @@ The steps below are the plan the team worked from. They are kept as written, bec
 | Angad: storage, input checks, thresholds | As planned. Thresholds cover all six indicators, with an extra after-meal glucose rule. Cards were written by Ihsan. |
 | James: feel vs. data, generator, seed data | As planned, in `src/lib/feelVsData.ts`, `scripts/generate.ts`, `scripts/random.ts` and `src/data/seed.json`. |
 | James: fever scenario and results table | Built by Maazin as `scripts/scenarios/fever.json`, `scripts/scenario.ts` and `scripts/evaluate.ts`, with output in `results/`. |
-| James: `emergency.json` and `emergency.ts` | Not built. The emergency tree is in `src/data/emergencyPlaceholder.json` and `src/lib/placeholders.ts`, written with the screens. |
+| James: `emergency.json` and `emergency.ts` | Built by Arnav from the placeholder written with the screens: `src/data/emergency.json`, `src/lib/emergency.ts`, tested by `tests/emergency.test.ts`. |
 | James: `demoProfile.ts` | Built as planned in `src/lib/demoProfile.ts`. It also loads by itself when storage is empty. |
 | James: `checkInDue.ts` | Not built as a file. The dashboard works out the due banner from the last check-in's mission day. |
 | Emergency numbers from Hinkelbein 2020 | The paper gives no compression rate, depth or ratio of its own, so none are shown. The method and defibrillator wording follow its recommendations 2, 3 and 10. |

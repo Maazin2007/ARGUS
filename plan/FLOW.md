@@ -72,7 +72,7 @@ Blood pressure has two measures, systolic and diastolic. Each is checked on its 
 ## Flow 4: emergency mode
 
 1. The astronaut presses the emergency button in the header.
-2. The screen shows the first step from `src/data/emergencyPlaceholder.json`.
+2. The screen shows the first step from `src/data/emergency.json`.
 3. Each answer is logged with its time, and `nextStepId(step, answer)` picks the next step. The Y and N keys answer too.
 4. Each step shows its label, "Published" or "Demo copy", and its source. The compressions step shows how long it has been open.
 5. The tree ends when a step has no next step.
@@ -121,7 +121,7 @@ Storage is empty in a new browser. `ArgusProvider` then calls `loadDemoProfile()
 | `checkFeelVsData(selfRating, statuses)` in `src/lib/feelVsData.ts` | James | a message or `null` |
 | `src/data/seed.json` | James | demo readings, all marked simulated |
 | `loadDemoProfile()` in `src/lib/demoProfile.ts` | Maazin | fills storage from `seed.json` |
-| `getStep(id)`, `nextStepId(step, answer)` in `src/lib/placeholders.ts` | Arnav | emergency steps |
+| `getStep(id)`, `nextStepId(step, answer)` in `src/lib/emergency.ts` | Arnav | emergency steps |
 | `src/data/cards.json` | Ihsan | card text |
 | `src/data/environments.json` | Maazin | label and simulated signal delay per environment |
 | `results/fever.json` | Maazin | the alert test results |
