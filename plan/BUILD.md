@@ -44,11 +44,12 @@ Live site: https://argus-delta-gules.vercel.app
 - [x] Indicator screen with the trend chart, reference range and baseline bands, and the card
 - [x] Escalation card on a red status, with the simulated signal delay from `src/data/environments.json`
 - [x] Handover report (`/handover`) for the Crew Medical Officer and the ground: last 7 mission days, active alerts, self-ratings, print view and JSON packet export (`src/lib/handover.ts`, `src/components/screens/HandoverScreen.tsx`)
-- [x] Emergency mode: one scenario, one step per screen, step log, time on the compressions step (`src/data/emergency.json`, `src/lib/emergency.ts`)
+- [x] Emergency mode: patient and responder selection, limited rescue vitals with logged one-tap full-record access ("break-the-glass"), step log, time on the compressions step, and ground message builder (`src/data/emergency.json`, `src/lib/emergency.ts`, `src/lib/crew.ts`, `src/lib/emergencyMessage.ts`)
 - [x] Alert evaluation across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 Monte Carlo seeds (`npm run evaluate`, `results/summary.md`) on the alert test screen
+- [x] Light and dark console themes (`ThemeButton.tsx`) and all six indicators mapped to sites on the 3D body figure (`BodyMap.tsx`)
 - [x] CI runs lint, tests and build on every push; Vercel deploys `main`
 
-All 125 tests pass.
+All 140 tests pass.
 
 ## Left before the freeze (Sunday, 2:30 PM)
 

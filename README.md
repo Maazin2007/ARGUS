@@ -17,7 +17,7 @@ On a long mission, astronauts have to spot health changes in themselves, and the
 - **Feel vs. data and combined checks** that point out when the readings and the astronaut's own rating disagree, or when multiple indicators (such as sleep and mood) need review together.
 - **Indicator pages** with a trend chart, the reference range and baseline as bands, and a card covering how to measure, why it matters, what spaceflight does, what you can do and when to escalate.
 - **An escalation card and handover report (`/handover`):** who to notify, what to do meanwhile, the simulated signal delay to Earth, and a printable / JSON-exportable 7-day handover report for the Crew Medical Officer and the ground.
-- **Emergency mode** for one scenario, a crewmate who collapses after chest pain: yes/no questions, one step per screen, with a step log and microgravity CPR guidance sourced to Hinkelbein et al. 2020.
+- **Emergency mode** for a crewmate who collapses after chest pain: patient and responder role selection, rescue vitals with logged one-tap full-record access ("break-the-glass"), yes/no questions one step per screen, a timestamped step log, microgravity CPR guidance sourced to Hinkelbein et al. 2020, and a ground emergency message builder.
 - **A multi-scenario alert test** that compares three alert methods across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 Monte Carlo seeds.
 
 ## Does the alerting work?
