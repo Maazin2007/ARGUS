@@ -67,9 +67,7 @@ export function HandoverScreen() {
       <div className="grid">
         <div className="cell c12">
           <div className="head">
-            <h2>
-              <span className="ix mono">01</span>Handover report
-            </h2>
+            <h2>Handover report</h2>
             <div className="row no-print">
               <button type="button" className="btn btn-pri" onClick={() => window.print()}>
                 Print / Save PDF
@@ -108,15 +106,13 @@ export function HandoverScreen() {
                 MD-{report.days[0]} to MD-{report.days[report.days.length - 1]}
               </div>
             </div>
-            <span className="pill">SIMULATED DATA</span>
+            <span className="pill">Simulated data</span>
           </div>
         </div>
 
         <div className="cell c12 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">02</span>Last 7 mission days
-            </h2>
+            <h2>Last 7 mission days</h2>
             <span className="hint mono">Latest reading of each day</span>
           </div>
           <div className="tw">
@@ -160,9 +156,7 @@ export function HandoverScreen() {
 
         <div className="cell c12 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">03</span>Alerts in this window
-            </h2>
+            <h2>Alerts in this window</h2>
             <span className="hint mono">
               {ready ? `${report.alerts.length} not green` : ""}
             </span>
@@ -222,9 +216,7 @@ export function HandoverScreen() {
 
         <div className="cell c12 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">04</span>Self-ratings
-            </h2>
+            <h2>Self-ratings</h2>
             <span className="hint mono">How the crewmember said they feel, 1 to 5</span>
           </div>
           {report.checkIns.length === 0 ? (

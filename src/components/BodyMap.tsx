@@ -2,18 +2,27 @@
 
 // The dashboard's "Body map" cell, ported from the mockup (ARGUS_v13.html).
 // Two canvases are stacked: a three.js suit figure underneath (when WebGL and the model load) and a
-// plain 2D overlay on top with the turntable, ruler, section plane and the three measurement sites.
+// plain 2D overlay on top with the turntable, ruler, section plane and one site per indicator.
 // If the 3D part fails, the overlay draws its own wireframe figure instead, so the card always works.
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { IndicatorId } from "@/lib/types";
 import { useArgus } from "@/components/ArgusProvider";
-import { STATUS_COLOR } from "@/lib/indicatorMeta";
-import { geistSans } from "@/app/fonts";
+import {
+  COLOR_TOKENS,
+  COLOR_TOKENS_DARK,
+  INDICATORS,
+  STATUS_TEXT,
+  formatReading,
+} from "@/lib/indicatorMeta";
+import { uiSans } from "@/app/fonts";
 import {
   DEFAULT_PLANE_Y,
   H,
+  LX,
+  TAG_H,
+  TAG_W,
   TX,
   W,
   createMarks,
@@ -21,7 +30,7 @@ import {
   type Mark,
   type SiteRef,
 } from "@/components/bodymap/geometry";
-import { drawOverlay, formatYaw, type SiteStyle } from "@/components/bodymap/drawOverlay";
+import { drawOverlay, type SiteStyle } from "@/components/bodymap/drawOverlay";
 import { startSolidFigure } from "@/components/bodymap/solidFigure";
 
 export type BodyMapProps = {
@@ -29,10 +38,21 @@ export type BodyMapProps = {
   hot: IndicatorId | null;
   // Called when the pointer moves onto or off a site on the figure.
   onHotChange: (id: IndicatorId | null) => void;
+  // Whether the card is in its enlarged layout, and the button that switches it.
+  isWide: boolean;
+  onToggleWide: () => void;
 };
 
-// Which indicator each site on the body stands for. GLU, SLP and MOOD have no single site.
-const SITE_IDS: Record<SiteRef, IndicatorId> = { T: "bodyTemperature", HR: "heartRate", BP: "bloodPressure" };
+// Which indicator each site on the figure stands for (positions are in bodymap/geometry.ts).
+const SITE_IDS: Record<SiteRef, IndicatorId> = {
+  T: "bodyTemperature",
+  HR: "heartRate",
+  BP: "bloodPressure",
+  GLU: "bloodGlucose",
+  SLP: "sleepDuration",
+  MOOD: "mood",
+};
+const SITE_REFS = Object.keys(SITE_IDS) as SiteRef[];
 
 function siteFor(id: IndicatorId | null): SiteRef | null {
   if (!id) return null;
@@ -60,7 +80,7 @@ type Motion = {
   swayStart: number; // timestamp the sway started
 };
 
-export function BodyMap({ hot, onHotChange }: BodyMapProps) {
+export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps) {
   const { statusFor } = useArgus();
   const router = useRouter();
   const [view, setView] = useState("auto");
@@ -69,10 +89,6 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
   const overlayRef = useRef<HTMLCanvasElement>(null);
   // Empty box the three.js canvas is put into. The canvas itself is made in the effect below.
   const glHostRef = useRef<HTMLDivElement>(null);
-  const yawRef = useRef<HTMLSpanElement>(null);
-  const ringsRef = useRef<HTMLSpanElement>(null);
-  const pointsRef = useRef<HTMLSpanElement>(null);
-  const sectionRef = useRef<HTMLSpanElement>(null);
 
   const motion = useRef<Motion>({
     angle: 0.4,
@@ -91,10 +107,19 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
   const routerRef = useRef(router);
 
   // Marker colour and shape come from the real status: triangle for amber, square otherwise.
-  const styles: Record<SiteRef, SiteStyle> = { T: style("T"), HR: style("HR"), BP: style("BP") };
+  // The overlay looks the colour up from the status, so it follows the light or dark theme.
+  // Each tag also shows the status symbol and the latest reading with its unit.
+  const styles = Object.fromEntries(SITE_REFS.map((ref) => [ref, style(ref)])) as Record<SiteRef, SiteStyle>;
   function style(ref: SiteRef): SiteStyle {
-    const status = statusFor(SITE_IDS[ref]).result.status;
-    return { color: STATUS_COLOR[status], isSquare: status !== "amber" };
+    const id = SITE_IDS[ref];
+    const { latest, result } = statusFor(id);
+    return {
+      status: result.status,
+      isSquare: result.status !== "amber",
+      symbol: STATUS_TEXT[result.status].symbol,
+      value: latest ? formatReading(latest) : "--",
+      unit: latest ? INDICATORS[id].unit : "",
+    };
   }
   const stylesRef = useRef(styles);
 
@@ -135,9 +160,7 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
     cv.height = H * dpr;
     ctx.scale(dpr, dpr);
 
-    const { rings, pointCount } = getRings();
-    if (ringsRef.current) ringsRef.current.textContent = String(rings.length);
-    if (pointsRef.current) pointsRef.current.textContent = pointCount.toLocaleString("en-US");
+    const { rings } = getRings();
 
     const marks: Mark[] = createMarks();
     const m = motion.current;
@@ -152,7 +175,11 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
     }
 
     const solid = startSolidFigure(glCanvas, marks, () => setHasGl(true));
-    const fontFamily = geistSans.style.fontFamily;
+    const fontFamily = uiSans.style.fontFamily;
+
+    // Canvas cannot read CSS variables, so each frame picks the hex colours for the current theme,
+    // read from <html data-theme="..."> (set by ThemeButton.tsx).
+    const root = document.documentElement;
 
     function frame(ts: number) {
       frameId = requestAnimationFrame(frame);
@@ -186,21 +213,22 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
         marks,
         hot: hotRef.current,
         styles: stylesRef.current,
+        colors: root.dataset.theme === "dark" ? COLOR_TOKENS_DARK : COLOR_TOKENS,
         fontFamily,
       });
-      if (sectionRef.current) sectionRef.current.textContent = Math.round(planeY) + " cm";
-      if (yawRef.current) yawRef.current.textContent = formatYaw(m.angle);
     }
     frameId = requestAnimationFrame(frame);
 
-    // Which site (marker or REF tag) is under the pointer, in canvas coordinates.
+    // Which site (marker or tag) is under the pointer, in canvas coordinates.
     function hit(e: PointerEvent): SiteRef | null {
       const b = cv.getBoundingClientRect();
       const x = ((e.clientX - b.left) * W) / b.width;
       const y = ((e.clientY - b.top) * H) / b.height;
       let found: SiteRef | null = null;
       for (const mk of marks) {
-        if (Math.hypot(x - mk.sx, y - mk.sy) < 14 || (x >= TX && x <= TX + 48 && Math.abs(y - mk.ty) <= 12)) {
+        const tagX = mk.side === "right" ? TX : LX;
+        const isOnTag = x >= tagX && x <= tagX + TAG_W && Math.abs(y - mk.ty) <= TAG_H / 2;
+        if (Math.hypot(x - mk.sx, y - mk.sy) < 14 || isOnTag) {
           found = mk.ref;
         }
       }
@@ -282,10 +310,28 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
   return (
     <div className="cell c4 flush">
       <div className="head">
-        <h2>
-          <span className="ix mono">01</span>Body map
-        </h2>
-        <span className="hint">Drag to rotate · hover a site to section it</span>
+        <div className="row">
+          <h2>Body map</h2>
+          <span className="hint">Drag to rotate · select a site to open it</span>
+        </div>
+        {/* Enlarges the body map and narrows the table, or puts them back. The icon's four
+            corner arrows point outwards to enlarge and inwards to shrink. */}
+        <button
+          type="button"
+          className="btn icon-btn"
+          aria-pressed={isWide}
+          aria-label={isWide ? "Shrink body map" : "Enlarge body map"}
+          title={isWide ? "Shrink body map" : "Enlarge body map"}
+          onClick={onToggleWide}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            {isWide ? (
+              <path d="M7 2v5H2M11 2v5h5M7 16v-5H2M11 16v-5h5" />
+            ) : (
+              <path d="M2 7V2h5M16 7V2h-5M2 11v5h5M16 11v5h-5" />
+            )}
+          </svg>
+        </button>
       </div>
       <div className={hasGl ? "bm well has-gl" : "bm well"}>
         {/* The three.js canvas goes in here (see the effect above). No styles, so the canvas
@@ -295,39 +341,8 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
           ref={overlayRef}
           id="bm"
           role="img"
-          aria-label="Rotating 3D model of a crewmember in a flight suit on a turntable, with three measurement sites: T on the forehead, HR on the chest, BP on the upper arm"
+          aria-label="Rotating 3D model of a crewmember in a flight suit on a turntable, with one tagged site per indicator showing its status and latest reading: T on the forehead, HR on the chest, BP on the upper arm, GLU on the hand, SLP and MOOD beside the head. The same readings are in the table."
         />
-        <div className="bm-ro">
-          <div>
-            <span className="lbl">Yaw</span>
-            <span className="mono" ref={yawRef}>
-              +000°
-            </span>
-          </div>
-          {/* The slice and point counts describe the wireframe, so they hide once the solid model shows. */}
-          <div style={hasGl ? { display: "none" } : undefined}>
-            <span className="lbl">Slices</span>
-            <span className="mono" ref={ringsRef}>
-              0
-            </span>
-          </div>
-          <div style={hasGl ? { display: "none" } : undefined}>
-            <span className="lbl">Points</span>
-            <span className="mono" ref={pointsRef}>
-              0
-            </span>
-          </div>
-          <div>
-            <span className="lbl">Sites</span>
-            <span className="mono">3</span>
-          </div>
-          <div>
-            <span className="lbl">Section</span>
-            <span className="mono" ref={sectionRef}>
-              {`${DEFAULT_PLANE_Y} cm`}
-            </span>
-          </div>
-        </div>
       </div>
       <div className="bm-bar">
         <span className="lbl">View</span>
@@ -339,7 +354,7 @@ export function BodyMap({ hot, onHotChange }: BodyMapProps) {
           ))}
         </div>
         <span style={{ flex: 1 }} />
-        <span className="hint">GLU, SLP and MOOD have no single site. Use the list.</span>
+        <span className="hint">T, HR and BP are at their measurement sites. GLU, SLP and MOOD are placed for display only.</span>
       </div>
     </div>
   );

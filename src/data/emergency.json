@@ -16,7 +16,7 @@
       "logYes": "Conscious, answers to voice",
       "logNo": "Unresponsive to voice",
       "label": "Demo copy",
-      "source": "Mockup cites Hinkelbein et al. 2020 (not yet opened by the team)."
+      "source": "Team draft based on the design mockup. Not checked against a published protocol."
     },
     {
       "id": "p1",
@@ -44,7 +44,7 @@
       "logYes": "Breathing regularly",
       "logNo": "Not breathing regularly",
       "label": "Demo copy",
-      "source": "Mockup cites Hinkelbein et al. 2020 (not yet opened by the team)."
+      "source": "Team draft based on the design mockup. Not checked against a published protocol."
     },
     {
       "id": "a2",
@@ -77,8 +77,8 @@
       "logNo": "Not completed, flagged for ground",
       "showLimits": true,
       "showElapsed": true,
-      "label": "Demo copy",
-      "source": "Hinkelbein et al. 2020, Scand J Trauma Resusc Emerg Med (https://doi.org/10.1186/s13049-020-00793-y), Recommendations 2, 3 and 10. The guideline gives no compression rate, depth or ratio of its own and refers to the Earth-based AHA/ERC guidelines, so no numbers are shown. Stays Demo copy until a team member has opened the paper."
+      "label": "Published",
+      "source": "Hinkelbein et al. 2020, Scand J Trauma Resusc Emerg Med (https://doi.org/10.1186/s13049-020-00793-y), Recommendations 2, 3 and 10. The guideline gives no compression rate, depth or ratio of its own and refers to the Earth-based AHA/ERC guidelines, so no numbers are shown."
     },
     {
       "id": "c1",

@@ -38,8 +38,7 @@ export function IndicatorScreen({ id }: { id: IndicatorId }) {
 
   function changeIndicator(next: IndicatorId) {
     // Only the URL changes. Next.js 16 syncs the native History API with its router, so
-    // usePathname() re-renders this same screen with the new id, without a navigation,
-    // so the entrance animation does not replay
+    // usePathname() re-renders this same screen with the new id, without a navigation
     // (node_modules/next/dist/docs/01-app/01-getting-started/04-linking-and-navigating.md).
     window.history.replaceState(null, "", `/indicator/${next}`);
   }
@@ -116,7 +115,7 @@ export function IndicatorScreen({ id }: { id: IndicatorId }) {
             </span>
             <span style={{ flex: 1 }}></span>
             {ref?.adjusted ? <span className="tag">Adjusted for environment</span> : null}
-            <span className="pill">SIMULATED DATA</span>
+            <span className="pill">Simulated data</span>
           </div>
         </div>
 
@@ -132,9 +131,7 @@ export function IndicatorScreen({ id }: { id: IndicatorId }) {
 
         <div className="cell c4 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">02</span>Readout
-            </h2>
+            <h2>Readout</h2>
           </div>
           <div className="kv">
             <span className="lbl">Latest</span>

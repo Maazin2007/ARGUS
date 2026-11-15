@@ -8,7 +8,7 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 
 - [ ] The page loads with data: the demo profile loads by itself into empty storage. No empty dashboard.
 - [ ] All six indicators show a value, a status word and a status colour together. On the demo profile, statuses match what `tests/seed.test.ts` expects.
-- [ ] "SIMULATED DATA" tag is visible.
+- [ ] "Simulated data" tag is visible.
 - [ ] "Load demo profile" clears saved readings and reloads the demo profile.
 - [ ] "Handover report" opens `/handover`.
 - [ ] Keyboard: Tab to a row, press **Enter**, then go back and press **Space**. Both open that indicator.

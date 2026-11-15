@@ -10,29 +10,31 @@ On a long mission, astronauts have to spot health changes in themselves, and the
 
 ## What it does
 
-- **Check-in** for six indicators: heart rate, blood pressure, blood glucose, body temperature, sleep duration and mood, one step at a time, with how-to-measure help beside each input.
+- **Check-in and device import** for six indicators: heart rate, blood pressure, blood glucose, body temperature, sleep duration and mood, one step at a time, with how-to-measure help beside each input, plus browser JSON / CSV device import (`src/lib/deviceImport.ts`) and reading provenance.
 - **A status for every reading:** within range, needs review, critical or unknown, always as a word, a symbol and a colour, with the reasons in plain language. A reading that could not be checked is shown as unknown, never as green.
-- **Ranges adjusted for the environment.** The body temperature range shifts with the environment and mission day, based on a published spaceflight study. The critical limit never moves.
-- **A personal baseline** that flags three readings in a row outside the astronaut's own usual band.
-- **A feel vs. data check** that points out when the readings and the astronaut's own rating disagree.
+- **Ranges adjusted for the environment.** Body temperature (Stahn et al. 2017) and blood pressure (Norsk et al. 2015) shift with the environment and mission day. The critical limit never moves.
+- **A personal baseline** that flags three readings in a row outside the astronaut's own usual band, while ignoring single-day outliers so a slow fever cannot drag the baseline up.
+- **Feel vs. data and combined checks** that point out when the readings and the astronaut's own rating disagree, or when multiple indicators (such as sleep and mood) need review together.
 - **Indicator pages** with a trend chart, the reference range and baseline as bands, and a card covering how to measure, why it matters, what spaceflight does, what you can do and when to escalate.
-- **An escalation card** on a critical reading: who to notify, what to do meanwhile, and the simulated signal delay to Earth.
-- **Emergency mode** for one scenario, a crewmate who collapses after chest pain: yes/no questions, one step per screen, with a step log.
-- **An alert test** that compares three alert methods on a simulated fever.
+- **An escalation card and handover report (`/handover`):** who to notify, what to do meanwhile, the simulated signal delay to Earth, and a printable / JSON-exportable 7-day handover report for the Crew Medical Officer and the ground.
+- **Emergency mode** for one scenario, a crewmate who collapses after chest pain: yes/no questions, one step per screen, with a step log and microgravity CPR guidance sourced to Hinkelbein et al. 2020.
+- **A multi-scenario alert test** that compares three alert methods across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 Monte Carlo seeds.
 
 ## Does the alerting work?
 
-We ran one simulated fever through the same status function the dashboard uses, three ways. The scenario is 30 ordinary days in Mars transit, then a temperature rising 0.15 °C a day for 10 days.
+We ran five simulated scenarios through the same `getStatus` function the dashboard uses, comparing three methods on both a frozen seed and 100 deterministic random seeds. Full results: [results/summary.md](results/summary.md) and [results/fever.md](results/fever.md).
 
-| Method | First amber (days after onset) | First red (days after onset) | Fever readings left green | False alerts before onset |
-|---|---|---|---|---|
-| Earth range only | 0 | 7 | 0 | 30 |
-| Adjusted range | 5 | 7 | 5 | 0 |
-| Adjusted range and baseline | 3 | 7 | 3 | 0 |
+On the slow-onset fever scenario (30 ordinary days in Mars transit, then a temperature rising 0.15 °C a day for 10 days):
 
-Earth ranges flag every ordinary day in flight. The adjusted range removes those false alerts but notices the fever later. Adding the personal baseline gets two of those days back. Red arrives on the same day for all three, because nothing moves the critical limit.
+| Method | First amber (days after onset) | First red (days after onset) | Fever readings left green | False alerts before onset | 100-seed first amber (mean / worst) | 100-seed false alerts (mean / worst) |
+|---|---|---|---|---|---|---|
+| Earth range only | 0 | 7 | 0 | 30 | 0 / 0 | 30 / 30 |
+| Adjusted range | 5 | 7 | 5 | 0 | 5.3 / 6 | 0 / 0 |
+| Adjusted range and baseline | 3 | 7 | 3 | 0 | 3.84 / 5 | 0 / 0 |
 
-This is a software test on one simulated scenario with parameters the team chose. It is not clinical validation. The scenario and its expected outcomes were committed before the evaluation was first run. Full results: [results/fever.md](results/fever.md).
+Earth ranges flag every ordinary day in flight. The adjusted range removes those false alerts, and adding the personal baseline catches the fever earlier while a single odd reading (`scripts/scenarios/typo.json`) causes zero false alerts across all 100 seeds. Red arrives on the same day for all three methods, because nothing moves the critical limit.
+
+This is a software test on simulated scenarios with parameters the team chose. It is not clinical validation.
 
 ## Getting started
 
@@ -65,8 +67,9 @@ React and TypeScript on Next.js, styled with CSS and Tailwind, hosted on Vercel.
 | Screen | Route |
 |---|---|
 | Dashboard | `/` |
-| Check-in | `/check-in` |
+| Check-in & Device import | `/check-in` |
 | Indicator | `/indicator/[id]` |
+| Handover report | `/handover` |
 | Emergency | `/emergency` |
 | Alert test | `/alerts` |
 

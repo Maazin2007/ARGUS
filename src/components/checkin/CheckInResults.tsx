@@ -4,6 +4,7 @@ import type { IndicatorId, Reading, StatusResult } from "@/lib/types";
 import { INDICATORS, environmentInfo, formatReading } from "@/lib/indicatorMeta";
 import { getStatus } from "@/lib/status";
 import { checkFeelVsData } from "@/lib/feelVsData";
+import { checkCombinedAlerts } from "@/lib/checkInDue";
 import { useArgus } from "@/components/ArgusProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { EscalationCard } from "@/components/EscalationCard";
@@ -50,6 +51,9 @@ export function CheckInResults({ rows, selfRating, onEdit, onDiscard, onSave }: 
     selfRating,
     rows.map((r) => r.result.status),
   );
+  const combinedNotes = checkCombinedAlerts(
+    Object.fromEntries(rows.map((r) => [r.id, r.result.status])),
+  );
   const reds = rows
     .filter((r) => r.result.status === "red")
     .map((r) => ({ id: r.id, reason: r.result.reasons[0] ?? "" }));
@@ -79,6 +83,12 @@ export function CheckInResults({ rows, selfRating, onEdit, onDiscard, onSave }: 
         </div>
       ) : null}
 
+      {combinedNotes.map((note) => (
+        <div key={note} className="note fvd">
+          <strong>Combined check-in pattern.</strong> {note}
+        </div>
+      ))}
+
       <EscalationCard items={reds} />
 
       <div className="res">
@@ -95,7 +105,7 @@ export function CheckInResults({ rows, selfRating, onEdit, onDiscard, onSave }: 
                   </span>
                   {row.skipped ? (
                     <span className="pill">
-                      SKIPPED · {row.reading ? `MD-${row.reading.missionDay} READING` : "NO READING"}
+                      Skipped · {row.reading ? `MD-${row.reading.missionDay} reading` : "no reading"}
                     </span>
                   ) : null}
                 </div>
