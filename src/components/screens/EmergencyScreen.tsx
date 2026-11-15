@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { EmergencyBodyMap } from "@/components/BodyMap";
 import { Screen, replayAnimation } from "@/components/Screen";
 import { useArgus } from "@/components/ArgusProvider";
 import {
@@ -39,6 +40,7 @@ const EMERGENCY_VITALS: IndicatorId[] = ["heartRate", "bloodPressure", "bodyTemp
 
 // Shown only with full access (the patient themselves, or after the full record is opened).
 const FULL_RECORD_EXTRA: IndicatorId[] = ["sleepDuration", "mood"];
+const ALL_VITALS: IndicatorId[] = [...EMERGENCY_VITALS, ...FULL_RECORD_EXTRA];
 
 // Age of a reading in words: "today", "3 d old" or "no reading".
 function ageText(missionDay: number, readingDay: number | null): string {
@@ -479,6 +481,15 @@ export function EmergencyScreen() {
                   advice is given here.
                 </span>
               </div>
+
+              {/* The patient's readings on the body, below the steps so it never pushes them down.
+                  It marks the same indicators the vitals panel lists for this access level. */}
+              {patient && access ? (
+                <EmergencyBodyMap
+                  crewId={patient.id}
+                  only={access === "full" ? ALL_VITALS : EMERGENCY_VITALS}
+                />
+              ) : null}
             </div>
           )}
         </div>
