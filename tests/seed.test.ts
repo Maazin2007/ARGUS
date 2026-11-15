@@ -64,3 +64,24 @@ test("day-212 seed temperature is amber on Earth and green in Mars transit", () 
   assert.equal(inTransit.status, "green");
   assert.equal(inTransit.referenceRange?.adjusted, true);
 });
+
+test("the demo profile's latest readings show no unknown and no red on the dashboard", () => {
+  const indicators = [...new Set(seed.map((r) => r.indicator))];
+  for (const indicator of indicators) {
+    const history = seed
+      .filter((r) => r.indicator === indicator)
+      .sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+    const latest = history[history.length - 1];
+    const result = getStatus(
+      latest,
+      history.slice(0, -1),
+      "marsTransit",
+      latest.missionDay,
+      new Date(latest.timestamp),
+    );
+    assert.ok(
+      result.status === "green" || result.status === "amber",
+      `${indicator} is ${result.status}: ${result.reasons.join(" ")}`,
+    );
+  }
+});

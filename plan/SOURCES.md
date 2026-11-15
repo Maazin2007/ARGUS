@@ -49,4 +49,8 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 | Low glucose escalation threshold                                                                                        | 54 mg/dL                                                 | `src/data/cards.json`        |
 | High glucose escalation threshold                                                                                       | 250 mg/dL                                                | `src/data/cards.json`        |
 | Fasting and post-meal glucose reference ranges                                                                          | 70–99 mg/dL fasting, < 140 mg/dL post-meal               | `src/data/cards.json`        |
+| Blood glucose reference ranges used by the status engine (same values as the card) | 70–99 mg/dL fasting, at most 139 mg/dL after a meal | `src/data/indicators.json` |
+| Blood glucose critical limits used by the status engine (same values as the card) | below 54 or above 250 mg/dL | `src/data/indicators.json` |
+| Mood: ratings flagged for review | 1 or 2 on the 1 to 5 scale | `src/data/indicators.json` |
+| Blood pressure reference limits stored as 119 / 79 mmHg, because AHA defines normal as less than 120 / 80 and the engine flags readings above the limit | 119 / 79 mmHg | `src/data/indicators.json` |
 | Short sleep escalation threshold                                                                                        | Less than 4 hours on two or more consecutive duty cycles | `src/data/cards.json`        |
