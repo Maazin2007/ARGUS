@@ -13,7 +13,7 @@ import {
   readingValues,
   ruleFor,
 } from "@/lib/indicatorMeta";
-import { COLOR_TOKENS } from "@/lib/indicatorMeta";
+import { COLOR_VAR } from "@/lib/indicatorMeta";
 
 // The chart covers the 14 mission days ending today, like the mockup (MD-199 to MD-212).
 const CHART_DAYS = 14;
@@ -28,10 +28,10 @@ const PY0 = 28;
 const PY1 = 268;
 
 // Display greys from the mockup. SVG attributes cannot read CSS variables, so they come from the shared tokens.
-const GREY = COLOR_TOKENS.muted;
-const GRID = COLOR_TOKENS.line;
-const AXIS = COLOR_TOKENS.line2;
-const INK = COLOR_TOKENS.ink;
+const GREY = COLOR_VAR.muted;
+const GRID = COLOR_VAR.line;
+const AXIS = COLOR_VAR.line2;
+const INK = COLOR_VAR.ink;
 
 // One drawn reading. `ys` and `values` hold one entry per series (two for blood pressure).
 type ChartPoint = {
@@ -85,7 +85,7 @@ export function StripChart({
   const firstDay = missionDay - (CHART_DAYS - 1);
 
   // Hover is remembered together with the indicator it belongs to, so switching
-  // indicators clears it without remounting the chart (which would replay the wipe).
+  // indicators clears it without remounting the chart.
   const [hover, setHover] = useState<{ id: IndicatorId; index: number }>({ id, index: -1 });
   const hoverIndex = hover.id === id ? hover.index : -1;
   const show = (index: number) => setHover({ id, index });
@@ -238,7 +238,7 @@ export function StripChart({
       } else if (status === "amber") {
         plot.push(<path key={key} d={`M${px} ${py - 9} L${px + 8} ${py + 6} H${px - 8} Z`} fill={STATUS_COLOR.amber} />);
       } else if (status === "unknown") {
-        plot.push(<circle key={key} cx={px} cy={py} r={5} fill={COLOR_TOKENS.panel} stroke={STATUS_COLOR.unknown} strokeWidth={1.5} />);
+        plot.push(<circle key={key} cx={px} cy={py} r={5} fill={COLOR_VAR.panel} stroke={STATUS_COLOR.unknown} strokeWidth={1.5} />);
       } else {
         plot.push(
           <rect
@@ -247,7 +247,7 @@ export function StripChart({
             y={py - 3.5}
             width={7}
             height={7}
-            fill={COLOR_TOKENS.panelWell}
+            fill={COLOR_VAR.panelWell}
             stroke={INK}
             strokeWidth={1.5}
             strokeOpacity={faded ? 0.55 : undefined}
@@ -283,7 +283,7 @@ export function StripChart({
         {p.ys.map((cy, i) => (
           <circle key={i} cx={p.x} cy={cy} r={8} fill="none" stroke={INK} strokeWidth={1.5} />
         ))}
-        <rect x={tx} y={ty} width={w} height={44} rx={2} fill={COLOR_TOKENS.bg} stroke={AXIS} />
+        <rect x={tx} y={ty} width={w} height={44} rx={2} fill={COLOR_VAR.bg} stroke={AXIS} />
         <text className="svg-t" x={tx + 12} y={ty + 17} fontSize={10} fill={GREY}>
           {dayText}
         </text>
@@ -331,9 +331,7 @@ export function StripChart({
   return (
     <div className="cell c8 flush">
       <div className="head">
-        <h2>
-          <span className="ix mono">01</span>Strip chart
-        </h2>
+        <h2>Strip chart</h2>
         <span className="hint mono">{`MD-${firstDay} to MD-${missionDay} · hover or use ← → for a reading`}</span>
       </div>
       <div className="chart well">
@@ -359,10 +357,10 @@ export function StripChart({
       </div>
       <div className="legend">
         <span>
-          <span className="sw" style={{ background: "rgba(138,136,130,.07)" }}></span>Reference range
+          <span className="sw" style={{ background: "color-mix(in srgb, var(--mu) 7%, transparent)" }}></span>Reference range
         </span>
         <span>
-          <span className="sw" style={{ background: "rgba(138,136,130,.2)" }}></span>Personal baseline
+          <span className="sw" style={{ background: "color-mix(in srgb, var(--mu) 20%, transparent)" }}></span>Personal baseline
         </span>
         <span>
           <span className="sw sw-dash"></span>Reference limit

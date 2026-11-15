@@ -81,10 +81,8 @@ export function DeviceImport() {
   return (
     <div className="cell c12">
       <div className="head">
-        <h2>
-          <span className="ix mono">03</span>Device import
-        </h2>
-        <span className="pill">SIMULATED DATA</span>
+        <h2>Device import</h2>
+        <span className="pill">Simulated data</span>
       </div>
       <div className="stack">
         <p className="note" style={{ margin: 0 }}>

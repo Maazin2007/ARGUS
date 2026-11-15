@@ -148,9 +148,7 @@ export function CheckInScreen() {
       <div className="grid">
         <div className="cell c4 flush">
           <div className="head">
-            <h2>
-              <span className="ix mono">01</span>Daily checklist
-            </h2>
+            <h2>Daily checklist</h2>
             <span className="hint mono" id="ci-count">
               {loggedCount} of {total} logged
             </span>

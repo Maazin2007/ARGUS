@@ -13,8 +13,12 @@ export const S = 2.82;
 export const CX = 318;
 export const CY = 296;
 export const F = 950;
-// x position of the REF tags on the right-hand side.
-export const TX = 478;
+// The tags that name each site sit in two columns: TX is the left edge of the right-hand
+// column and LX the left edge of the left-hand column. Each tag is TAG_W by TAG_H pixels.
+export const TX = 462;
+export const LX = 6;
+export const TAG_W = 92;
+export const TAG_H = 34;
 // Section plane height (model cm) when nothing is selected.
 export const DEFAULT_PLANE_Y = 132;
 
@@ -130,14 +134,18 @@ export function getRings(): { rings: Ring[]; pointCount: number } {
   return cachedRings;
 }
 
-// A measurement site on the figure.
-export type SiteRef = "T" | "HR" | "BP";
+// A site on the figure, one per indicator.
+// T, HR and BP sit where the reference cards say they are measured (forehead, chest, upper arm).
+// GLU, SLP and MOOD have no site in the cards, so their positions are for display only:
+// GLU on the hand, SLP and MOOD on either side of the head. They are not measurement instructions.
+export type SiteRef = "T" | "HR" | "BP" | "GLU" | "SLP" | "MOOD";
 export type Mark = {
   ref: SiteRef;
   id: IndicatorId;
+  side: "left" | "right"; // which tag column the site's tag is in
   p: Vec3; // position in model cm (re-seated on the suit surface once the 3D model loads)
   n: [number, number]; // facing direction in the horizontal plane (x, z), to dim sites on the far side
-  ty: number; // y of the REF tag on the canvas
+  ty: number; // y of the middle of the tag on the canvas
   sx: number; // last drawn screen position, for hit-testing
   sy: number;
 };
@@ -145,9 +153,12 @@ export type Mark = {
 // Fresh marks for each mount, because the 3D model moves them onto its surface.
 export function createMarks(): Mark[] {
   return [
-    { ref: "T", id: "bodyTemperature", p: [0, 171, 10.6], n: [0, 1], ty: 84, sx: 0, sy: 0 },
-    { ref: "HR", id: "heartRate", p: [6, 132, 11.4], n: [0.2, 1], ty: 196, sx: 0, sy: 0 },
-    { ref: "BP", id: "bloodPressure", p: [29.6, 126, 2], n: [1, 0.25], ty: 250, sx: 0, sy: 0 },
+    { ref: "T", id: "bodyTemperature", side: "right", p: [0, 171, 10.6], n: [0, 1], ty: 52, sx: 0, sy: 0 },
+    { ref: "MOOD", id: "mood", side: "right", p: [10.2, 167.5, 0], n: [1, 0], ty: 100, sx: 0, sy: 0 },
+    { ref: "HR", id: "heartRate", side: "right", p: [6, 132, 11.4], n: [0.2, 1], ty: 176, sx: 0, sy: 0 },
+    { ref: "BP", id: "bloodPressure", side: "right", p: [29.6, 126, 2], n: [1, 0.25], ty: 224, sx: 0, sy: 0 },
+    { ref: "SLP", id: "sleepDuration", side: "left", p: [-10.2, 167.5, 0], n: [-1, 0], ty: 70, sx: 0, sy: 0 },
+    { ref: "GLU", id: "bloodGlucose", side: "left", p: [-34, 76, 6.3], n: [-1, 0.3], ty: 330, sx: 0, sy: 0 },
   ];
 }
 

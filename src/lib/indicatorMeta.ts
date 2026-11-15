@@ -192,21 +192,39 @@ export const STATUS_TEXT: Record<StatusResult["status"], { symbol: string; label
 
 // The colour tokens from src/app/globals.css (:root), for code that cannot read
 // CSS variables: canvas drawing, the three.js body figure and SVG attributes.
-// This is the only hex map in the app (plus src/components/bodymap/).
-// tests/colorTokens.test.ts fails if these drift from globals.css, so change both together.
+// The colour tokens, copied from globals.css for the one place that cannot read CSS: canvas.
+// COLOR_TOKENS is the light theme and COLOR_TOKENS_DARK the dark one.
+// tests/colorTokens.test.ts fails if either drifts from globals.css, so change both together.
+// Everything else (SVG charts, inline styles) uses COLOR_VAR below, which follows the theme by itself.
 export const COLOR_TOKENS = {
-  bg: "#F2F1ED", // --bg
+  bg: "#F1F3F5", // --bg
   panel: "#FFFFFF", // --panel
-  panelWell: "#F6F5F2", // --panel-well
-  line: "#ECEAE5", // --line
-  line2: "#DAD7D0", // --line2
-  ink: "#16181A", // --tx
-  muted: "#666963", // --mu
+  panelWell: "#F5F6F8", // --panel-well
+  line: "#E3E6EA", // --line
+  line2: "#C9CED5", // --line2
+  ink: "#12161A", // --tx
+  muted: "#5A626B", // --mu
   green: "#2E7D4F", // --green
   amber: "#B7791F", // --amber
   red: "#C23A2E", // --red
-  unknown: "#8A8D88", // --unknown
+  unknown: "#80868E", // --unknown
 } as const;
+
+export type ColorTokens = Record<keyof typeof COLOR_TOKENS, string>;
+
+export const COLOR_TOKENS_DARK: ColorTokens = {
+  bg: "#0D1014",
+  panel: "#14181D",
+  panelWell: "#1A1F25",
+  line: "#232A31",
+  line2: "#3A444E",
+  ink: "#E6E9EC",
+  muted: "#98A2AD",
+  green: "#5FBF89",
+  amber: "#E2AD52",
+  red: "#F2776A",
+  unknown: "#8D97A1",
+};
 
 // Which CSS variable each token mirrors, used by the drift test.
 export const COLOR_TOKEN_VARS: Record<keyof typeof COLOR_TOKENS, string> = {
@@ -223,10 +241,26 @@ export const COLOR_TOKEN_VARS: Record<keyof typeof COLOR_TOKENS, string> = {
   unknown: "--unknown",
 };
 
-// Status colours for canvas and SVG fills that cannot use var().
+// The same tokens as `var(--name)` strings. SVG attributes and inline styles accept these,
+// and the browser swaps the value when the theme changes.
+export const COLOR_VAR: ColorTokens = {
+  bg: "var(--bg)",
+  panel: "var(--panel)",
+  panelWell: "var(--panel-well)",
+  line: "var(--line)",
+  line2: "var(--line2)",
+  ink: "var(--tx)",
+  muted: "var(--mu)",
+  green: "var(--green)",
+  amber: "var(--amber)",
+  red: "var(--red)",
+  unknown: "var(--unknown)",
+};
+
+// Status colours for SVG fills and inline styles.
 export const STATUS_COLOR: Record<StatusResult["status"], string> = {
-  green: COLOR_TOKENS.green,
-  amber: COLOR_TOKENS.amber,
-  red: COLOR_TOKENS.red,
-  unknown: COLOR_TOKENS.unknown,
+  green: COLOR_VAR.green,
+  amber: COLOR_VAR.amber,
+  red: COLOR_VAR.red,
+  unknown: COLOR_VAR.unknown,
 };

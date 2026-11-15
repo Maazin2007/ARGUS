@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import type { Reading, StatusResult } from "@/lib/types";
 import { STATUS_COLOR, readingValues } from "@/lib/indicatorMeta";
-import { COLOR_TOKENS } from "@/lib/indicatorMeta";
+import { COLOR_VAR } from "@/lib/indicatorMeta";
 
 // How many mission days the sparkline covers, ending on today's mission day.
 const SPARK_DAYS = 14;
 // Grey used by the mockup for the line and the baseline band (display only).
-const SPARK_GREY = COLOR_TOKENS.muted;
+const SPARK_GREY = COLOR_VAR.muted;
 
 type SparklineProps = {
   history: Reading[]; // oldest first
@@ -37,17 +36,6 @@ export function Sparkline({ history, result, missionDay }: SparklineProps) {
   const y = (v: number) => 23 - ((v - lo) / (hi - lo || 1)) * 18;
 
   const points = shown.map((r, i) => `${x(r.missionDay).toFixed(1)},${y(values[i]).toFixed(1)}`).join(" ");
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  // Restart the draw-in animation whenever this chart mounts or its line changes.
-  // Removing the class, forcing a layout read, then adding it back makes the browser replay it.
-  useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    svg.classList.remove("go");
-    void svg.getBoundingClientRect();
-    svg.classList.add("go");
-  }, [points]);
 
   if (!shown.length) {
     return (
@@ -63,7 +51,7 @@ export function Sparkline({ history, result, missionDay }: SparklineProps) {
   const color = STATUS_COLOR[result.status];
 
   return (
-    <svg ref={svgRef} className="spark" width="96" height="28" viewBox="0 0 96 28" aria-hidden="true">
+    <svg className="spark" width="96" height="28" viewBox="0 0 96 28" aria-hidden="true">
       {band ? (
         <rect
           x="1"
@@ -76,7 +64,6 @@ export function Sparkline({ history, result, missionDay }: SparklineProps) {
       ) : null}
       <polyline
         points={points}
-        pathLength="1"
         fill="none"
         stroke={SPARK_GREY}
         strokeWidth="1.25"
