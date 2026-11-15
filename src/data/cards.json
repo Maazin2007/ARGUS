@@ -6,14 +6,14 @@
       "source": "American Heart Association: All About Heart Rate (Pulse)"
     },
     "whyItMatters": {
-      "text": "A typical resting heart rate for adults ranges from 60 to 100 beats per minute. Highly trained athletes may have a resting heart rate of at least 40 beats per minute (typically 40 to 60 bpm).",
+      "text": "A typical resting heart rate for adults ranges from 60 to 100 beats per minute. Highly trained athletes may have a resting heart rate as low as 40 beats per minute.",
       "source": "American Heart Association: All About Heart Rate (Pulse)"
     },
     "hazardEffects": [
       {
         "hazard": "Gravity Fields",
-        "text": "In microgravity, fluids shift upward toward the head and blood plasma volume decreases, which can alter cardiovascular regulation and increase resting pulse.",
-        "source": "NASA Human Research Program: Five Hazards of Human Spaceflight"
+        "text": "In microgravity, cephalad fluid shifts and plasma volume loss alter autonomic cardiovascular regulation, which can impact orthostatic tolerance during gravity transitions.",
+        "source": "NASA Human Research Roadmap: Risk of Orthostatic Intolerance"
       }
     ],
     "selfCare": [
@@ -22,13 +22,13 @@
         "source": "Demo copy"
       },
       {
-        "text": "Maintain adequate daily hydration and electrolyte intake, particularly following countermeasure exercise sessions.",
-        "source": "NASA Human Research Roadmap: Risk of Orthostatic Intolerance"
+        "text": "Verify fluid intake and consider electrolyte replacement following countermeasure exercise sessions.",
+        "source": "Demo copy"
       }
     ],
     "whenToEscalate": {
       "text": "Notify the Crew Medical Officer if resting heart rate is consistently above 100 bpm, drops below 40 bpm (or below known athletic baseline), or occurs alongside chest pain, shortness of breath, or dizziness.",
-      "source": "Demo copy"
+      "source": "demo parameter"
     }
   },
   {
@@ -44,7 +44,7 @@
     "hazardEffects": [
       {
         "hazard": "Gravity Fields",
-        "text": "Resting core body temperature in astronauts gradually increases by approximately 1°C over the first 75 mission days in microgravity due to reduced convective heat dissipation and systemic inflammation.",
+        "text": "Resting core body temperature in astronauts gradually increases by approximately 1°C over the first 75 mission days in microgravity; authors note a possible correlation with impaired convective heat dissipation and systemic inflammatory markers rather than established causation.",
         "source": "Stahn et al. 2017, Scientific Reports"
       }
     ],
@@ -60,7 +60,7 @@
     ],
     "whenToEscalate": {
       "text": "Notify the Crew Medical Officer if core temperature exceeds 38.5°C (101.3°F), does not return toward baseline after resting, or is accompanied by chills or acute malaise.",
-      "source": "Demo copy"
+      "source": "demo parameter"
     }
   }
 ]

@@ -11,15 +11,18 @@ Sources support background and engineering choices. They do not medically valida
 | NASA Human Research Program: Risks of Human Spaceflight | Card section "what spaceflight does" | | |
 | NASA Human Research Roadmap: Risk of Orthostatic Intolerance | Fluid and electrolyte countermeasure guidance | Ihsan | 14 Nov 2026 |
 | Stahn et al. 2017, Increased core body temperature in astronauts during long-duration space missions, Scientific Reports. doi:10.1038/s41598-017-15560-w | Temperature adjustment and card | Ihsan / Angad | 14 Nov 2026 |
-| Norsk et al. 2015, Fluid shifts, vasodilatation and ambulatory blood pressure reduction during long duration spaceflight, Journal of Physiology. doi:10.1113/jphysiol.2014.284869 | Blood pressure adjustment | | |
+| Norsk et al. 2015, Fluid shifts, vasodilatation and ambulatory blood pressure reduction during long duration spaceflight, Journal of Physiology. doi:10.1113/jphysiol.2014.284869 | Blood pressure adjustment and card | Ihsan / Angad | 14 Nov 2026 |
 | Hinkelbein et al. 2020, CPR during spaceflight: a guideline for CPR in microgravity, Scand J Trauma Resusc Emerg Med | Emergency cardiac-arrest branch | | |
 | Institute of Medicine 2001, Safe Passage: Astronaut Care for Exploration Missions, chapter 6 | Background | | |
 | American Heart Association: All About Heart Rate (Pulse) | Resting heart rate range and measurement method | Ihsan | 14 Nov 2026 |
 | American Heart Association: Target Heart Rates Chart | Exercise zones only. Weak source for a resting range: use a page that states a resting range directly, or mark it a demo parameter | | |
-| American Heart Association: Understanding Blood Pressure Readings | Blood pressure range | | |
-| NIDDK: Continuous Glucose Monitoring | Glucose range | | |
+| American Heart Association: Understanding Blood Pressure Readings | Blood pressure range, measurement and hypertensive crisis | Ihsan | 14 Nov 2026 |
+| NIDDK: Continuous Glucose Monitoring | Glucose measurement and ranges | Ihsan | 14 Nov 2026 |
 | MedlinePlus: Temperature measurement | Temperature range, how to measure | Ihsan | 14 Nov 2026 |
-| CDC: About Sleep | Sleep range | | |
+| CDC: About Sleep | Sleep range and measurement | Ihsan | 14 Nov 2026 |
+| NASA Human Research Program: Risk of Adverse Health Outcomes from Altered Nutrition | Glucose metabolism & nutrition context in microgravity | Ihsan | 14 Nov 2026 |
+| NASA Human Research Program: Risk of Performance Decrements from Sleep Loss | Sleep loss and circadian disruption context | Ihsan | 14 Nov 2026 |
+| NASA Human Research Program: Risk of Adverse Behavioral Conditions and Psychiatric Disorders | Psychological adaptation during confinement | Ihsan | 14 Nov 2026 |
 
 An empty "Opened by" means nobody has checked the source yet, so no number from it may be used.
 
@@ -31,3 +34,5 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 |---|---|---|
 | Simulated one-way signal delay, station | 1 s | `src/data/environments.json` |
 | Simulated one-way signal delay, Mars transit | 720 s (12 min) | `src/data/environments.json` |
+| Critical low heart rate escalation threshold | 40 bpm | `src/data/cards.json` |
+| Fever escalation threshold | 38.5 °C | `src/data/cards.json` |
