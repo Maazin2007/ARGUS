@@ -1,0 +1,435 @@
+{
+  "healthyDays": 30,
+  "feverDays": 10,
+  "methods": [
+    {
+      "id": "earthRange",
+      "label": "Earth range only",
+      "firstAmberDay": 0,
+      "firstRedDay": 7,
+      "missed": 0,
+      "falseAmber": 30,
+      "falseRed": 0
+    },
+    {
+      "id": "adjustedRange",
+      "label": "Adjusted range",
+      "firstAmberDay": 5,
+      "firstRedDay": 7,
+      "missed": 5,
+      "falseAmber": 0,
+      "falseRed": 0
+    },
+    {
+      "id": "adjustedRangeAndBaseline",
+      "label": "Adjusted range and baseline",
+      "firstAmberDay": 3,
+      "firstRedDay": 7,
+      "missed": 3,
+      "falseAmber": 0,
+      "falseRed": 0
+    }
+  ],
+  "trace": [
+    {
+      "missionDay": 173,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 174,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 175,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 176,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 177,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 178,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 179,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 180,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 181,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 182,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 183,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 184,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 185,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 186,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 187,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 188,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 189,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 190,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 191,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 192,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 193,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 194,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 195,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 196,
+      "dayAfterOnset": null,
+      "value": 37.5,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 197,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 198,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 199,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 200,
+      "dayAfterOnset": null,
+      "value": 37.3,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 201,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 202,
+      "dayAfterOnset": null,
+      "value": 37.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 203,
+      "dayAfterOnset": 0,
+      "value": 37.6,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 204,
+      "dayAfterOnset": 1,
+      "value": 37.7,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 205,
+      "dayAfterOnset": 2,
+      "value": 37.9,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "green"
+      }
+    },
+    {
+      "missionDay": 206,
+      "dayAfterOnset": 3,
+      "value": 37.9,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "amber"
+      }
+    },
+    {
+      "missionDay": 207,
+      "dayAfterOnset": 4,
+      "value": 38.1,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "green",
+        "adjustedRangeAndBaseline": "amber"
+      }
+    },
+    {
+      "missionDay": 208,
+      "dayAfterOnset": 5,
+      "value": 38.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "amber",
+        "adjustedRangeAndBaseline": "amber"
+      }
+    },
+    {
+      "missionDay": 209,
+      "dayAfterOnset": 6,
+      "value": 38.4,
+      "statuses": {
+        "earthRange": "amber",
+        "adjustedRange": "amber",
+        "adjustedRangeAndBaseline": "amber"
+      }
+    },
+    {
+      "missionDay": 210,
+      "dayAfterOnset": 7,
+      "value": 38.6,
+      "statuses": {
+        "earthRange": "red",
+        "adjustedRange": "red",
+        "adjustedRangeAndBaseline": "red"
+      }
+    },
+    {
+      "missionDay": 211,
+      "dayAfterOnset": 8,
+      "value": 38.8,
+      "statuses": {
+        "earthRange": "red",
+        "adjustedRange": "red",
+        "adjustedRangeAndBaseline": "red"
+      }
+    },
+    {
+      "missionDay": 212,
+      "dayAfterOnset": 9,
+      "value": 38.9,
+      "statuses": {
+        "earthRange": "red",
+        "adjustedRange": "red",
+        "adjustedRangeAndBaseline": "red"
+      }
+    }
+  ]
+}

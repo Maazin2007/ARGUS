@@ -73,6 +73,8 @@ Write `adjustRange(rule, environment, missionDay)`. If the rule has an adjustmen
 adjusted limit = earth limit + shift × min(missionDay ÷ rampDays, 1)
 ```
 
+Only the end the shift points towards moves. A positive shift raises the upper limit and a negative shift lowers the lower limit; the other end stays at the Earth value. Otherwise an ordinary 36.8 °C would be flagged as "too low" late in a mission.
+
 The `min(..., 1)` stops the shift growing past its full size. Use the adjusted range in step 3's amber check and set `adjusted: true` in the result. Never apply it to the critical limit.
 
 Tests: mission day 0 gives the Earth range; a day past `rampDays` gives the full shift; a temperature that is amber on Earth is green late in the mission; a temperature above the critical limit is still red.

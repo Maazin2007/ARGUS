@@ -69,7 +69,7 @@ export type Measure =
 
 export type Adjustment = {
   environments: Environment[];
-  shift: number; // added to both ends of the earth range at full ramp
+  shift: number; // at full ramp: a positive shift raises the upper limit, a negative one lowers the lower limit
   rampDays: number;
   source: string;
   note: string;
