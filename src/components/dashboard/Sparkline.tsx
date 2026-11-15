@@ -3,11 +3,12 @@
 import { useEffect, useRef } from "react";
 import type { Reading, StatusResult } from "@/lib/types";
 import { STATUS_COLOR, readingValues } from "@/lib/indicatorMeta";
+import { COLOR_TOKENS } from "@/lib/indicatorMeta";
 
 // How many mission days the sparkline covers, ending on today's mission day.
 const SPARK_DAYS = 14;
 // Grey used by the mockup for the line and the baseline band (display only).
-const SPARK_GREY = "#7C7F7A";
+const SPARK_GREY = COLOR_TOKENS.muted;
 
 type SparklineProps = {
   history: Reading[]; // oldest first

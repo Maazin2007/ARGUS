@@ -175,10 +175,43 @@ export const STATUS_TEXT: Record<StatusResult["status"], { symbol: string; label
   unknown: { symbol: "?", label: "Unknown" },
 };
 
-// Hex values matching the CSS tokens, for canvas and SVG fills that cannot use var().
+// The colour tokens from src/app/globals.css (:root), for code that cannot read
+// CSS variables: canvas drawing, the three.js body figure and SVG attributes.
+// This is the only hex map in the app (plus src/components/bodymap/).
+// tests/colorTokens.test.ts fails if these drift from globals.css, so change both together.
+export const COLOR_TOKENS = {
+  bg: "#F2F1ED", // --bg
+  panel: "#FFFFFF", // --panel
+  panelWell: "#F6F5F2", // --panel-well
+  line: "#ECEAE5", // --line
+  line2: "#DAD7D0", // --line2
+  ink: "#16181A", // --tx
+  muted: "#666963", // --mu
+  green: "#2E7D4F", // --green
+  amber: "#B7791F", // --amber
+  red: "#C23A2E", // --red
+  unknown: "#8A8D88", // --unknown
+} as const;
+
+// Which CSS variable each token mirrors, used by the drift test.
+export const COLOR_TOKEN_VARS: Record<keyof typeof COLOR_TOKENS, string> = {
+  bg: "--bg",
+  panel: "--panel",
+  panelWell: "--panel-well",
+  line: "--line",
+  line2: "--line2",
+  ink: "--tx",
+  muted: "--mu",
+  green: "--green",
+  amber: "--amber",
+  red: "--red",
+  unknown: "--unknown",
+};
+
+// Status colours for canvas and SVG fills that cannot use var().
 export const STATUS_COLOR: Record<StatusResult["status"], string> = {
-  green: "#2E7D4F",
-  amber: "#B7791F",
-  red: "#C23A2E",
-  unknown: "#8A8D88",
+  green: COLOR_TOKENS.green,
+  amber: COLOR_TOKENS.amber,
+  red: COLOR_TOKENS.red,
+  unknown: COLOR_TOKENS.unknown,
 };

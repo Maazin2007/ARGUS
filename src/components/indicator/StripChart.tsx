@@ -13,6 +13,7 @@ import {
   readingValues,
   ruleFor,
 } from "@/lib/indicatorMeta";
+import { COLOR_TOKENS } from "@/lib/indicatorMeta";
 
 // The chart covers the 14 mission days ending today, like the mockup (MD-199 to MD-212).
 const CHART_DAYS = 14;
@@ -26,11 +27,11 @@ const PX1 = 748;
 const PY0 = 28;
 const PY1 = 268;
 
-// Display greys from the mockup. SVG attributes cannot read CSS variables, so they are hex here.
-const GREY = "#7C7F7A";
-const GRID = "#ECEAE5";
-const AXIS = "#DAD7D0";
-const INK = "#16181A";
+// Display greys from the mockup. SVG attributes cannot read CSS variables, so they come from the shared tokens.
+const GREY = COLOR_TOKENS.muted;
+const GRID = COLOR_TOKENS.line;
+const AXIS = COLOR_TOKENS.line2;
+const INK = COLOR_TOKENS.ink;
 
 // One drawn reading. `ys` and `values` hold one entry per series (two for blood pressure).
 type ChartPoint = {
@@ -237,7 +238,7 @@ export function StripChart({
       } else if (status === "amber") {
         plot.push(<path key={key} d={`M${px} ${py - 9} L${px + 8} ${py + 6} H${px - 8} Z`} fill={STATUS_COLOR.amber} />);
       } else if (status === "unknown") {
-        plot.push(<circle key={key} cx={px} cy={py} r={5} fill="#fff" stroke={STATUS_COLOR.unknown} strokeWidth={1.5} />);
+        plot.push(<circle key={key} cx={px} cy={py} r={5} fill={COLOR_TOKENS.panel} stroke={STATUS_COLOR.unknown} strokeWidth={1.5} />);
       } else {
         plot.push(
           <rect
@@ -246,7 +247,7 @@ export function StripChart({
             y={py - 3.5}
             width={7}
             height={7}
-            fill="#F6F5F2"
+            fill={COLOR_TOKENS.panelWell}
             stroke={INK}
             strokeWidth={1.5}
             strokeOpacity={faded ? 0.55 : undefined}
@@ -282,7 +283,7 @@ export function StripChart({
         {p.ys.map((cy, i) => (
           <circle key={i} cx={p.x} cy={cy} r={8} fill="none" stroke={INK} strokeWidth={1.5} />
         ))}
-        <rect x={tx} y={ty} width={w} height={44} rx={2} fill="#F2F1ED" stroke={AXIS} />
+        <rect x={tx} y={ty} width={w} height={44} rx={2} fill={COLOR_TOKENS.bg} stroke={AXIS} />
         <text className="svg-t" x={tx + 12} y={ty + 17} fontSize={10} fill={GREY}>
           {dayText}
         </text>
