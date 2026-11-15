@@ -56,11 +56,11 @@
     "unit": "mmHg",
     "context": "resting",
     "systolic": {
-      "base": 118,
+      "base": 110,
       "noise": 5
     },
     "diastolic": {
-      "base": 76,
+      "base": 70,
       "noise": 4
     },
     "source": "demo parameter"

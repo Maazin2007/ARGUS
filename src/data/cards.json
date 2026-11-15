@@ -103,7 +103,7 @@
     },
     "whyItMatters": {
       "text": "Blood glucose reflects how the body manages carbohydrates. In fasting adults, typical levels sit between 70 and 99 mg/dL, and below 140 mg/dL two hours after a meal.",
-      "source": "demo parameter"
+      "source": "NIDDK: Diabetes Tests & Diagnosis (https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis)"
     },
     "hazardEffects": [
       {
@@ -124,7 +124,7 @@
     ],
     "whenToEscalate": {
       "text": "Notify the Crew Medical Officer if blood glucose drops below 54 mg/dL or exceeds 250 mg/dL, or if accompanied by nausea, shakiness, confusion, or weakness.",
-      "source": "demo parameter"
+      "source": "American Diabetes Association Standards of Care (Level 2 hypoglycaemia < 54 mg/dL); 250 mg/dL upper limit is a demo parameter"
     }
   },
   {
