@@ -53,7 +53,7 @@ Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Ti
 - [ ] Maazin: median and spread; unknown, red, amber, green rules; environment adjustment; tests
 - [ ] Angad: `storage.ts`; `validate.ts`; resting heart-rate and temperature rules with sources
 - [ ] James: `feelVsData.ts`; generator with a fixed seed; `seed.json` with the demo path
-- [ ] Cards writer: heart-rate and temperature cards
+- [ ] Ihsan: Cards writer: heart-rate and temperature cards
 - [ ] Frontend: list view first; heart-rate and temperature entry; `StatusBadge`; indicator screen with chart; environment switch; then the body figure
 - [ ] All, 5:30 PM: demo heart rate and temperature (Earth versus Mars transit) together and list what is missing
 
@@ -68,7 +68,7 @@ Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Ti
 ## Milestone 3: six indicators and evidence (Sunday, 11:00 AM)
 
 - [ ] Angad: glucose, sleep and mood rules
-- [ ] Cards writer: remaining cards
+- [ ] Ihsan: Cards writer: remaining cards
 - [ ] Maazin: all six indicators return real statuses; full test list passes
 - [ ] James: `npm run evaluate` writes `results/fever.md` from the real engine
 - [ ] Frontend: full check-in; dashboard on real statuses; escalation card with signal delay from `environments.json`; "Simulated" tag
