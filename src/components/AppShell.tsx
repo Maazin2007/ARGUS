@@ -68,14 +68,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <span className="val mono">
             {active ? active.code : "--"}{" "}
             {active ? (
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm"
-                style={{ minHeight: 28, padding: "0 10px" }}
-                onClick={() => setActiveCrew(null)}
-              >
-                Switch
-              </button>
+              // Reads the URL, so Next.js 16 needs it inside <Suspense>.
+              <Suspense fallback={null}>
+                <SwitchButton onSwitch={() => setActiveCrew(null)} />
+              </Suspense>
             ) : null}
           </span>
         </div>
@@ -163,6 +159,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <span>NASA Space Apps Challenge 2026 · Team SpaceRangers · prototype</span>
       </footer>
     </div>
+  );
+}
+
+// Signs the current crewmember out, back to "Who is using this console?". Hidden in emergency
+// mode: switching there would clear the patient, the step log and the access log mid-emergency.
+function SwitchButton({ onSwitch }: { onSwitch: () => void }) {
+  const pathname = usePathname();
+  if (pathname.startsWith("/emergency")) return null;
+  return (
+    <button
+      type="button"
+      className="btn btn-ghost btn-sm"
+      style={{ minHeight: 28, padding: "0 10px" }}
+      onClick={onSwitch}
+    >
+      Switch
+    </button>
   );
 }
 
