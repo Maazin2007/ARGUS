@@ -63,7 +63,7 @@ function CrewBoard() {
                       </td>
                       <td className="r">
                         {needsHelp && member.id !== activeCrewId ? (
-                          <Link className="btn btn-sm" href="/emergency">
+                          <Link className="btn btn-sm" href={`/emergency?patient=${member.id}`}>
                             Open emergency
                           </Link>
                         ) : null}

@@ -6,7 +6,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Fragment, Suspense, useEffect, useRef, useState } from "react";
 import type { Status } from "@/lib/types";
 import { ENVIRONMENTS, STATUS_TEXT, environmentInfo } from "@/lib/indicatorMeta";
 import { useAllStatuses, useArgus } from "@/components/ArgusProvider";
@@ -64,20 +64,39 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <span className="brand-sub">Crew health monitoring</span>
         </div>
         <div>
-          <span className="lbl">Using this console</span>
-          <span className="val mono">
-            {active ? active.code : "--"}{" "}
-            {active ? (
-              <button
-                type="button"
-                className="btn btn-ghost btn-sm"
-                style={{ minHeight: 28, padding: "0 10px" }}
-                onClick={() => setActiveCrew(null)}
-              >
-                Switch
-              </button>
-            ) : null}
-          </span>
+          <label className="lbl" htmlFor="crew-switch">
+            Using this console
+          </label>
+          {/* A plain menu: pick a name to switch straight to that crewmember, on the same screen.
+              "Sign out" goes back to "Who is using this console?". */}
+          <select
+            id="crew-switch"
+            className="mono"
+            value={activeCrewId ?? ""}
+            onChange={(e) => setActiveCrew(e.target.value || null)}
+            style={{
+              display: "block",
+              width: 140, // the closed menu shows the code and the start of the role; the list shows all of it
+              textOverflow: "ellipsis",
+              minHeight: 34,
+              padding: "0 8px",
+              border: "1px solid var(--line2)",
+              borderRadius: "var(--r-ctl)",
+              background: "var(--panel)",
+              color: "var(--tx)",
+              font: "inherit",
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            {active ? null : <option value="">Choose a crewmember</option>}
+            {CREW.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.code} · {c.role}
+              </option>
+            ))}
+            {active ? <option value="">Sign out</option> : null}
+          </select>
         </div>
         <div>
           <span className="lbl">Six indicators</span>
@@ -180,7 +199,11 @@ function CrewGate({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  if (!ready || activeCrewId || pathname.startsWith("/emergency")) return <>{children}</>;
+  // The key remounts every screen when the crewmember changes, so nothing one person typed
+  // (a half-finished check-in, an emergency log) is carried over to the next.
+  if (!ready || activeCrewId || pathname.startsWith("/emergency")) {
+    return <Fragment key={activeCrewId ?? "none"}>{children}</Fragment>;
+  }
   return (
     <section className="screen on" aria-label="Who is using this console">
       <div className="grid">

@@ -66,7 +66,7 @@ Cut the bracketed parts for a shorter slot.
 >
 > And for the moment in the challenge video, a crewmate collapsing, there is a full-screen emergency mode. The responder selects who collapsed and who is responding. It shows the rescue vitals immediately, lets the responder open the full record in one logged tap—because in an arrest a rescuer cannot be blocked by a PIN—and walks the published microgravity CPR guideline one step at a time.
 >
-> Just as important is what ARGUS refuses to do. It does not diagnose. It gives no medication advice. It never shows green for a reading it could not check. And 149 automated tests verify the logic and fail the build if any medical number, card, or emergency step lacks a source or demo label.
+> Just as important is what ARGUS refuses to do. It does not diagnose. It gives no medication advice. It never shows green for a reading it could not check. And 150 automated tests verify the logic and fail the build if any medical number, card, or emergency step lacks a source or demo label.
 >
 > On the way to Mars, the doctor is minutes away. ARGUS is for that gap.
 
@@ -82,7 +82,7 @@ Few words per slide. The demo carries the detail.
 | 4 | It knows it is in space | Temperature & blood pressure adjustment (Stahn et al. 2017; Norsk et al. 2015) + outlier-resistant personal baseline. "The range moves. The critical limit never does." |
 | 5 | We tested it (5 scenarios × 100 seeds) | Headline results table (`results/summary.md`). "Pre-registered expectations. 100 Monte Carlo seeds per scenario. Honest trade-offs." |
 | 6 | When a crewmate collapses | Red emergency mode screenshot: Patient + Responder selection, logged break-the-glass vitals access, and Published microgravity CPR step (Hinkelbein et al. 2020). |
-| 7 | What it refuses to do | No diagnosis. No medication advice. No green without a check. 149 automated tests guarding every rule and source. Live URL and repository. |
+| 7 | What it refuses to do | No diagnosis. No medication advice. No green without a check. 150 automated tests guarding every rule and source. Live URL and repository. |
 
 Screenshots: take them from the live site after pressing "Load demo profile", so every slide shows the same data.
 
@@ -105,7 +105,7 @@ ARGUS is an on-board browser application that helps astronauts assess their own 
 
 **How we built it**
 
-React and TypeScript on Next.js, hosted on Vercel, with zero server or database dependencies so all health data remains on board in `localStorage`. All status, baseline, validation, device-import, handover, and emergency-tree logic lives in pure functions backed by **149 automated tests**. Medical numbers live in JSON data files, each verified by automated tests to carry a citation from `plan/SOURCES.md` or an explicit `"demo parameter"` / `"Demo copy"` label. `npm run evaluate` deterministically regenerates `results/fever.md` and the 5-scenario, 100-seed `results/summary.md`.
+React and TypeScript on Next.js, hosted on Vercel, with zero server or database dependencies so all health data remains on board in `localStorage`. All status, baseline, validation, device-import, handover, and emergency-tree logic lives in pure functions backed by **150 automated tests**. Medical numbers live in JSON data files, each verified by automated tests to carry a citation from `plan/SOURCES.md` or an explicit `"demo parameter"` / `"Demo copy"` label. `npm run evaluate` deterministically regenerates `results/fever.md` and the 5-scenario, 100-seed `results/summary.md`.
 
 **Results**
 

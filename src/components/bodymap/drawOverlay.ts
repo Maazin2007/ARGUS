@@ -14,6 +14,10 @@ export type SiteStyle = {
   symbol: string; // the status symbol from STATUS_TEXT, so status never relies on colour alone
   value: string; // latest reading, already formatted, or "--"
   unit: string;
+  // Emergency mode only. hidden: the site is not drawn at all (the responder may not see it).
+  // quiet: a small marker with no tag, so only the sites that need attention carry a label.
+  hidden?: boolean;
+  quiet?: boolean;
 };
 
 export type OverlayFrame = {
@@ -201,6 +205,7 @@ export function drawOverlay(f: OverlayFrame) {
     }
     ctx.lineWidth = 1;
     for (const m of marks) {
+      if (styles[m.ref].hidden) continue;
       if (Math.abs(m.p[1] - planeY) < 4) {
         ctx.fillStyle = colors[styles[m.ref].status];
         ctx.fillRect(
@@ -226,10 +231,28 @@ export function drawOverlay(f: OverlayFrame) {
     const facing = -m.n[0] * sa + m.n[1] * ca;
     const isVisible = facing > -0.1;
     const isOn = hot === m.ref;
-    const { status, isSquare, symbol, value, unit } = styles[m.ref];
+    const { status, isSquare, symbol, value, unit, hidden, quiet } = styles[m.ref];
     const color = colors[status];
     m.sx = q[0];
     m.sy = q[1];
+    if (hidden) continue;
+    if (quiet) {
+      // A small marker in the status colour and shape, with no leader line and no tag.
+      ctx.globalAlpha = isVisible ? 0.75 : 0.3;
+      ctx.fillStyle = color;
+      if (isSquare) {
+        ctx.fillRect(q[0] - 3.5, q[1] - 3.5, 7, 7);
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(q[0], q[1] - 5);
+        ctx.lineTo(q[0] + 5, q[1] + 4);
+        ctx.lineTo(q[0] - 5, q[1] + 4);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      continue;
+    }
 
     // Tag box: left column or right column. The leader meets the edge that faces the figure.
     const tagX = m.side === "right" ? TX : LX;

@@ -43,6 +43,15 @@ export type BodyMapProps = {
   onToggleWide: () => void;
 };
 
+// The emergency screen's figure: one crewmember's stored readings, front view, held still.
+export type EmergencyBodyMapProps = {
+  crewId: string; // whose readings to show (the patient)
+  only: IndicatorId[]; // the indicators the responder may see; the rest are not drawn
+};
+
+// Worst first: the site the emergency figure points its section plane at.
+const ATTENTION_ORDER = ["red", "amber"] as const;
+
 // Which indicator each site on the figure stands for (positions are in bodymap/geometry.ts).
 const SITE_IDS: Record<SiteRef, IndicatorId> = {
   T: "bodyTemperature",
@@ -80,8 +89,25 @@ type Motion = {
   swayStart: number; // timestamp the sway started
 };
 
-export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps) {
-  const { statusFor } = useArgus();
+// The same figure on the emergency screen. It shows the patient's readings, faces front and does
+// not move or respond to the pointer: nothing here should pull attention away from the steps.
+// Sites within range are small quiet markers; only a site that needs review or is critical gets
+// its tag, so the responder's eye goes straight to it.
+export function EmergencyBodyMap({ crewId, only }: EmergencyBodyMapProps) {
+  return <BodyMapFigure emergency={{ crewId, only }} />;
+}
+
+export function BodyMap(props: BodyMapProps) {
+  return <BodyMapFigure dashboard={props} />;
+}
+
+const NO_DASHBOARD: BodyMapProps = { hot: null, onHotChange: () => {}, isWide: false, onToggleWide: () => {} };
+
+function BodyMapFigure({ dashboard, emergency }: { dashboard?: BodyMapProps; emergency?: EmergencyBodyMapProps }) {
+  const { hot, onHotChange, isWide, onToggleWide } = dashboard ?? NO_DASHBOARD;
+  const { statusFor: statusForActive, statusForCrew } = useArgus();
+  const statusFor = (id: IndicatorId) => (emergency ? statusForCrew(emergency.crewId, id) : statusForActive(id));
+  const isEmergency = emergency !== undefined;
   const router = useRouter();
   const [view, setView] = useState("auto");
   const [hasGl, setHasGl] = useState(false);
@@ -119,9 +145,18 @@ export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps
       symbol: STATUS_TEXT[result.status].symbol,
       value: latest ? formatReading(latest) : "--",
       unit: latest ? INDICATORS[id].unit : "",
+      hidden: emergency ? !emergency.only.includes(id) : false,
+      quiet: emergency ? result.status === "green" : false,
     };
   }
   const stylesRef = useRef(styles);
+  // Emergency: the worst visible site, so the section plane and the highlight sit on the problem.
+  const attentionSite: SiteRef | null = emergency
+    ? (ATTENTION_ORDER.flatMap((status) =>
+        SITE_REFS.filter((ref) => !styles[ref].hidden && styles[ref].status === status),
+      )[0] ?? null)
+    : null;
+  const isEmergencyRef = useRef(isEmergency);
 
   useEffect(() => {
     stylesRef.current = styles;
@@ -130,11 +165,12 @@ export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps
   });
 
   // A hovered dashboard row moves the section plane, like the mockup's row hover.
+  // On the emergency screen the site that needs attention takes that place.
   useEffect(() => {
-    const ref = siteFor(hot);
+    const ref = isEmergency ? attentionSite : siteFor(hot);
     hotRef.current = ref;
     if (ref) selectedRef.current = ref;
-  }, [hot]);
+  }, [hot, isEmergency, attentionSite]);
 
   // Set up both canvases, and tear everything down in the cleanup.
   // Next.js keeps a page you leave alive but hidden (React <Activity>): it runs this cleanup when you
@@ -172,6 +208,13 @@ export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps
     if (isStill) {
       m.isAuto = false;
       m.angle = 0.4;
+    }
+    // Emergency: face front and hold still, whatever the motion setting.
+    const isFixed = isEmergencyRef.current;
+    if (isFixed) {
+      m.isAuto = false;
+      m.target = null;
+      m.angle = 0;
     }
 
     const solid = startSolidFigure(glCanvas, marks, () => setHasGl(true));
@@ -273,10 +316,15 @@ export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps
     function onLeave() {
       if (!m.isDragging) setHot(null);
     }
-    cv.addEventListener("pointerdown", onDown);
-    cv.addEventListener("pointermove", onMove);
-    cv.addEventListener("pointerup", onUp);
-    cv.addEventListener("pointerleave", onLeave);
+    // The emergency figure is read-only: no dragging, no hover, no opening an indicator page.
+    if (isFixed) {
+      cv.style.cursor = "default";
+    } else {
+      cv.addEventListener("pointerdown", onDown);
+      cv.addEventListener("pointermove", onMove);
+      cv.addEventListener("pointerup", onUp);
+      cv.addEventListener("pointerleave", onLeave);
+    }
 
     return () => {
       cancelAnimationFrame(frameId);
@@ -305,6 +353,26 @@ export function BodyMap({ hot, onHotChange, isWide, onToggleWide }: BodyMapProps
       // Take the short way round to the chosen view.
       m.target = m.angle + Math.atan2(Math.sin(goal - m.angle), Math.cos(goal - m.angle));
     }
+  }
+
+  if (isEmergency) {
+    return (
+      // Centred in the panel, with no background of its own, so it sits on the panel seamlessly.
+      <div style={{ maxWidth: 440, margin: "0 auto" }}>
+        <div className={hasGl ? "bm has-gl" : "bm"} style={{ margin: 0, background: "transparent" }}>
+          <div ref={glHostRef} />
+          <canvas
+            ref={overlayRef}
+            id="bm"
+            role="img"
+            aria-label="Front view of a crewmember in a flight suit with the patient's latest stored readings marked at their sites. Sites that need review or are critical carry a tag with the reading. The same readings are in the Latest vitals list."
+          />
+        </div>
+        <p className="hint" style={{ margin: "8px 0 0", textAlign: "center" }}>
+          Latest stored readings, not live. Only sites that need attention are labelled.
+        </p>
+      </div>
+    );
   }
 
   return (

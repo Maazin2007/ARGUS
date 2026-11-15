@@ -34,10 +34,21 @@ test("a crewmember who stopped logging is overdue, and stale readings are never 
   assert.notEqual(summary.status, "green");
 });
 
-test("the demo crew shows exactly one critical and one overdue crewmember", () => {
+test("the demo crew shows one critical, one needing review, one overdue and two within range", () => {
   const summaries = CREW.map((member) => summaryOf(member.id));
   assert.equal(summaries.filter((s) => s.status === "red").length, 1);
+  assert.equal(summaries.filter((s) => s.status === "amber").length, 1);
   assert.equal(summaries.filter((s) => s.overdue).length, 1);
+  assert.equal(summaries.filter((s) => s.status === "green" && !s.overdue).length, 2);
+});
+
+test("each demo crewmember has their own latest heart rate", () => {
+  const latest = CREW.map((member) => {
+    const heartRates = demoReadingsFor(member.id).filter((r) => r.indicator === "heartRate");
+    const last = heartRates[heartRates.length - 1];
+    return last.indicator === "heartRate" ? last.value : null;
+  });
+  assert.equal(new Set(latest).size, CREW.length);
 });
 
 test("every demo reading is marked simulated and ids are unique across the crew", () => {

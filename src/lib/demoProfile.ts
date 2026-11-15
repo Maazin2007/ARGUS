@@ -1,7 +1,7 @@
 // Fills storage with a simulated demo profile for every crewmember, so the pitch
 // never starts from an empty dashboard. Everyone starts from seed.json; the demo
-// parameters in src/data/crew.json then make one crewmember critical and one
-// overdue, so the crew board has something to show. Every reading is marked
+// parameters in src/data/crew.json then make one crewmember critical, one
+// overdue, one short of sleep, and give everyone their own usual values. Every reading is marked
 // `simulated: true`, which keeps the "Simulated data" tags on screen.
 
 import seed from "@/data/seed.json";
@@ -25,17 +25,25 @@ export function demoReadingsFor(crewId: string): Reading[] {
         id: crewId === CONSOLE_OWNER_ID ? reading.id : `${reading.id}-${crewId}`,
         provenance: "seed" as const,
       };
-      if (base.indicator === "heartRate") {
-        return { ...base, value: base.value + (demo.heartRateOffset ?? 0) };
+      const offsets = demo.offsets ?? {};
+      // One decimal at most, like the seed, so an offset never leaves a long fraction.
+      const shifted = (value: number, offset = 0) => Number((value + offset).toFixed(1));
+      if (base.indicator === "bloodPressure") {
+        return {
+          ...base,
+          systolic: shifted(base.systolic, offsets.systolic),
+          diastolic: shifted(base.diastolic, offsets.diastolic),
+        };
       }
-      if (
-        base.indicator === "bodyTemperature" &&
-        base.missionDay === lastDay &&
-        demo.lastDayTemperature !== undefined
-      ) {
+      const isLastDay = base.missionDay === lastDay;
+      if (base.indicator === "bodyTemperature" && isLastDay && demo.lastDayTemperature !== undefined) {
         return { ...base, value: demo.lastDayTemperature };
       }
-      return base;
+      if (base.indicator === "sleepDuration" && isLastDay && demo.lastDaySleep !== undefined) {
+        return { ...base, value: demo.lastDaySleep };
+      }
+      if (base.indicator === "mood") return base;
+      return { ...base, value: shifted(base.value, offsets[base.indicator]) };
     });
 }
 
