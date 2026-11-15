@@ -2,7 +2,7 @@
   {
     "id": "seed-heartRate-183",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-10-16T13:00:00.000Z",
     "missionDay": 183,
@@ -13,7 +13,7 @@
   {
     "id": "seed-heartRate-184",
     "indicator": "heartRate",
-    "value": 61,
+    "value": 65,
     "unit": "bpm",
     "timestamp": "2026-10-17T13:00:00.000Z",
     "missionDay": 184,
@@ -24,7 +24,7 @@
   {
     "id": "seed-heartRate-185",
     "indicator": "heartRate",
-    "value": 64,
+    "value": 68,
     "unit": "bpm",
     "timestamp": "2026-10-18T13:00:00.000Z",
     "missionDay": 185,
@@ -35,7 +35,7 @@
   {
     "id": "seed-heartRate-186",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-10-19T13:00:00.000Z",
     "missionDay": 186,
@@ -46,7 +46,7 @@
   {
     "id": "seed-heartRate-187",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-10-20T13:00:00.000Z",
     "missionDay": 187,
@@ -57,7 +57,7 @@
   {
     "id": "seed-heartRate-188",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-10-21T13:00:00.000Z",
     "missionDay": 188,
@@ -68,7 +68,7 @@
   {
     "id": "seed-heartRate-189",
     "indicator": "heartRate",
-    "value": 63,
+    "value": 67,
     "unit": "bpm",
     "timestamp": "2026-10-22T13:00:00.000Z",
     "missionDay": 189,
@@ -79,7 +79,7 @@
   {
     "id": "seed-heartRate-190",
     "indicator": "heartRate",
-    "value": 61,
+    "value": 65,
     "unit": "bpm",
     "timestamp": "2026-10-23T13:00:00.000Z",
     "missionDay": 190,
@@ -90,7 +90,7 @@
   {
     "id": "seed-heartRate-191",
     "indicator": "heartRate",
-    "value": 63,
+    "value": 67,
     "unit": "bpm",
     "timestamp": "2026-10-24T13:00:00.000Z",
     "missionDay": 191,
@@ -101,7 +101,7 @@
   {
     "id": "seed-heartRate-192",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-10-25T13:00:00.000Z",
     "missionDay": 192,
@@ -112,7 +112,7 @@
   {
     "id": "seed-heartRate-193",
     "indicator": "heartRate",
-    "value": 59,
+    "value": 63,
     "unit": "bpm",
     "timestamp": "2026-10-26T13:00:00.000Z",
     "missionDay": 193,
@@ -123,7 +123,7 @@
   {
     "id": "seed-heartRate-194",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-10-27T13:00:00.000Z",
     "missionDay": 194,
@@ -134,7 +134,7 @@
   {
     "id": "seed-heartRate-195",
     "indicator": "heartRate",
-    "value": 59,
+    "value": 63,
     "unit": "bpm",
     "timestamp": "2026-10-28T13:00:00.000Z",
     "missionDay": 195,
@@ -145,7 +145,7 @@
   {
     "id": "seed-heartRate-196",
     "indicator": "heartRate",
-    "value": 62,
+    "value": 66,
     "unit": "bpm",
     "timestamp": "2026-10-29T13:00:00.000Z",
     "missionDay": 196,
@@ -156,7 +156,7 @@
   {
     "id": "seed-heartRate-197",
     "indicator": "heartRate",
-    "value": 62,
+    "value": 66,
     "unit": "bpm",
     "timestamp": "2026-10-30T13:00:00.000Z",
     "missionDay": 197,
@@ -167,7 +167,7 @@
   {
     "id": "seed-heartRate-198",
     "indicator": "heartRate",
-    "value": 64,
+    "value": 68,
     "unit": "bpm",
     "timestamp": "2026-10-31T13:00:00.000Z",
     "missionDay": 198,
@@ -178,7 +178,7 @@
   {
     "id": "seed-heartRate-199",
     "indicator": "heartRate",
-    "value": 63,
+    "value": 67,
     "unit": "bpm",
     "timestamp": "2026-11-01T13:00:00.000Z",
     "missionDay": 199,
@@ -189,7 +189,7 @@
   {
     "id": "seed-heartRate-200",
     "indicator": "heartRate",
-    "value": 64,
+    "value": 68,
     "unit": "bpm",
     "timestamp": "2026-11-02T13:00:00.000Z",
     "missionDay": 200,
@@ -200,7 +200,7 @@
   {
     "id": "seed-heartRate-201",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-11-03T13:00:00.000Z",
     "missionDay": 201,
@@ -211,7 +211,7 @@
   {
     "id": "seed-heartRate-202",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-11-04T13:00:00.000Z",
     "missionDay": 202,
@@ -222,7 +222,7 @@
   {
     "id": "seed-heartRate-203",
     "indicator": "heartRate",
-    "value": 63,
+    "value": 67,
     "unit": "bpm",
     "timestamp": "2026-11-05T13:00:00.000Z",
     "missionDay": 203,
@@ -233,7 +233,7 @@
   {
     "id": "seed-heartRate-204",
     "indicator": "heartRate",
-    "value": 62,
+    "value": 66,
     "unit": "bpm",
     "timestamp": "2026-11-06T13:00:00.000Z",
     "missionDay": 204,
@@ -244,7 +244,7 @@
   {
     "id": "seed-heartRate-205",
     "indicator": "heartRate",
-    "value": 63,
+    "value": 67,
     "unit": "bpm",
     "timestamp": "2026-11-07T13:00:00.000Z",
     "missionDay": 205,
@@ -255,7 +255,7 @@
   {
     "id": "seed-heartRate-206",
     "indicator": "heartRate",
-    "value": 62,
+    "value": 66,
     "unit": "bpm",
     "timestamp": "2026-11-08T13:00:00.000Z",
     "missionDay": 206,
@@ -266,7 +266,7 @@
   {
     "id": "seed-heartRate-207",
     "indicator": "heartRate",
-    "value": 61,
+    "value": 65,
     "unit": "bpm",
     "timestamp": "2026-11-09T13:00:00.000Z",
     "missionDay": 207,
@@ -277,7 +277,7 @@
   {
     "id": "seed-heartRate-208",
     "indicator": "heartRate",
-    "value": 62,
+    "value": 66,
     "unit": "bpm",
     "timestamp": "2026-11-10T13:00:00.000Z",
     "missionDay": 208,
@@ -288,7 +288,7 @@
   {
     "id": "seed-heartRate-209",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-11-11T13:00:00.000Z",
     "missionDay": 209,
@@ -299,7 +299,7 @@
   {
     "id": "seed-heartRate-210",
     "indicator": "heartRate",
-    "value": 60,
+    "value": 64,
     "unit": "bpm",
     "timestamp": "2026-11-12T13:00:00.000Z",
     "missionDay": 210,
@@ -310,7 +310,7 @@
   {
     "id": "seed-heartRate-211",
     "indicator": "heartRate",
-    "value": 64,
+    "value": 68,
     "unit": "bpm",
     "timestamp": "2026-11-13T13:00:00.000Z",
     "missionDay": 211,
@@ -321,7 +321,7 @@
   {
     "id": "seed-heartRate-212",
     "indicator": "heartRate",
-    "value": 61,
+    "value": 65,
     "unit": "bpm",
     "timestamp": "2026-11-14T13:00:00.000Z",
     "missionDay": 212,
@@ -337,7 +337,7 @@
     "timestamp": "2026-10-16T13:00:00.000Z",
     "missionDay": 183,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -348,7 +348,7 @@
     "timestamp": "2026-10-17T13:00:00.000Z",
     "missionDay": 184,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -359,7 +359,7 @@
     "timestamp": "2026-10-18T13:00:00.000Z",
     "missionDay": 185,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -370,7 +370,7 @@
     "timestamp": "2026-10-19T13:00:00.000Z",
     "missionDay": 186,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -381,7 +381,7 @@
     "timestamp": "2026-10-20T13:00:00.000Z",
     "missionDay": 187,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -392,7 +392,7 @@
     "timestamp": "2026-10-21T13:00:00.000Z",
     "missionDay": 188,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -403,7 +403,7 @@
     "timestamp": "2026-10-22T13:00:00.000Z",
     "missionDay": 189,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -414,7 +414,7 @@
     "timestamp": "2026-10-23T13:00:00.000Z",
     "missionDay": 190,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -425,7 +425,7 @@
     "timestamp": "2026-10-24T13:00:00.000Z",
     "missionDay": 191,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -436,7 +436,7 @@
     "timestamp": "2026-10-25T13:00:00.000Z",
     "missionDay": 192,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -447,7 +447,7 @@
     "timestamp": "2026-10-26T13:00:00.000Z",
     "missionDay": 193,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -458,7 +458,7 @@
     "timestamp": "2026-10-27T13:00:00.000Z",
     "missionDay": 194,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -469,7 +469,7 @@
     "timestamp": "2026-10-28T13:00:00.000Z",
     "missionDay": 195,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -480,7 +480,7 @@
     "timestamp": "2026-10-29T13:00:00.000Z",
     "missionDay": 196,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -491,7 +491,7 @@
     "timestamp": "2026-10-30T13:00:00.000Z",
     "missionDay": 197,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -502,7 +502,7 @@
     "timestamp": "2026-10-31T13:00:00.000Z",
     "missionDay": 198,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -513,7 +513,7 @@
     "timestamp": "2026-11-01T13:00:00.000Z",
     "missionDay": 199,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -524,7 +524,7 @@
     "timestamp": "2026-11-02T13:00:00.000Z",
     "missionDay": 200,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -535,7 +535,7 @@
     "timestamp": "2026-11-03T13:00:00.000Z",
     "missionDay": 201,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -546,7 +546,7 @@
     "timestamp": "2026-11-04T13:00:00.000Z",
     "missionDay": 202,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -557,7 +557,7 @@
     "timestamp": "2026-11-05T13:00:00.000Z",
     "missionDay": 203,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -568,7 +568,7 @@
     "timestamp": "2026-11-06T13:00:00.000Z",
     "missionDay": 204,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -579,7 +579,7 @@
     "timestamp": "2026-11-07T13:00:00.000Z",
     "missionDay": 205,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -590,7 +590,7 @@
     "timestamp": "2026-11-08T13:00:00.000Z",
     "missionDay": 206,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -601,7 +601,7 @@
     "timestamp": "2026-11-09T13:00:00.000Z",
     "missionDay": 207,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -612,7 +612,7 @@
     "timestamp": "2026-11-10T13:00:00.000Z",
     "missionDay": 208,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -623,7 +623,7 @@
     "timestamp": "2026-11-11T13:00:00.000Z",
     "missionDay": 209,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -634,7 +634,7 @@
     "timestamp": "2026-11-12T13:00:00.000Z",
     "missionDay": 210,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -645,7 +645,7 @@
     "timestamp": "2026-11-13T13:00:00.000Z",
     "missionDay": 211,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -656,7 +656,7 @@
     "timestamp": "2026-11-14T13:00:00.000Z",
     "missionDay": 212,
     "environment": "marsTransit",
-    "context": "resting",
+    "context": "restingCore",
     "simulated": true
   },
   {
@@ -992,661 +992,661 @@
   {
     "id": "seed-sleepDuration-183",
     "indicator": "sleepDuration",
-    "value": 6.9,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-10-16T13:00:00.000Z",
     "missionDay": 183,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-184",
     "indicator": "sleepDuration",
-    "value": 7,
+    "value": 7.8,
     "unit": "hours",
     "timestamp": "2026-10-17T13:00:00.000Z",
     "missionDay": 184,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-185",
     "indicator": "sleepDuration",
-    "value": 6.9,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-10-18T13:00:00.000Z",
     "missionDay": 185,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-186",
     "indicator": "sleepDuration",
-    "value": 6.6,
+    "value": 7.5,
     "unit": "hours",
     "timestamp": "2026-10-19T13:00:00.000Z",
     "missionDay": 186,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-187",
     "indicator": "sleepDuration",
-    "value": 7.1,
+    "value": 7.8,
     "unit": "hours",
     "timestamp": "2026-10-20T13:00:00.000Z",
     "missionDay": 187,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-188",
     "indicator": "sleepDuration",
-    "value": 6.2,
+    "value": 7.2,
     "unit": "hours",
     "timestamp": "2026-10-21T13:00:00.000Z",
     "missionDay": 188,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-189",
     "indicator": "sleepDuration",
-    "value": 7,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-10-22T13:00:00.000Z",
     "missionDay": 189,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-190",
     "indicator": "sleepDuration",
-    "value": 6.5,
+    "value": 7.4,
     "unit": "hours",
     "timestamp": "2026-10-23T13:00:00.000Z",
     "missionDay": 190,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-191",
     "indicator": "sleepDuration",
-    "value": 7,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-10-24T13:00:00.000Z",
     "missionDay": 191,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-192",
     "indicator": "sleepDuration",
-    "value": 6.5,
+    "value": 7.4,
     "unit": "hours",
     "timestamp": "2026-10-25T13:00:00.000Z",
     "missionDay": 192,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-193",
     "indicator": "sleepDuration",
-    "value": 7.3,
+    "value": 7.9,
     "unit": "hours",
     "timestamp": "2026-10-26T13:00:00.000Z",
     "missionDay": 193,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-194",
     "indicator": "sleepDuration",
-    "value": 6.9,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-10-27T13:00:00.000Z",
     "missionDay": 194,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-195",
     "indicator": "sleepDuration",
-    "value": 7.3,
+    "value": 7.9,
     "unit": "hours",
     "timestamp": "2026-10-28T13:00:00.000Z",
     "missionDay": 195,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-196",
     "indicator": "sleepDuration",
-    "value": 7.1,
+    "value": 7.8,
     "unit": "hours",
     "timestamp": "2026-10-29T13:00:00.000Z",
     "missionDay": 196,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-197",
     "indicator": "sleepDuration",
-    "value": 6.5,
+    "value": 7.4,
     "unit": "hours",
     "timestamp": "2026-10-30T13:00:00.000Z",
     "missionDay": 197,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-198",
     "indicator": "sleepDuration",
-    "value": 6.6,
+    "value": 7.4,
     "unit": "hours",
     "timestamp": "2026-10-31T13:00:00.000Z",
     "missionDay": 198,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-199",
     "indicator": "sleepDuration",
-    "value": 7,
+    "value": 7.8,
     "unit": "hours",
     "timestamp": "2026-11-01T13:00:00.000Z",
     "missionDay": 199,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-200",
     "indicator": "sleepDuration",
-    "value": 6.4,
+    "value": 7.3,
     "unit": "hours",
     "timestamp": "2026-11-02T13:00:00.000Z",
     "missionDay": 200,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-201",
     "indicator": "sleepDuration",
-    "value": 7.4,
+    "value": 8,
     "unit": "hours",
     "timestamp": "2026-11-03T13:00:00.000Z",
     "missionDay": 201,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-202",
     "indicator": "sleepDuration",
-    "value": 6.9,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-11-04T13:00:00.000Z",
     "missionDay": 202,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-203",
     "indicator": "sleepDuration",
-    "value": 7,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-11-05T13:00:00.000Z",
     "missionDay": 203,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-204",
     "indicator": "sleepDuration",
-    "value": 6.8,
+    "value": 7.6,
     "unit": "hours",
     "timestamp": "2026-11-06T13:00:00.000Z",
     "missionDay": 204,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-205",
     "indicator": "sleepDuration",
-    "value": 6.9,
+    "value": 7.7,
     "unit": "hours",
     "timestamp": "2026-11-07T13:00:00.000Z",
     "missionDay": 205,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-206",
     "indicator": "sleepDuration",
-    "value": 6.4,
+    "value": 7.3,
     "unit": "hours",
     "timestamp": "2026-11-08T13:00:00.000Z",
     "missionDay": 206,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-207",
     "indicator": "sleepDuration",
-    "value": 6.4,
+    "value": 7.3,
     "unit": "hours",
     "timestamp": "2026-11-09T13:00:00.000Z",
     "missionDay": 207,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-208",
     "indicator": "sleepDuration",
-    "value": 7.4,
+    "value": 8,
     "unit": "hours",
     "timestamp": "2026-11-10T13:00:00.000Z",
     "missionDay": 208,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-209",
     "indicator": "sleepDuration",
-    "value": 6.8,
+    "value": 7.6,
     "unit": "hours",
     "timestamp": "2026-11-11T13:00:00.000Z",
     "missionDay": 209,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-210",
     "indicator": "sleepDuration",
-    "value": 6.3,
+    "value": 7.2,
     "unit": "hours",
     "timestamp": "2026-11-12T13:00:00.000Z",
     "missionDay": 210,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-211",
     "indicator": "sleepDuration",
-    "value": 6.8,
+    "value": 7.6,
     "unit": "hours",
     "timestamp": "2026-11-13T13:00:00.000Z",
     "missionDay": 211,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-sleepDuration-212",
     "indicator": "sleepDuration",
-    "value": 6.3,
+    "value": 7.2,
     "unit": "hours",
     "timestamp": "2026-11-14T13:00:00.000Z",
     "missionDay": 212,
     "environment": "marsTransit",
-    "context": "overnight",
+    "context": "dailyTotal18to60",
     "simulated": true
   },
   {
     "id": "seed-mood-183",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-16T13:00:00.000Z",
     "missionDay": 183,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-184",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-17T13:00:00.000Z",
     "missionDay": 184,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-185",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-18T13:00:00.000Z",
     "missionDay": 185,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-186",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-19T13:00:00.000Z",
     "missionDay": 186,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-187",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-20T13:00:00.000Z",
     "missionDay": 187,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-188",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-21T13:00:00.000Z",
     "missionDay": 188,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-189",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-22T13:00:00.000Z",
     "missionDay": 189,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-190",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-23T13:00:00.000Z",
     "missionDay": 190,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-191",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-24T13:00:00.000Z",
     "missionDay": 191,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-192",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-25T13:00:00.000Z",
     "missionDay": 192,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-193",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-26T13:00:00.000Z",
     "missionDay": 193,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-194",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-27T13:00:00.000Z",
     "missionDay": 194,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-195",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-28T13:00:00.000Z",
     "missionDay": 195,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-196",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-29T13:00:00.000Z",
     "missionDay": 196,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-197",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-30T13:00:00.000Z",
     "missionDay": 197,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-198",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-10-31T13:00:00.000Z",
     "missionDay": 198,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-199",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-01T13:00:00.000Z",
     "missionDay": 199,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-200",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-02T13:00:00.000Z",
     "missionDay": 200,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-201",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-03T13:00:00.000Z",
     "missionDay": 201,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-202",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-04T13:00:00.000Z",
     "missionDay": 202,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-203",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-05T13:00:00.000Z",
     "missionDay": 203,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-204",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-06T13:00:00.000Z",
     "missionDay": 204,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-205",
     "indicator": "mood",
     "value": 4,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-07T13:00:00.000Z",
     "missionDay": 205,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-206",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-08T13:00:00.000Z",
     "missionDay": 206,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-207",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-09T13:00:00.000Z",
     "missionDay": 207,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-208",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-10T13:00:00.000Z",
     "missionDay": 208,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-209",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-11T13:00:00.000Z",
     "missionDay": 209,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-210",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-12T13:00:00.000Z",
     "missionDay": 210,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-211",
     "indicator": "mood",
     "value": 3,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-13T13:00:00.000Z",
     "missionDay": 211,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {
     "id": "seed-mood-212",
     "indicator": "mood",
     "value": 5,
-    "unit": "rating 1-5",
+    "unit": "1-5",
     "timestamp": "2026-11-14T13:00:00.000Z",
     "missionDay": 212,
     "environment": "marsTransit",
-    "context": "selfReport",
+    "context": "selfReported",
     "simulated": true
   },
   {

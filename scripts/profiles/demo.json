@@ -10,7 +10,7 @@
       "indicator": "heartRate",
       "unit": "bpm",
       "context": "resting",
-      "base": 62,
+      "base": 66,
       "noise": 3,
       "decimals": 0,
       "source": "demo parameter"
@@ -18,7 +18,7 @@
     {
       "indicator": "bodyTemperature",
       "unit": "°C",
-      "context": "resting",
+      "context": "restingCore",
       "base": 37.4,
       "noise": 0.1,
       "decimals": 1,
@@ -36,16 +36,16 @@
     {
       "indicator": "sleepDuration",
       "unit": "hours",
-      "context": "overnight",
-      "base": 6.8,
-      "noise": 0.6,
+      "context": "dailyTotal18to60",
+      "base": 7.6,
+      "noise": 0.4,
       "decimals": 1,
       "source": "demo parameter"
     },
     {
       "indicator": "mood",
-      "unit": "rating 1-5",
-      "context": "selfReport",
+      "unit": "1-5",
+      "context": "selfReported",
       "base": 4,
       "noise": 1,
       "decimals": 0,
@@ -55,8 +55,14 @@
   "bloodPressure": {
     "unit": "mmHg",
     "context": "resting",
-    "systolic": { "base": 118, "noise": 5 },
-    "diastolic": { "base": 76, "noise": 4 },
+    "systolic": {
+      "base": 118,
+      "noise": 5
+    },
+    "diastolic": {
+      "base": 76,
+      "noise": 4
+    },
     "source": "demo parameter"
   }
 }
