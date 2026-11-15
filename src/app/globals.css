@@ -58,7 +58,8 @@ a{color:inherit}
 .split.wide{grid-template-columns:11fr 13fr}
 .split>.cell{grid-column:auto}
 /* While the table is narrower it uses its tighter spacing, so every column still fits. */
-.split.wide td,.split.wide th{padding-left:8px;padding-right:8px}.split.wide td .sub{max-width:150px}.split.wide .num{font-size:20px}
+.split.wide td,.split.wide th{padding-left:8px;padding-right:8px}.split.wide td .sub{max-width:150px}
+.split.wide .col-ref,.split.wide .col-spark{display:none}.split.wide .num{font-size:20px}
 /* A square button holding one icon. ".btn.icon-btn" so it beats the padding set on .btn further down. */
 .btn.icon-btn{flex:none;width:44px;min-height:44px;padding:0}.icon-btn svg{flex:none}
 .head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;min-height:64px;padding:16px 24px 8px}
