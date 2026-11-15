@@ -22,6 +22,7 @@ export type EmergencyMessageInput = {
   vitals: MessageVital[] | null; // null: the patient's readings are not on this console
   accessLog: string[]; // who opened the patient's full record, and when
   finished: boolean;
+  lastActionNotDone?: boolean; // the tree ended on UNABLE
 };
 
 export function buildEmergencyMessage(input: EmergencyMessageInput): string {
@@ -34,7 +35,13 @@ export function buildEmergencyMessage(input: EmergencyMessageInput): string {
     `PATIENT: ${input.patient.code} · ${input.patient.role}`,
     `RESPONDER: ${input.responder.code} · ${input.responder.role}`,
     `SITUATION: ${input.scenario}`,
-    `STATUS: ${input.finished ? "Steps complete, crew still acting" : "Steps in progress"}`,
+    `STATUS: ${
+      !input.finished
+        ? "Steps in progress"
+        : input.lastActionNotDone
+          ? "Steps ended, LAST ACTION NOT COMPLETED, crew still acting"
+          : "Steps complete, crew still acting"
+    }`,
     "",
     "STEPS TAKEN:",
     ...(input.steps.length

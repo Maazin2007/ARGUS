@@ -211,12 +211,23 @@ export function EmergencyScreen() {
   const isGroundLive = delaySeconds <= LIVE_GROUND_MAX_DELAY_SECONDS;
   const replyMinutes = roundTripMinutes(delaySeconds);
 
-  const question = current ? current.text : "Stay with the crewmember and keep the monitor on";
+  // The tree ended on UNABLE: the last action was not done, so the screen must not say "complete".
+  const lastAnswer = answered[answered.length - 1];
+  const endedUnable =
+    isFinished && lastAnswer !== undefined && lastAnswer.step.type === "instruction" && lastAnswer.answer.answer === "no";
+
+  const question = current
+    ? current.text
+    : endedUnable
+      ? "Last action not completed. Stay with the crewmember and call the crew medical officer"
+      : "Stay with the crewmember and keep the monitor on";
+  // ARGUS never transmits anything itself, so the end screen says the message is ready to
+  // copy for the ship's comms, not that it was sent or queued.
   const hint = current
     ? current.hint
     : isGroundLive
-      ? "Step log sent. Ground is live on the loop."
-      : `Step log is queued for the ground. Earliest reply in ${replyMinutes} min at the current delay. Keep acting.`;
+      ? "Ground is live on the loop. Copy the message for the ground (right) to share the step log."
+      : `Copy the message for the ground (right) for the ship's comms to send. Earliest reply in ${replyMinutes} min at the current delay. Keep acting.`;
 
   // The clock is read here, in the handler, never during render.
   // The updater re-checks the tree, so a fast double key press cannot answer past the end.
@@ -252,6 +263,7 @@ export function EmergencyScreen() {
       vitals: isConsoleOwner(patient.id) ? vitalsForMessage() : null,
       accessLog,
       finished: isFinished,
+      lastActionNotDone: endedUnable,
     });
     try {
       await navigator.clipboard.writeText(text);
@@ -408,7 +420,13 @@ export function EmergencyScreen() {
 
               <div aria-live="polite">
                 <span className="lbl">
-                  {current ? (current.type === "question" ? "Question" : "Action") : "Sequence complete"}
+                  {current
+                    ? current.type === "question"
+                      ? "Question"
+                      : "Action"
+                    : endedUnable
+                      ? "Sequence ended · last action not completed"
+                      : "Sequence complete"}
                 </span>
                 <h1 className="em-q" ref={questionRef}>
                   {question}
