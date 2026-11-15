@@ -40,5 +40,6 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 | Fever escalation threshold | 38.5 °C | `src/data/cards.json` |
 | Low glucose escalation threshold | 54 mg/dL | `src/data/cards.json` |
 | High glucose escalation threshold | 250 mg/dL | `src/data/cards.json` |
+| Fasting and post-meal glucose reference ranges | 70–99 mg/dL fasting, < 140 mg/dL post-meal | `src/data/cards.json` |
 | Short sleep escalation threshold | Less than 4 hours on two or more consecutive duty cycles | `src/data/cards.json` |
 

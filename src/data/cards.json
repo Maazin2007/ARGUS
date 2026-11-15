@@ -92,7 +92,7 @@
     ],
     "whenToEscalate": {
       "text": "Notify the Crew Medical Officer if blood pressure is unusually low with dizziness or feeling faint, if systolic exceeds 180 mmHg or diastolic exceeds 120 mmHg, or if reading is accompanied by vision changes, acute headache, or chest pain.",
-      "source": "demo parameter"
+      "source": "American Heart Association: Understanding Blood Pressure Readings"
     }
   },
   {
@@ -102,8 +102,8 @@
       "source": "NIDDK: Blood Glucose Tests"
     },
     "whyItMatters": {
-      "text": "Blood glucose reflects how the body manages carbohydrates. In fasting adults, typical levels sit between 70 and 99 mg/dL, rising below 140 mg/dL two hours after a meal.",
-      "source": "NIDDK: Blood Glucose Tests"
+      "text": "Blood glucose reflects how the body manages carbohydrates. In fasting adults, typical levels sit between 70 and 99 mg/dL, and below 140 mg/dL two hours after a meal.",
+      "source": "demo parameter"
     },
     "hazardEffects": [
       {
@@ -118,7 +118,7 @@
         "source": "Demo copy"
       },
       {
-        "text": "Log meals and follow planned exercise sessions to support healthy insulin sensitivity.",
+        "text": "Log meals and follow planned exercise sessions to help the body use insulin well.",
         "source": "Demo copy"
       }
     ],
