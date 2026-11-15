@@ -34,5 +34,8 @@ Values we chose ourselves because no source gives them. Each is labelled "demo p
 |---|---|---|
 | Simulated one-way signal delay, station | 1 s | `src/data/environments.json` |
 | Simulated one-way signal delay, Mars transit | 720 s (12 min) | `src/data/environments.json` |
+| Simulated demo astronaut: resting heart rate 62 ± 3 bpm, 30 days | 62 ± 3 bpm | `scripts/profiles/demo.json` |
+| Simulated demo astronaut: body temperature 37.4 ± 0.1 °C, 30 days (re-check against the temperature rule once it lands) | 37.4 ± 0.1 °C | `scripts/profiles/demo.json` |
 | Critical low heart rate escalation threshold | 40 bpm | `src/data/cards.json` |
 | Fever escalation threshold | 38.5 °C | `src/data/cards.json` |
+
