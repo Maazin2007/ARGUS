@@ -24,7 +24,7 @@ Live site: https://argus-delta-gules.vercel.app
 | Feel vs. data, seeded generator, demo seed data | James |
 | Cards (`src/data/cards.json`) | Ihsan |
 | Screens and components | Arnav |
-| Project page, video, slides, AI disclosure | To be named |
+| Project page, video, slides, AI disclosure | Shail |
 
 ## Built
 
