@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Screen, replayAnimation } from "@/components/Screen";
 import { useArgus } from "@/components/ArgusProvider";
 import { environmentInfo, roundTripMinutes } from "@/lib/indicatorMeta";
-import { EMERGENCY_LIMITS_NOTE, EMERGENCY_SCENARIO } from "@/lib/placeholders";
+import { EMERGENCY_LIMITS_NOTE, EMERGENCY_SCENARIO } from "@/lib/emergency";
 import {
   buttonLabel,
   utcTime,

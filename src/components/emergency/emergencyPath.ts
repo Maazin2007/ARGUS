@@ -1,5 +1,5 @@
-import { EMERGENCY_FIRST_STEP_ID, getStep, nextStepId } from "@/lib/placeholders";
-import type { EmergencyStepUi } from "@/lib/placeholders";
+import { EMERGENCY_FIRST_STEP_ID, getStep, nextStepId } from "@/lib/emergency";
+import type { EmergencyStepUi } from "@/lib/emergency";
 
 // One answer the crew gave, with the UTC time it was given.
 // `at` is the same moment in milliseconds, so the next step can show how long it has been open.

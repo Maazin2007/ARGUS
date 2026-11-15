@@ -23,7 +23,12 @@ type ReadingBase = {
   environment: Environment;
   context: string; // e.g. "resting", "exercise", "fasting", "unknown"
   simulated: boolean;
+  // Where the reading came from: typed in a check-in, imported from a device
+  // file, or the demo profile. Optional, so older stored readings still load.
+  provenance?: Provenance;
 };
+
+export type Provenance = "manual" | "device" | "seed";
 
 export type ValueReading = ReadingBase & {
   indicator: Exclude<IndicatorId, "bloodPressure">;

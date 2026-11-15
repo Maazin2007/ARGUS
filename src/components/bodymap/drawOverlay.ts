@@ -2,6 +2,7 @@
 // Everything here is drawing: turntable, height ruler, wireframe slices, section plane, sites and tags.
 
 import { H, TX, W, project as P, type Mark, type Ring, type SiteRef } from "./geometry";
+import { COLOR_TOKENS } from "@/lib/indicatorMeta";
 
 export type SiteStyle = { color: string; isSquare: boolean };
 
@@ -18,8 +19,8 @@ export type OverlayFrame = {
 };
 
 const TAU = 6.2832;
-const INK = "#16181A";
-const MUTED = "#7C7F7A";
+const INK = COLOR_TOKENS.ink;
+const MUTED = COLOR_TOKENS.muted;
 
 function seg(ctx: CanvasRenderingContext2D, a: number[], b: number[], alpha: number) {
   ctx.strokeStyle = "rgba(22,24,26," + alpha.toFixed(3) + ")";
@@ -148,11 +149,11 @@ export function drawOverlay(f: OverlayFrame) {
     const IS = 128;
     const icx = IX + IS / 2;
     const icy = IY + IS / 2 + 8;
-    ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = COLOR_TOKENS.panel;
     ctx.fillRect(IX, IY, IS, IS);
-    ctx.strokeStyle = "#DAD7D0";
+    ctx.strokeStyle = COLOR_TOKENS.line2;
     ctx.strokeRect(IX + 0.5, IY + 0.5, IS - 1, IS - 1);
-    ctx.strokeStyle = "#ECEAE5";
+    ctx.strokeStyle = COLOR_TOKENS.line;
     ctx.beginPath();
     ctx.moveTo(icx, IY + 18);
     ctx.lineTo(icx, IY + IS - 4);
@@ -238,9 +239,9 @@ export function drawOverlay(f: OverlayFrame) {
     ctx.globalAlpha = 1;
     ctx.strokeStyle = color;
     ctx.strokeRect(Math.round(q[0]) - 9.5, Math.round(q[1]) - 9.5, 19, 19);
-    ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = COLOR_TOKENS.panel;
     ctx.fillRect(TX, m.ty - 10, 48, 20);
-    ctx.strokeStyle = isOn ? INK : "#DAD7D0";
+    ctx.strokeStyle = isOn ? INK : COLOR_TOKENS.line2;
     ctx.strokeRect(TX + 0.5, m.ty - 9.5, 47, 19);
     ctx.fillStyle = INK;
     ctx.fillText(m.ref, TX + 24, m.ty + 1);

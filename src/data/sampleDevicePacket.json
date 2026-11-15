@@ -1,0 +1,11 @@
+{
+  "note": "Sample sensor packet for the device import demo: one evening reading from each wearable sensor on mission day 212. Every value is a demo parameter chosen by the team, not a medical reference. Mood is self-reported, so no device sends it.",
+  "source": "demo parameter",
+  "readings": [
+    { "timestamp": "2026-11-14T20:00:00Z", "indicator": "heartRate", "context": "resting", "value": 64 },
+    { "timestamp": "2026-11-14T20:00:00Z", "indicator": "bodyTemperature", "context": "resting", "value": 37.5 },
+    { "timestamp": "2026-11-14T20:00:00Z", "indicator": "bloodPressure", "context": "resting", "systolic": 112, "diastolic": 72 },
+    { "timestamp": "2026-11-14T20:00:00Z", "indicator": "bloodGlucose", "context": "fasting", "value": 90 },
+    { "timestamp": "2026-11-14T20:00:00Z", "indicator": "sleepDuration", "value": 7.4 }
+  ]
+}

@@ -18,6 +18,11 @@ const MISSION_DAY_ZERO_UTC = Date.UTC(2026, 3, 16);
 // demo parameter: statuses are worked out as of this hour (UTC) on the current mission day.
 const STATUS_HOUR_UTC = 23;
 
+// The mission day a moment falls on (used for imported device readings).
+export function missionDayOf(timestampMs: number): number {
+  return Math.floor((timestampMs - MISSION_DAY_ZERO_UTC) / 86_400_000);
+}
+
 // The date of a mission day, at the given hour UTC.
 export function missionDate(missionDay: number, hourUtc = STATUS_HOUR_UTC): Date {
   return new Date(MISSION_DAY_ZERO_UTC + missionDay * 86_400_000 + hourUtc * 3_600_000);
@@ -41,6 +46,9 @@ type ArgusState = {
   setLastIndicator: (id: IndicatorId) => void;
   // Call after saving readings or a check-in so every screen re-reads storage.
   reload: () => void;
+  // Message shown above every screen when a storage write failed; null when all is well.
+  storageError: string | null;
+  setStorageError: (message: string | null) => void;
   statusFor: (id: IndicatorId) => IndicatorState;
 };
 
@@ -60,13 +68,24 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
   const [checkInTimes, setCheckInTimes] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const [lastIndicator, setLastIndicator] = useState<IndicatorId>("heartRate");
+  const [storageError, setStorageError] = useState<string | null>(null);
   const missionDay = DEMO_MISSION_DAY;
-  const statusTime = useMemo(() => missionDate(missionDay), [missionDay]);
+  // The demo clock, never earlier than the newest reading. Live check-ins are
+  // stamped a minute apart after the demo time (CheckInScreen), so without this a
+  // new reading would sit "in the future" relative to the status time.
+  const statusTime = useMemo(() => {
+    const demoMs = missionDate(missionDay).getTime();
+    const newestMs = readings.reduce((max, r) => Math.max(max, Date.parse(r.timestamp) || 0), 0);
+    return new Date(Math.max(demoMs, newestMs));
+  }, [missionDay, readings]);
 
   const reload = useCallback(() => {
     // Storage starts empty in a new browser. Load the demo profile so the first
     // screen always has data; the "Simulated data" tags say what it is.
-    if (getReadings().length === 0) loadDemoProfile();
+    if (getReadings().length === 0) {
+      const loaded = loadDemoProfile();
+      if (!loaded.ok) setStorageError(loaded.message);
+    }
     setReadings(getReadings());
     setCheckInTimes(getCheckIns().map((c) => c.timestamp));
     setReady(true);
@@ -115,6 +134,8 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
     lastIndicator,
     setLastIndicator,
     reload,
+    storageError,
+    setStorageError,
     statusFor,
   };
 

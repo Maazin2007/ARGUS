@@ -1,0 +1,25 @@
+{
+  "id": "sleepDebt",
+  "title": "Creeping sleep debt",
+  "note": "Overnight sleep shrinks a little each night until it falls below the 7-hour reference, late in a Mars transit. Every value is a demo parameter chosen by the team, not a medical reference. The expectations below were written before the first run, but committed together with the results (unlike fever.json, which was committed first). If any value is changed after seeing results, say so on the project page.",
+  "seed": 20261118,
+  "indicator": "sleepDuration",
+  "unit": "h",
+  "context": "overnight",
+  "environment": "marsTransit",
+  "firstMissionDay": 173,
+  "days": 40,
+  "lastTimestamp": "2026-11-14T13:00:00Z",
+  "base": 7.6,
+  "noise": 0.2,
+  "decimals": 1,
+  "pattern": "ramp",
+  "onsetMissionDay": 203,
+  "risePerDay": -0.15,
+  "expected": [
+    "All three methods give the same result: sleep has no spaceflight adjustment and no personal baseline in our rules, so the extra information changes nothing.",
+    "First amber about four days after onset, once sleep drops below 7 hours.",
+    "No red: the status engine has no critical limit for sleep (the short-sleep escalation lives on the card).",
+    "No false alerts in the healthy period."
+  ]
+}

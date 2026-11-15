@@ -19,7 +19,7 @@ const BODY_SITES: IndicatorId[] = ["heartRate", "bodyTemperature", "bloodPressur
 const MISSED_WINDOW_DAYS = 14;
 
 export function DashboardScreen() {
-  const { ready, missionDay, readings, lastCheckInDay, reload } = useArgus();
+  const { ready, missionDay, readings, lastCheckInDay, reload, setStorageError } = useArgus();
   const statuses = useAllStatuses();
   const router = useRouter();
 
@@ -93,12 +93,16 @@ export function DashboardScreen() {
                 className="btn btn-ghost btn-sm"
                 title="Clears saved readings and check-ins, then reloads the simulated demo profile"
                 onClick={() => {
-                  loadDemoProfile();
+                  const loaded = loadDemoProfile();
+                  setStorageError(loaded.ok ? null : loaded.message);
                   reload();
                 }}
               >
                 Load demo profile
               </button>
+              <Link className="btn btn-sm" href="/handover">
+                Handover report
+              </Link>
               <Link className="btn btn-pri btn-sm" href="/check-in">
                 Start check-in
               </Link>
@@ -139,7 +143,11 @@ export function DashboardScreen() {
                           className={mapHot === id ? "hot" : undefined}
                           onClick={() => openIndicator(id)}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") openIndicator(id);
+                            // Enter or Space, like a button. preventDefault stops Space scrolling the page.
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              openIndicator(id);
+                            }
                           }}
                           onMouseEnter={() => setRowHot(BODY_SITES.includes(id) ? id : null)}
                         >

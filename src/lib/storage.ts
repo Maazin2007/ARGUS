@@ -38,16 +38,38 @@ export function getReadings(indicator?: IndicatorId): Reading[] {
   }
 }
 
+// What a write returns. Writes can fail (storage full, or turned off in a
+// private window), and a user can cause that, so we return a message the
+// screen can show instead of throwing (CODING_STANDARDS.md).
+export type SaveResult = { ok: true } | { ok: false; message: string };
+
+const SAVE_FAILED: SaveResult = {
+  ok: false,
+  message:
+    "Could not save to this browser's storage. It may be full, or turned off (for example in a private window).",
+};
+
+// Write one key, catching the browser's error instead of crashing the screen.
+function writeKey(key: string, value: string): SaveResult {
+  try {
+    localStorage.setItem(key, value);
+    return { ok: true };
+  } catch (error) {
+    console.error("Failed to save ARGUS data:", error);
+    return SAVE_FAILED;
+  }
+}
+
 // Add a reading.
-export function saveReading(reading: Reading): void {
+export function saveReading(reading: Reading): SaveResult {
   if (typeof window === "undefined") {
-    return;
+    return { ok: true };
   }
 
   const readings = getReadings();
   readings.push(reading);
 
-  localStorage.setItem(READINGS_KEY, JSON.stringify(readings));
+  return writeKey(READINGS_KEY, JSON.stringify(readings));
 }
 
 // Get check-ins.
@@ -79,22 +101,28 @@ export function getCheckIns(): CheckIn[] {
 }
 
 // Add a check-in.
-export function saveCheckIn(checkIn: CheckIn): void {
+export function saveCheckIn(checkIn: CheckIn): SaveResult {
   if (typeof window === "undefined") {
-    return;
+    return { ok: true };
   }
 
   const checkIns = getCheckIns();
   checkIns.push(checkIn);
 
-  localStorage.setItem(CHECK_INS_KEY, JSON.stringify(checkIns));
+  return writeKey(CHECK_INS_KEY, JSON.stringify(checkIns));
 }
 
 // Clear stored data.
-export function clearAll(): void {
+export function clearAll(): SaveResult {
   if (typeof window === "undefined") {
-    return;
+    return { ok: true };
   }
-  localStorage.removeItem(READINGS_KEY);
-  localStorage.removeItem(CHECK_INS_KEY);
+  try {
+    localStorage.removeItem(READINGS_KEY);
+    localStorage.removeItem(CHECK_INS_KEY);
+    return { ok: true };
+  } catch (error) {
+    console.error("Failed to clear ARGUS data:", error);
+    return SAVE_FAILED;
+  }
 }

@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useArgus } from "@/components/ArgusProvider";
 
 // Wraps one screen. Mounting with the `screen on` classes plays the mockup's entrance:
 // the screen fades in and each `.cell` rises in turn (CSS in globals.css).
 // Cells that start below the fold glide in later, as they scroll into view.
 export function Screen({ label, children }: { label: string; children: React.ReactNode }) {
   const ref = useRef<HTMLElement>(null);
+  const { storageError, setStorageError } = useArgus();
 
   // Next.js 16 keeps a visited screen alive but hidden (React <Activity>): leaving the screen
   // runs this cleanup (the observer is disconnected) and coming back runs the effect again on
@@ -53,6 +55,14 @@ export function Screen({ label, children }: { label: string; children: React.Rea
 
   return (
     <section ref={ref} className="screen on" aria-label={label}>
+      {storageError && (
+        <div className="storage-alert" role="alert">
+          <span>{storageError}</span>
+          <button type="button" className="btn btn-sm" onClick={() => setStorageError(null)}>
+            Dismiss
+          </button>
+        </div>
+      )}
       {children}
     </section>
   );
