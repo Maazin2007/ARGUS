@@ -100,6 +100,9 @@ export function DashboardScreen() {
               >
                 Load demo profile
               </button>
+              <Link className="btn btn-sm" href="/handover">
+                Handover report
+              </Link>
               <Link className="btn btn-pri btn-sm" href="/check-in">
                 Start check-in
               </Link>

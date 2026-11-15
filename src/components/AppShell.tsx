@@ -144,6 +144,7 @@ function Tabs() {
     },
     { href: "/emergency", label: "Emergency", active: pathname.startsWith("/emergency") },
     { href: "/alerts", label: "Alert test", active: pathname.startsWith("/alerts") },
+    { href: "/handover", label: "Handover", active: pathname.startsWith("/handover") },
   ];
 
 
