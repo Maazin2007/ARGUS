@@ -12,7 +12,7 @@
     "hazardEffects": [
       {
         "hazard": "Gravity Fields",
-        "text": "In microgravity, cephalad fluid shifts and plasma volume loss alter autonomic cardiovascular regulation, which can impact orthostatic tolerance during gravity transitions.",
+        "text": "In microgravity, fluid shifts toward the head and blood plasma volume decreases, altering cardiovascular regulation and impacting stability when standing in gravity.",
         "source": "NASA Human Research Roadmap: Risk of Orthostatic Intolerance"
       }
     ],
@@ -22,7 +22,7 @@
         "source": "Demo copy"
       },
       {
-        "text": "Verify fluid intake and consider electrolyte replacement following countermeasure exercise sessions.",
+        "text": "Check your daily fluid intake and consider electrolyte replacement after exercise sessions.",
         "source": "Demo copy"
       }
     ],
@@ -39,7 +39,7 @@
     },
     "whyItMatters": {
       "text": "Body temperature measures the body's ability to generate and dissipate heat. Typical resting temperature in adults averages around 37°C (98.6°F) and fluctuates across the daily cycle.",
-      "source": "MedlinePlus: Body Temperature"
+      "source": "MedlinePlus: Temperature measurement"
     },
     "hazardEffects": [
       {
@@ -61,6 +61,134 @@
     "whenToEscalate": {
       "text": "Notify the Crew Medical Officer if core temperature exceeds 38.5°C (101.3°F), does not return toward baseline after resting, or is accompanied by chills or acute malaise.",
       "source": "demo parameter"
+    }
+  },
+  {
+    "indicator": "bloodPressure",
+    "howToMeasure": {
+      "text": "Rest seated quietly for 5 minutes with feet flat and arm supported at heart level before taking a cuff measurement. Avoid talking during cuff inflation.",
+      "source": "American Heart Association: Understanding Blood Pressure Readings"
+    },
+    "whyItMatters": {
+      "text": "Blood pressure reflects how hard the heart must work to pump blood through the body. A typical resting terrestrial reading is systolic below 120 mmHg and diastolic below 80 mmHg.",
+      "source": "American Heart Association: Understanding Blood Pressure Readings"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Gravity Fields",
+        "text": "In microgravity, fluid shifts toward the head and systemic blood vessels widen (vasodilatation), lowering vascular resistance. In a study of 8 male ISS astronauts between flight days 85 and 192, 24-hour average blood pressure fell by 8 mmHg systolic and 9 mmHg diastolic.",
+        "source": "Norsk et al. 2015, Journal of Physiology"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "If a spot measurement is unusually high or low, remain quietly seated for 5 minutes and repeat the measurement on the same arm.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Keep up with daily hydration, as low blood volume can lead to lightheadedness or feeling faint when standing.",
+        "source": "NASA Human Research Roadmap: Risk of Orthostatic Intolerance"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if blood pressure is unusually low with dizziness or feeling faint, if systolic exceeds 180 mmHg or diastolic exceeds 120 mmHg, or if reading is accompanied by vision changes, acute headache, or chest pain.",
+      "source": "American Heart Association: Understanding Blood Pressure Readings"
+    }
+  },
+  {
+    "indicator": "bloodGlucose",
+    "howToMeasure": {
+      "text": "Clean the puncture site, dry thoroughly, and apply a fresh capillary blood sample to an approved glucometer test strip, noting whether the test is fasting or post-meal.",
+      "source": "NIDDK: Blood Glucose Tests"
+    },
+    "whyItMatters": {
+      "text": "Blood glucose reflects how the body manages carbohydrates. In fasting adults, typical levels sit between 70 and 99 mg/dL, and below 140 mg/dL two hours after a meal.",
+      "source": "demo parameter"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Gravity Fields",
+        "text": "Reduced muscle activity in microgravity, combined with physical confinement, can lower insulin sensitivity and change how the body processes glucose after eating.",
+        "source": "NASA Human Research Program: Risk of Adverse Health Outcomes from Altered Nutrition"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "If a reading is unexpectedly low, re-measure and notify the Crew Medical Officer.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Log meals and follow planned exercise sessions to help the body use insulin well.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if blood glucose drops below 54 mg/dL or exceeds 250 mg/dL, or if accompanied by nausea, shakiness, confusion, or weakness.",
+      "source": "demo parameter"
+    }
+  },
+  {
+    "indicator": "sleepDuration",
+    "howToMeasure": {
+      "text": "Log total hours slept over the previous 24-hour crew duty cycle, including any restorative naps.",
+      "source": "Demo copy"
+    },
+    "whyItMatters": {
+      "text": "Adequate sleep is critical for alertness, decision making, and immune defense. Adults typically require 7 or more hours per night.",
+      "source": "CDC: About Sleep"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Isolation and Confinement",
+        "text": "Disrupted circadian rhythms, absence of natural daylight, background cabin noise, and sleeping in microgravity frequently lead to fragmented sleep and accumulated sleep debt.",
+        "source": "NASA Human Research Program: Risk of Performance Decrements from Sleep Loss"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "Set up your sleep quarters for rest: ensure earplugs are fitted, use an eye mask, and confirm cabin ventilation is flowing properly.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Limit screen time and bright light exposure in the 60 minutes before scheduled sleep.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Notify the Crew Medical Officer if sleep is less than 4 hours on two or more consecutive duty cycles, or if daytime drowsiness impairs critical operational mission tasks.",
+      "source": "demo parameter"
+    }
+  },
+  {
+    "indicator": "mood",
+    "howToMeasure": {
+      "text": "Select a rating from 1 (very low) to 5 (very good) reflecting your mood and operational stress over the last 24 hours.",
+      "source": "Demo copy"
+    },
+    "whyItMatters": {
+      "text": "Self-reported mood helps track emotional resilience, stress, and crew dynamics during long, isolated mission phases.",
+      "source": "Demo copy"
+    },
+    "hazardEffects": [
+      {
+        "hazard": "Isolation and Confinement",
+        "text": "Living in confined quarters far from Earth, with heavy workloads and sensory monotony, can contribute to fatigue, low energy, and interpersonal stress.",
+        "source": "NASA Human Research Program: Risk of Adverse Behavioral Conditions and Psychiatric Disorders"
+      }
+    ],
+    "selfCare": [
+      {
+        "text": "Set aside time for relaxation, listen to music, read, or connect with family and friends on Earth through private messaging.",
+        "source": "Demo copy"
+      },
+      {
+        "text": "Talk openly with crewmates about workload adjustments if fatigue is building up.",
+        "source": "Demo copy"
+      }
+    ],
+    "whenToEscalate": {
+      "text": "Reach out to the Crew Medical Officer or flight psychologist if sustained low mood, anxiety, or lack of motivation begins impacting daily mission tasks.",
+      "source": "Demo copy"
     }
   }
 ]

@@ -1,0 +1,8 @@
+{
+  "label": "Demo copy",
+  "source": "Team draft from the design mockup (ARGUS_v13). Not from a published protocol.",
+  "notifyNow": "Crew medical officer, in person or on the loop. Then the flight surgeon: message queued to ground.",
+  "meanwhile": "Stop strenuous work and rest. Re-measure in 10 minutes. Follow the card's “What you can do”. Chest pain, collapse or confusion: open emergency steps.",
+  "delayLongText": "Act now. Do not wait for Earth.",
+  "delayShortText": "ground is effectively live, but keep acting while you talk."
+}

@@ -1,1 +1,117 @@
-[]
+[
+  {
+    "measure": "heartRate",
+    "context": "resting",
+    "unit": "bpm",
+    "earthRange": {
+      "low": 60,
+      "high": 100,
+      "source": "American Heart Association, All About Heart Rate: https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"
+    },
+    "criticalLimit": {
+      "low": 40,
+      "high": null,
+      "source": "demo parameter"
+    },
+    "baselineFloor": 10,
+    "adjustments": []
+  },
+  {
+    "measure": "bodyTemperature",
+    "context": "resting",
+    "unit": "°C",
+    "earthRange": {
+      "low": 36.0,
+      "high": 37.2,
+      "source": "demo parameter (illustrative resting temperature interval for Earth-amber / Mars-green demo; not a validated medical range)"
+    },
+    "criticalLimit": {
+      "low": null,
+      "high": 38.5,
+      "source": "demo parameter"
+    },
+    "baselineFloor": null,
+    "adjustments": [
+      {
+        "environments": ["station", "marsTransit"],
+        "shift": 1.01,
+        "rampDays": 75,
+        "source": "Stahn et al. (2017), https://doi.org/10.1038/s41598-017-15560-w",
+        "note": "Research-inspired demo using resting core temperature; linear ramp and Mars transit extrapolation are demo assumptions, not validated medical reference adjustments."
+      }
+    ]
+  },
+  {
+    "measure": "systolic",
+    "context": "resting",
+    "unit": "mmHg",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified for engine semantics: AHA Normal is < 120 mmHg (strict <) with no lower bound, while the engine checks > high; see https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
+    },
+    "criticalLimit": {
+      "low": null,
+      "high": 180,
+      "source": "American Heart Association, Understanding Blood Pressure Readings (severe/hypertensive crisis > 180 mmHg): https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
+    },
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "diastolic",
+    "context": "resting",
+    "unit": "mmHg",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified for engine semantics: AHA Normal is < 80 mmHg (strict <) with no lower bound, while the engine checks > high; see https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
+    },
+    "criticalLimit": {
+      "low": null,
+      "high": 120,
+      "source": "American Heart Association, Understanding Blood Pressure Readings (severe/hypertensive crisis > 120 mmHg): https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
+    },
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "bloodGlucose",
+    "context": "fasting",
+    "unit": "mg/dL",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Reference range unverified for engine semantics: fasting diagnostic upper bounds alone cannot safely bound low glucose without a verified lower limit."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "sleepDuration",
+    "context": "overnight",
+    "unit": "h",
+    "earthRange": {
+      "low": 7,
+      "high": null,
+      "source": "CDC, About Sleep, adults aged 18-60: https://www.cdc.gov/sleep/about/index.html"
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  },
+  {
+    "measure": "mood",
+    "context": "selfReport",
+    "unit": "of 5",
+    "earthRange": {
+      "low": null,
+      "high": null,
+      "source": "Demo parameter: project-defined 1-5 self-report scale; no external clinical reference range."
+    },
+    "criticalLimit": null,
+    "baselineFloor": null,
+    "adjustments": []
+  }
+]
