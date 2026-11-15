@@ -6,7 +6,7 @@
       "source": "American Heart Association: All About Heart Rate (Pulse)"
     },
     "whyItMatters": {
-      "text": "A typical resting heart rate for adults ranges from 60 to 100 beats per minute. Highly trained athletes may have a resting heart rate between 40 and 60 beats per minute.",
+      "text": "A typical resting heart rate for adults ranges from 60 to 100 beats per minute. Highly trained athletes may have a resting heart rate of at least 40 beats per minute (typically 40 to 60 bpm).",
       "source": "American Heart Association: All About Heart Rate (Pulse)"
     },
     "hazardEffects": [
@@ -27,7 +27,7 @@
       }
     ],
     "whenToEscalate": {
-      "text": "Notify the Crew Medical Officer if resting heart rate is consistently above 100 bpm, drops below 45 bpm, or occurs alongside chest pain, shortness of breath, or dizziness.",
+      "text": "Notify the Crew Medical Officer if resting heart rate is consistently above 100 bpm, drops below 40 bpm (or below known athletic baseline), or occurs alongside chest pain, shortness of breath, or dizziness.",
       "source": "Demo copy"
     }
   },
