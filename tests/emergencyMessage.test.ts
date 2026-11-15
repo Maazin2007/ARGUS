@@ -79,3 +79,10 @@ test("the message logs who opened the full record", () => {
   assert.match(text, /FULL RECORD ACCESS:\n {2}18:41:00 full record opened by CMO · Crew medical officer/);
   assert.match(buildEmergencyMessage(base), /FULL RECORD ACCESS:\n {2}Not opened/);
 });
+
+test("a tree that ended on UNABLE says the last action was not completed", () => {
+  const text = buildEmergencyMessage({ ...base, finished: true, lastActionNotDone: true });
+  assert.match(text, /LAST ACTION NOT COMPLETED/);
+  assert.doesNotMatch(text, /Steps complete/);
+  assert.match(buildEmergencyMessage({ ...base, finished: true }), /Steps complete/);
+});
