@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { adjustRange, checkReading, getStatus } from "@/lib/status";
+import {
+  adjustRange,
+  checkReading,
+  describeRange,
+  getStatus,
+} from "@/lib/status";
 import type {
   BloodPressureReading,
   IndicatorRule,
@@ -76,7 +81,7 @@ const testRules: IndicatorRule[] = [
     measure: "sleepDuration",
     context: "daily",
     unit: "h",
-    earthRange: { low: 6, high: 9, source: "test value" },
+    earthRange: { low: 7, high: null, source: "test value" },
     criticalLimit: null, // sleep has no red rule
     baselineFloor: 1,
     adjustments: [],
@@ -176,7 +181,7 @@ test("stale reading returns unknown", () => {
   assert.equal(result.status, "unknown");
 });
 
-test("reading crossing criticalLimit returns red", () => {
+test("reading crossing criticalLimit returns red with plain-language reason", () => {
   const highReading: Reading = {
     ...restingHeartRate,
     value: 165,
@@ -184,9 +189,12 @@ test("reading crossing criticalLimit returns red", () => {
   const result = checkReading(highReading, [], testRules, "earth", 0, now);
   assert.equal(result.status, "red");
   assert.equal(result.criticalLimitCrossed, true);
+  assert.deepEqual(result.reasons, [
+    "Heart rate 165 bpm is above the critical limit of 150 bpm.",
+  ]);
 });
 
-test("reading outside reference range returns amber", () => {
+test("reading outside reference range returns amber with plain-language reason", () => {
   const elevatedReading: Reading = {
     ...restingHeartRate,
     value: 115,
@@ -194,6 +202,32 @@ test("reading outside reference range returns amber", () => {
   const result = checkReading(elevatedReading, [], testRules, "earth", 0, now);
   assert.equal(result.status, "amber");
   assert.equal(result.criticalLimitCrossed, false);
+  assert.deepEqual(result.reasons, [
+    "Heart rate 115 bpm is above the reference range of 60 to 100 bpm.",
+  ]);
+});
+
+test("one-sided range formats reason without printing null", () => {
+  const shortSleep: Reading = {
+    id: "r-sleep",
+    indicator: "sleepDuration",
+    value: 5,
+    unit: "h",
+    timestamp: "2026-11-14T13:00:00Z",
+    missionDay: 0,
+    environment: "earth",
+    context: "daily",
+    simulated: false,
+  };
+  const result = checkReading(shortSleep, [], testRules, "earth", 0, now);
+  assert.equal(result.status, "amber");
+  assert.deepEqual(result.reasons, [
+    "Sleep duration 5 h is below the reference of at least 7 h.",
+  ]);
+  assert.equal(
+    describeRange({ low: null, high: 140 }, "mg/dL", "reference"),
+    "the reference of at most 140 mg/dL",
+  );
 });
 
 test("reading inside reference range returns green and notes when baseline is not ready", () => {
@@ -277,6 +311,27 @@ test("three consecutive readings outside the personal baseline return amber, nev
   assert.equal(result.status, "amber");
   assert.equal(result.criticalLimitCrossed, false);
   assert.deepEqual(result.baseline, { low: 50, high: 70, count: 5 });
+  assert.deepEqual(result.reasons, [
+    "Heart rate 87 bpm and the two prior readings are outside the personal baseline range of 50 to 70 bpm.",
+  ]);
+});
+
+test("two readings outside the personal baseline followed by a third inside return green", () => {
+  const history = makeHrHistory([60, 60, 60, 60, 60, 85, 86]);
+  const thirdInside: Reading = {
+    ...restingHeartRate,
+    value: 64,
+  };
+  const result = checkReading(
+    thirdInside,
+    history,
+    testRules,
+    "marsTransit",
+    212,
+    now,
+  );
+  assert.equal(result.status, "green");
+  assert.equal(result.criticalLimitCrossed, false);
 });
 
 test("blood pressure returns green when both systolic and diastolic are within range", () => {
@@ -292,14 +347,16 @@ test("blood pressure returns green when both systolic and diastolic are within r
   assert.equal(result.criticalLimitCrossed, false);
 });
 
-test("blood pressure returns the worse status and combines reasons from systolic and diastolic", () => {
+test("blood pressure returns the worse status and combines plain-language reasons without green filler", () => {
   const mixedBp: BloodPressureReading = {
     ...restingBloodPressure,
-    systolic: 135, // amber (above 120)
+    systolic: 110, // green
     diastolic: 130, // red (above criticalLimit 120)
   };
   const result = checkReading(mixedBp, [], testRules, "earth", 0, now);
   assert.equal(result.status, "red");
   assert.equal(result.criticalLimitCrossed, true);
-  assert.equal(result.reasons.length, 2);
+  assert.deepEqual(result.reasons, [
+    "Diastolic blood pressure 130 mmHg is above the critical limit of 120 mmHg.",
+  ]);
 });

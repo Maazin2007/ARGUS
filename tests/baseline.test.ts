@@ -43,10 +43,12 @@ test("spread returns 0 when all numbers are identical", () => {
 });
 
 test("spread returns the median absolute deviation from the median", () => {
+  // Median is 70; distances from 70 are [2, 0, 5], which has a median of 2.
   assert.equal(spread([68, 70, 75]), 2);
 });
 
 test("spread is not pulled by one extreme outlier", () => {
+  // Median is 72; distances are [2, 1, 0, 1, 428], which has a median of 1.
   assert.equal(spread([70, 71, 72, 73, 500]), 1);
 });
 

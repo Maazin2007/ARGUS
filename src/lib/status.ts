@@ -4,6 +4,7 @@ import type {
   Environment,
   IndicatorRule,
   Measure,
+  Range,
   Reading,
   Status,
   StatusResult,
@@ -16,6 +17,17 @@ import indicatorRules from "@/data/indicators.json";
 // Constant value: readings older than this are treated as unknown (demo parameter).
 export const STALE_AFTER_HOURS = 48; // demo parameter
 export const CONSECUTIVE_BASELINE_DEVIATIONS = 3; // demo parameter
+
+// Plain-language labels for reasons shown on screen.
+const MEASURE_LABELS: Record<Measure, string> = {
+  heartRate: "Heart rate",
+  systolic: "Systolic blood pressure",
+  diastolic: "Diastolic blood pressure",
+  bloodGlucose: "Blood glucose",
+  bodyTemperature: "Body temperature",
+  sleepDuration: "Sleep duration",
+  mood: "Mood",
+};
 
 // Priority order so we can pick the worse status when checking blood pressure (systolic vs. diastolic).
 const STATUS_PRIORITY: Record<Status, number> = {
@@ -79,10 +91,25 @@ export function adjustRange(
   };
 }
 
-function isOutsideRange(
-  value: number,
-  range: { low: number | null; high: number | null },
-): boolean {
+// Format a range in plain words, handling one-sided ranges where low or high is null.
+export function describeRange(
+  range: Range,
+  unit: string,
+  kind: "reference" | "personal baseline" = "reference",
+): string {
+  if (range.low !== null && range.high !== null) {
+    return `the ${kind} range of ${range.low} to ${range.high} ${unit}`;
+  }
+  if (range.low !== null) {
+    return `the ${kind} of at least ${range.low} ${unit}`;
+  }
+  if (range.high !== null) {
+    return `the ${kind} of at most ${range.high} ${unit}`;
+  }
+  return `the ${kind} range`;
+}
+
+function isOutsideRange(value: number, range: Range): boolean {
   if (range.low !== null && value < range.low) return true;
   if (range.high !== null && value > range.high) return true;
   return false;
@@ -98,6 +125,7 @@ function checkSingleMeasure(
   missionDay: number,
   now: Date,
 ): StatusResult {
+  const label = MEASURE_LABELS[measure];
   const rule = rules.find(
     (r) => r.measure === measure && r.context === reading.context,
   );
@@ -105,7 +133,7 @@ function checkSingleMeasure(
   if (!rule) {
     return {
       status: "unknown",
-      reasons: [`No rule found for ${measure} in ${reading.context}`],
+      reasons: [`No rule found for ${label.toLowerCase()} (${reading.context}).`],
       referenceRange: null,
       baseline: null,
       criticalLimitCrossed: false,
@@ -137,7 +165,7 @@ function checkSingleMeasure(
       return {
         status: "red",
         reasons: [
-          `Critical limit crossed: ${measure} ${reading.value} < ${rule.criticalLimit.low}`,
+          `${label} ${reading.value} ${reading.unit} is below the critical limit of ${rule.criticalLimit.low} ${reading.unit}.`,
         ],
         referenceRange,
         baseline,
@@ -151,7 +179,7 @@ function checkSingleMeasure(
       return {
         status: "red",
         reasons: [
-          `Critical limit crossed: ${measure} ${reading.value} > ${rule.criticalLimit.high}`,
+          `${label} ${reading.value} ${reading.unit} is above the critical limit of ${rule.criticalLimit.high} ${reading.unit}.`,
         ],
         referenceRange,
         baseline,
@@ -165,7 +193,7 @@ function checkSingleMeasure(
     return {
       status: "amber",
       reasons: [
-        `${measure} ${reading.value} ${reading.unit} is below the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
+        `${label} ${reading.value} ${reading.unit} is below ${describeRange(referenceRange, reading.unit, "reference")}.`,
       ],
       referenceRange,
       baseline,
@@ -177,7 +205,7 @@ function checkSingleMeasure(
     return {
       status: "amber",
       reasons: [
-        `${measure} ${reading.value} ${reading.unit} is above the reference range of ${referenceRange.low} to ${referenceRange.high} ${reading.unit}.`,
+        `${label} ${reading.value} ${reading.unit} is above ${describeRange(referenceRange, reading.unit, "reference")}.`,
       ],
       referenceRange,
       baseline,
@@ -212,7 +240,7 @@ function checkSingleMeasure(
       return {
         status: "amber",
         reasons: [
-          `${measure} ${reading.value} ${reading.unit} and the two prior readings are outside the personal baseline of ${baseline.low} to ${baseline.high} ${reading.unit}.`,
+          `${label} ${reading.value} ${reading.unit} and the two prior readings are outside ${describeRange(baseline, reading.unit, "personal baseline")}.`,
         ],
         referenceRange,
         baseline,
@@ -236,14 +264,17 @@ function checkSingleMeasure(
   };
 }
 
-// Convert one half of a BloodPressureReading ("systolic" or "diastolic") into a single-value reading.
+// Convert one half of a BloodPressureReading ("systolic" or "diastolic") into a ValueReading.
+// Why indicator: "heartRate" is safe here: checkBloodPressure pre-filters history to only
+// BloodPressureReading entries and converts only the matching part ("systolic" or "diastolic"),
+// so this synthetic ValueReading never mixes with real heart-rate readings.
 function bpToValueReading(
   bp: BloodPressureReading,
   part: "systolic" | "diastolic",
 ): ValueReading {
   return {
     id: `${bp.id}-${part}`,
-    indicator: "heartRate", // placeholder single-value tag so buildBaseline groups them together
+    indicator: "heartRate",
     value: bp[part],
     unit: bp.unit,
     timestamp: bp.timestamp,
@@ -297,15 +328,19 @@ export function checkReading(
         ? systolicResult.status
         : diastolicResult.status;
 
-    // Combine reasons from both without duplicating "No checks fired."
+    // Combine reasons from both; drop green-only filler messages when the combined status is not green.
     const combinedReasons = Array.from(
       new Set([...systolicResult.reasons, ...diastolicResult.reasons]),
     );
     const reasons =
       worseStatus === "green"
         ? combinedReasons
-        : combinedReasons.filter((r) => r !== "No checks fired.");
+        : combinedReasons.filter(
+            (r) =>
+              r !== "No checks fired." && r !== "Baseline not available yet.",
+          );
 
+    // StatusResult has room for one range/baseline, so bloodPressure carries systolic's range and baseline.
     return {
       status: worseStatus,
       reasons,
