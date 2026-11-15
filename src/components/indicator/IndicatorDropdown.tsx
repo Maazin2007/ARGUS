@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { IndicatorId } from "@/lib/types";
 import { INDICATORS, INDICATOR_ORDER } from "@/lib/indicatorMeta";
-import { COLOR_TOKENS } from "@/lib/indicatorMeta";
+import { COLOR_VAR } from "@/lib/indicatorMeta";
 
 // The mockup's custom indicator picker: a button that opens a listbox.
 // Keyboard: arrows move between options, Enter/Space picks, Escape closes.
@@ -72,7 +72,7 @@ export function IndicatorDropdown({
       >
         <span>{INDICATORS[value].name}</span>
         <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
-          <path d="M1 1l4 4 4-4" fill="none" stroke={COLOR_TOKENS.muted} strokeWidth="1.5" />
+          <path d="M1 1l4 4 4-4" fill="none" stroke={COLOR_VAR.muted} strokeWidth="1.5" />
         </svg>
       </button>
       <ul className="dd-menu" role="listbox" aria-label="Indicator" hidden={!isOpen}>

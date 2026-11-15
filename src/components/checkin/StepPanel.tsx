@@ -219,7 +219,7 @@ export function StepPanel({ step, index, total, entry, lastSelfRating, onLog, on
                 <>
                   {" "}
                   <span className="pill" style={{ marginLeft: 6 }}>
-                    DEMO VALUE FILLED IN
+                    Demo value filled in
                   </span>
                 </>
               ) : null}
