@@ -13,12 +13,10 @@ import {
 } from "@/lib/indicatorMeta";
 import {
   CREW,
-  CONSOLE_OWNER_ID,
   accessFor,
   crewLabel,
   crewMember,
   isConsoleOwner,
-  unlockWith,
   type Access,
 } from "@/lib/crew";
 import { buildEmergencyMessage, type MessageVital } from "@/lib/emergencyMessage";
@@ -40,7 +38,7 @@ const LIVE_GROUND_MAX_DELAY_SECONDS = 5; // demo parameter
 // panel: an unresponsive crewmember cannot give them.
 const EMERGENCY_VITALS: IndicatorId[] = ["heartRate", "bloodPressure", "bodyTemperature", "bloodGlucose"];
 
-// Shown only with full access (the patient themselves, or after a PIN unlock).
+// Shown only with full access (the patient themselves, or after the full record is opened).
 const FULL_RECORD_EXTRA: IndicatorId[] = ["sleepDuration", "mood"];
 
 // Age of a reading in words: "today", "3 d old" or "no reading".
@@ -89,7 +87,7 @@ function VitalRow({ id }: { id: IndicatorId }) {
 
 // The patient's latest STORED readings, not a live feed. What it shows depends on access
 // (src/lib/crew.ts): nothing when the readings are on another console, the emergency vitals
-// for a responder, and the full record for the patient or after a PIN unlock.
+// for a responder, and the full record for the patient or once a responder opens it (logged).
 function VitalsPanel({
   patientId,
   access,
@@ -97,11 +95,9 @@ function VitalsPanel({
 }: {
   patientId: string | null;
   access: Access | null;
-  onUnlock: (pin: string) => string | null; // returns an error message, or null when unlocked
+  onUnlock: () => void; // opens the full record and logs who opened it
 }) {
   const { ready } = useArgus();
-  const [pin, setPin] = useState("");
-  const [pinError, setPinError] = useState<string | null>(null);
   const patient = crewMember(patientId);
   const head = (
     <div className="head">
@@ -133,39 +129,15 @@ function VitalsPanel({
         {ready && access === "full" ? FULL_RECORD_EXTRA.map((id) => <VitalRow key={id} id={id} />) : null}
       </ul>
       {access === "emergency" ? (
-        <form
-          className="kv"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const error = onUnlock(pin);
-            setPinError(error);
-            setPin("");
-          }}
-        >
+        <div className="kv">
           <span className="lbl">
-            Only the vitals a rescuer needs are shown. The full record needs {patient.code}&apos;s PIN or
-            the medical officer&apos;s PIN. Every unlock is logged and sent to the ground.
+            Only the vitals a rescuer needs are shown. Opening {patient.code}&apos;s full record is
+            logged with your role and the time, and the log goes in the message for the ground.
           </span>
-          <div className="row" style={{ gap: 8 }}>
-            <input
-              type="password"
-              inputMode="numeric"
-              autoComplete="off"
-              aria-label="PIN to open the full record"
-              placeholder="PIN"
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              style={{ minHeight: 44, width: 120, padding: "0 12px", borderRadius: 12, border: "1px solid var(--line2)" }}
-            />
-            <button type="submit" className="btn">
-              Open full record
-            </button>
-          </div>
-          <p role="status" className="hint" style={{ margin: 0 }}>
-            {pinError}
-          </p>
-          <p className="hint" style={{ margin: 0 }}>Demo PINs, not real security.</p>
-        </form>
+          <button type="button" className="btn" onClick={onUnlock}>
+            Open full record (logged)
+          </button>
+        </div>
       ) : (
         <p className="note" style={{ margin: "0 24px 16px" }}>
           If you can, take a fresh reading once the steps allow it.
@@ -212,26 +184,25 @@ export function EmergencyScreen() {
   }, []);
   const { environment, missionDay } = useArgus();
   const [path, setPath] = useState<EmergencyAnswer[]>([]);
-  // Who needs help and who is helping. The steps start once the patient is chosen.
+  // Who needs help and who is helping. The steps start once both are chosen, in either
+  // order, so the responder is never assumed to be the console's owner.
   const [patientId, setPatientId] = useState<string | null>(null);
-  const [responderId, setResponderId] = useState<string>(CONSOLE_OWNER_ID);
+  const [responderId, setResponderId] = useState<string | null>(null);
   const [copyMessage, setCopyMessage] = useState<string | null>(null);
-  // Who opened the patient's full record. Cleared on Restart.
-  const [unlockedBy, setUnlockedBy] = useState<string | null>(null);
+  // Whether a responder has opened the patient's full record. Cleared on Restart.
+  const [recordOpened, setRecordOpened] = useState(false);
   const [accessLog, setAccessLog] = useState<string[]>([]);
   const vitalsForMessage = useVitalsForMessage();
   const patient = crewMember(patientId);
   const responder = crewMember(responderId);
-  const access = patient ? accessFor(patient.id, responderId, unlockedBy !== null) : null;
+  const started = patient !== null && responder !== null;
+  const access = patient && responder ? accessFor(patient.id, responder.id, recordOpened) : null;
 
-  // Checks the PIN; on success opens the full record and logs who opened it and when.
-  function unlock(pin: string): string | null {
-    if (!patient) return null;
-    const by = unlockWith(pin, patient.id);
-    if (!by) return `Wrong PIN. Only ${patient.code}'s or the medical officer's PIN opens the full record.`;
-    setUnlockedBy(by.id);
-    setAccessLog((log) => [...log, `${utcTime(new Date())} full record opened with ${by.code}'s PIN by ${responder?.code ?? "responder"}`]);
-    return null;
+  // Opens the full record and logs who opened it and when. The clock is read here, in the handler.
+  function unlock() {
+    if (!patient || !responder || recordOpened) return;
+    setRecordOpened(true);
+    setAccessLog((log) => [...log, `${utcTime(new Date())} full record opened by ${responder.code} · ${responder.role}`]);
   }
 
   const { answered, current } = walkPath(path);
@@ -251,12 +222,12 @@ export function EmergencyScreen() {
   // The updater re-checks the tree, so a fast double key press cannot answer past the end.
   const answer = useCallback(
     (value: "yes" | "no") => {
-      if (!patientId) return; // choose who needs help first
+      if (!patientId || !responderId) return; // choose who needs help and who is responding first
       const now = new Date();
       const entry = { answer: value, time: utcTime(now), at: now.getTime() };
       setPath((old) => (walkPath(old).current ? [...old, entry] : old));
     },
-    [patientId],
+    [patientId, responderId],
   );
 
   // Builds the message for the ground and copies it, ready for the ship's comms system.
@@ -341,8 +312,9 @@ export function EmergencyScreen() {
             onClick={() => {
               setPath([]);
               setPatientId(null);
+              setResponderId(null);
               setCopyMessage(null);
-              setUnlockedBy(null);
+              setRecordOpened(false);
               setAccessLog([]);
             }}
           >
@@ -354,14 +326,14 @@ export function EmergencyScreen() {
         </div>
 
         <div className="cell c8" style={{ padding: 32 }}>
-          {!patient ? (
+          {!started ? (
             <div className="stack" style={{ gap: 24 }}>
               <div>
                 <span className="lbl">Before the steps</span>
                 <h1 className="em-q">Who needs help?</h1>
                 <p className="em-hint">
-                  Tap the crewmember. The ground message names them, and only their own readings
-                  are ever included.
+                  Tap the crewmember, then who is responding. The steps start once both are chosen.
+                  The ground message names them, and only the patient&apos;s own readings are ever included.
                 </p>
               </div>
               {/* Big targets: this is tapped in a hurry, maybe with gloves. */}
@@ -375,7 +347,15 @@ export function EmergencyScreen() {
                     key={c.id}
                     type="button"
                     className="btn"
-                    style={{ minHeight: 72, fontSize: 18, borderRadius: 20, flexDirection: "column", gap: 2 }}
+                    aria-pressed={c.id === patientId}
+                    style={{
+                      minHeight: 72,
+                      fontSize: 18,
+                      borderRadius: 20,
+                      flexDirection: "column",
+                      gap: 2,
+                      outline: c.id === patientId ? "3px solid currentColor" : undefined,
+                    }}
                     onClick={() => setPatientId(c.id)}
                   >
                     <span className="mono" style={{ fontWeight: 500 }}>{c.code}</span>
