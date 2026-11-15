@@ -65,7 +65,14 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
   const [lastIndicator, setLastIndicator] = useState<IndicatorId>("heartRate");
   const [storageError, setStorageError] = useState<string | null>(null);
   const missionDay = DEMO_MISSION_DAY;
-  const statusTime = useMemo(() => missionDate(missionDay), [missionDay]);
+  // The demo clock, never earlier than the newest reading. Live check-ins are
+  // stamped a minute apart after the demo time (CheckInScreen), so without this a
+  // new reading would sit "in the future" relative to the status time.
+  const statusTime = useMemo(() => {
+    const demoMs = missionDate(missionDay).getTime();
+    const newestMs = readings.reduce((max, r) => Math.max(max, Date.parse(r.timestamp) || 0), 0);
+    return new Date(Math.max(demoMs, newestMs));
+  }, [missionDay, readings]);
 
   const reload = useCallback(() => {
     // Storage starts empty in a new browser. Load the demo profile so the first

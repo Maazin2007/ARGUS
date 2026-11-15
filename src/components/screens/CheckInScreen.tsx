@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CheckIn, Reading } from "@/lib/types";
 import { INDICATORS } from "@/lib/indicatorMeta";
-import { getCheckIns, saveCheckIn, saveReading } from "@/lib/storage";
+import { getCheckIns, getReadings, saveCheckIn, saveReading } from "@/lib/storage";
+import { checkInTime } from "@/lib/checkInTime";
 import { Screen } from "@/components/Screen";
 import { useArgus } from "@/components/ArgusProvider";
 import { CHECK_IN_STEPS, type CheckInStep, type LogEntry } from "@/components/checkin/steps";
@@ -15,7 +16,7 @@ import {
   type DraftResult,
 } from "@/components/checkin/CheckInResults";
 
-type Results = { drafts: DraftResult[]; selfRating: CheckIn["selfRating"] };
+type Results = { drafts: DraftResult[]; selfRating: CheckIn["selfRating"]; timestamp: string };
 
 const EMPTY_LOG: (LogEntry | null)[] = CHECK_IN_STEPS.map(() => null);
 
@@ -52,7 +53,8 @@ function buildReading(
 
 export function CheckInScreen() {
   const router = useRouter();
-  const { environment, missionDay, statusTime, lastCheckInDay, reload } = useArgus();
+  const { environment, missionDay, statusTime, lastCheckInDay, readings, reload, setStorageError } =
+    useArgus();
   const [cur, setCur] = useState(0);
   const [log, setLog] = useState<(LogEntry | null)[]>(EMPTY_LOG);
   const [results, setResults] = useState<Results | null>(null);
@@ -94,7 +96,7 @@ export function CheckInScreen() {
     // every logged indicator and show the results.
     if (entry.skipped) return;
     const selfRating = Number(entry.raw[0]) as CheckIn["selfRating"];
-    const base = { timestamp: statusTime.toISOString(), missionDay, environment };
+    const base = { timestamp: checkInTime(statusTime, readings).toISOString(), missionDay, environment };
     const drafts: DraftResult[] = [];
     CHECK_IN_STEPS.forEach((step, i) => {
       const logged = nextLog[i];
@@ -104,7 +106,7 @@ export function CheckInScreen() {
         reading: logged ? buildReading(step, logged, base) : null,
       });
     });
-    setResults({ drafts, selfRating });
+    setResults({ drafts, selfRating, timestamp: base.timestamp });
   }
 
   function jumpTo(i: number) {
@@ -114,15 +116,30 @@ export function CheckInScreen() {
 
   function save() {
     if (!results) return;
-    for (const row of rows) if (!row.skipped && row.reading) saveReading(row.reading);
-    saveCheckIn({
+    // Stop at the first failed write and stay on this screen, so the entries are
+    // not lost and the astronaut can try again. On a retry, readings that were
+    // saved the first time are skipped, so nothing is stored twice.
+    const storedIds = new Set(getReadings().map((r) => r.id));
+    for (const row of rows) {
+      if (row.skipped || !row.reading || storedIds.has(row.reading.id)) continue;
+      const saved = saveReading(row.reading);
+      if (!saved.ok) return showSaveError(saved.message);
+    }
+    const saved = saveCheckIn({
       id: crypto.randomUUID(),
-      timestamp: statusTime.toISOString(),
+      timestamp: results.timestamp,
       selfRating: results.selfRating,
     });
+    if (!saved.ok) return showSaveError(saved.message);
+    setStorageError(null);
     reload();
     reset();
     router.push("/");
+  }
+
+  function showSaveError(message: string) {
+    setStorageError(`${message} This check-in was not fully saved. Your entries are still on screen.`);
+    reload();
   }
 
   return (
