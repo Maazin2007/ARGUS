@@ -122,9 +122,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <span>NASA Space Apps Challenge 2026 · Team SpaceRangers</span>
         <span
           className="offline-badge"
-          title="ARGUS makes no server calls: readings stay in this browser's storage. Once the page has loaded it keeps working with no network link."
+          title="ARGUS makes no server calls: readings stay in this browser's storage on this device."
         >
-          ON-BOARD STORAGE · WORKS OFFLINE (0 EARTH LINK)
+          ON-BOARD STORAGE · NO SERVER CALLS
         </span>
         <span>Simulated data</span>
         <span>Every number has a source or is marked demo parameter</span>

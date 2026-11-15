@@ -13,7 +13,7 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 - [ ] "Handover report" opens `/handover`.
 - [ ] Keyboard: Tab to a row, press **Enter**, then go back and press **Space**. Both open that indicator.
 - [ ] Hovering heart rate, temperature or blood pressure lights up the site on the 3D figure.
-- [ ] Footer shows "ON-BOARD STORAGE · WORKS OFFLINE (0 EARTH LINK)".
+- [ ] Footer shows "ON-BOARD STORAGE · NO SERVER CALLS".
 
 ## 2. Check-in (`/check-in`)
 
@@ -79,7 +79,7 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 ## 9. Offline
 
 - [ ] Load the app, then DevTools → Network → **Offline**. Every screen, check-in and import still works.
-- [ ] Note: a full reload while offline only works if the app is served from the same machine (on board). That is the claim the footer makes.
+- [ ] Note: a full reload while offline only works if the app is served from the same machine (on board). So the footer only claims what is always true: no server calls.
 
 ## Sign-off
 
