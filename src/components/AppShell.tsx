@@ -38,12 +38,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Every number tagged data-delay flickers in when the environment changes.
-  const firstEnv = useRef(true);
+  // Compare with the previous environment instead of a "first run" flag: React runs effects
+  // twice in development, which got past the flag and added the class before the page had
+  // loaded, so the server and browser HTML disagreed (a hydration error on Emergency).
+  const prevEnv = useRef(environment);
   useEffect(() => {
-    if (firstEnv.current) {
-      firstEnv.current = false;
-      return;
-    }
+    if (prevEnv.current === environment) return;
+    prevEnv.current = environment;
     document.querySelectorAll("[data-delay]").forEach((el) => replayAnimation(el, "tick"));
   }, [environment]);
 
