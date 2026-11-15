@@ -1,93 +1,90 @@
-# Build checklist
+# Build status
 
-Working version of `SpaceRangers_Final_Build_Plan.docx`, mapped to this repo. Tick boxes as things merge.
+Where the build stands against `SpaceRangers_Final_Build_Plan.docx`. Last updated 15 November 2026, before the feature freeze.
+
+Live site: https://argus-delta-gules.vercel.app
 
 | File | Read it for |
 |---|---|
-| `FLOW.md` | How the whole app works, and what the screens may call |
-| `BACKEND.md` | Step-by-step work for Maazin, Angad and James |
+| `FLOW.md` | How the whole app works, and what the screens call |
+| `BACKEND.md` | The step-by-step backend plan, with a note on what was built |
 | `CODING_STANDARDS.md` | Rules everyone follows |
-| `DESIGN_IDEAS.md` | Ideas for the frontend team |
+| `DESIGN_IDEAS.md` | Design guidance, with a note on what was adopted |
 | `SOURCES.md` | Where every medical number comes from; add a row when you open a source |
 | `AI_USE.md` | AI disclosure log; add a row when you use an AI tool |
+| `PITCH.md` | Pitch script, 30-second video, slides, project page text and judge questions |
 | `project_context.txt` | The challenge text |
-
-## Changes from the docx
-
-- **Build order.** Temperature and blood pressure come straight after heart rate, because they carry the environment adjustment, one of our three differentiators. Emergency mode moves up and gets its timer, because it is the scenario in the challenge video.
-- **Baseline.** Unusual readings are left out of the baseline, so a slow fever cannot pull the baseline up with it (`BACKEND.md`, Maazin step 5).
-- **Config shape.** One rule per measure and context. Blood pressure has two measures; glucose has a fasting rule and an after-meal rule. A reading with no matching rule is unknown.
-- **Emergency steps** gain a `next` field for instruction steps.
-- **Today's target** is heart rate end to end plus temperature on Earth versus Mars transit, because temperature is what we demo.
-- **Papers first.** Angad opens Stahn 2017 and Norsk 2015 before writing code; they are the critical path. Cards move to a separate writer so Angad is not carrying five jobs.
-- **List before figure.** The list view does everything; the body figure is drawn on top of the same data afterwards.
-- **Demo profile.** A "Load demo profile" button fills the app from `seed.json`, so the pitch never starts from an empty dashboard.
-- **Signal delay** lives in one file, `src/data/environments.json`, as labelled demo values.
-- **Feel vs. data** is pitched as a small extra, not a headline. The honest results table is the differentiator.
-- **Owners.** Backend parts A, C and E, plus the emergency data from D, are split across three people. The frontend team owns the screens.
 
 ## Owners
 
 | Area | Owner |
 |---|---|
-| Status engine | Maazin |
-| Sources, storage, input checks, thresholds | Angad |
-| Simulation, results table, feel vs. data, emergency tree, signal delay, demo profile | James |
-| Cards (`src/data/cards.json`) | To be named (a frontend person; no code needed) |
-| Screens and components | Frontend team |
-| Deployment, project page, video, slides, AI disclosure | To be named |
+| Status engine, alert evaluation | Maazin |
+| Storage, input checks, thresholds | Angad |
+| Feel vs. data, seeded generator, demo seed data | James |
+| Cards (`src/data/cards.json`) | Ihsan |
+| Screens and components | Arnav |
+| Project page, video, slides, AI disclosure | To be named |
 
-## Milestone 0: kickoff (today)
+## Built
 
-- [x] Next.js app scaffolded; `types.ts`, `getStatus` stub and `npm test` working
-- [x] Commit and push the scaffold
-- [ ] Angad: open Stahn 2017, Norsk 2015 and a resting heart-rate source; fill "Opened by" in `SOURCES.md`
-- [ ] Name the cards writer and the submission owner
-- [ ] Deploy on Vercel (vercel.com → Add New Project → pick this repo → Deploy) and share the URL
-- [ ] Everyone has read `FLOW.md` and `CODING_STANDARDS.md`
-- [ ] Frontend: `npm install recharts`
-- [ ] Ask organizers about video length and slide limit
+- [x] Status engine: unknown, red, amber and green rules with plain-language reasons (`src/lib/status.ts`)
+- [x] Environment adjustment by mission day, for body temperature
+- [x] Personal baseline that leaves unusual readings out (`src/lib/baseline.ts`)
+- [x] Blood pressure as two measures, worse status wins
+- [x] Thresholds for all six indicators, each with a source or a demo label (`src/data/indicators.json`)
+- [x] Storage in the browser and input checks (`src/lib/storage.ts`, `src/lib/validate.ts`)
+- [x] Cards for all six indicators, five sections each (`src/data/cards.json`)
+- [x] Seeded generator and a demo profile for all six indicators (`scripts/generate.ts`, `src/data/seed.json`)
+- [x] Demo profile loads automatically and from a button (`src/lib/demoProfile.ts`)
+- [x] Feel vs. data check on the check-in results (`src/lib/feelVsData.ts`)
+- [x] Dashboard with the body figure, the list, sparklines and the check-in due banner
+- [x] Check-in, one indicator per step, with results
+- [x] Indicator screen with the trend chart, reference range and baseline bands, and the card
+- [x] Escalation card on a red status, with the simulated signal delay from `src/data/environments.json`
+- [x] Emergency mode: one scenario, one step per screen, step log, time on the compressions step
+- [x] Alert results table for the fever scenario (`npm run evaluate`, `results/fever.md`) and the alert test screen
+- [x] CI runs lint, tests and build on every push; Vercel deploys `main`
 
-## Milestone 1: heart rate and temperature (today, 6:00 PM)
+All 73 tests pass.
 
-- [ ] Maazin: median and spread; unknown, red, amber, green rules; environment adjustment; tests
-- [ ] Angad: `storage.ts`; `validate.ts`; resting heart-rate and temperature rules with sources
-- [ ] James: `feelVsData.ts`; generator with a fixed seed; `seed.json` with the demo path
-- [ ] Ihsan: Cards writer: heart-rate and temperature cards
-- [ ] Frontend: list view first; heart-rate and temperature entry; `StatusBadge`; indicator screen with chart; environment switch; then the body figure
-- [ ] All, 5:30 PM: demo heart rate and temperature (Earth versus Mars transit) together and list what is missing
+## Left before the freeze (Sunday, 2:30 PM)
 
-## Milestone 2: the differentiators (Sunday, 10:00 AM)
+- [ ] Name the submission owner
+- [ ] Ask the organizers about video length and slide limit; re-check this year's judging criteria
+- [ ] Two people who did not write the screens walk the demo path on the live site and list what breaks
+- [ ] A team member opens Hinkelbein et al. 2020 and fills "Opened by" in `SOURCES.md`; then the compressions step can be labelled "Published"
+- [ ] Final check of `SOURCES.md` (every row used has "Opened by") and `AI_USE.md` (every tool is listed)
+- [ ] Project page text, slides, pitch script
+- [ ] Tag the build, record the commit, send the first complete submission
 
-- [ ] Angad: blood pressure rules with adjustments and sources
-- [ ] Maazin: personal baseline; blood pressure
-- [ ] James: emergency tree with sources and labels; fever scenario committed; `loadDemoProfile()`
-- [ ] Frontend: emergency screens with timer; mission day in the header; "Adjusted for environment" tag; "Load demo profile" button
-- [ ] Frontend: feel vs. data message on the results screen
+After the freeze: record the demo video from the live site, rehearse the pitch twice, fix only material issues.
 
-## Milestone 3: six indicators and evidence (Sunday, 11:00 AM)
+## Not built
 
-- [ ] Angad: glucose, sleep and mood rules
-- [ ] Ihsan: Cards writer: remaining cards
-- [ ] Maazin: all six indicators return real statuses; full test list passes
-- [ ] James: `npm run evaluate` writes `results/fever.md` from the real engine
-- [ ] Frontend: full check-in; dashboard on real statuses; escalation card with signal delay from `environments.json`; "Simulated" tag
+- The emergency tree still lives in `src/data/emergencyPlaceholder.json` and `src/lib/placeholders.ts`. It works; the planned `emergency.json` and `emergency.ts` would be a rename plus a link test.
+- Blood pressure has no environment adjustment. The Norsk 2015 shift is cited on the card but not applied by the engine, so only temperature adjusts.
+- Optional items from the docx: Moon and Mars surface, points and streaks, a second scenario, the report to the ground.
+- `recharts` is installed but unused; the charts are hand-built SVG.
 
-## Milestone 4: freeze (Sunday, 2:30 PM)
+## Decisions made during the build
 
-- [ ] Check-in due banner
-- [ ] Every number has a source or a demo label; sources list complete
-- [ ] Build tagged, commit recorded, first complete submission sent
-- [ ] Video, slides, AI disclosure
+These differ from the docx or settle something it left open.
 
-## If we fall behind, cut in this order
+- **Green needs a range check.** A rule with no reference range returns unknown, never green.
+- **The adjustment moves one end of the range.** A rise in flight raises the upper limit and leaves the lower limit at the Earth value, so an ordinary Earth reading is not flagged in flight.
+- **Baseline.** Unusual readings are left out of the baseline, so a slow fever cannot pull it up. Temperature and heart rate have a baseline; the other indicators do not.
+- **Config shape.** One rule per measure and context. Blood pressure has two measures; glucose has a fasting rule and an after-meal rule. A reading with no matching rule is unknown.
+- **CPR numbers.** Hinkelbein et al. 2020 gives no compression rate, depth or ratio of its own and refers to Earth-based guidelines. The numbers from the mockup were removed, and the timer shows elapsed time with no pulse.
+- **Alert test.** The scenario and its expected outcomes were committed before the evaluation script existed. Nothing was changed after the first run.
+- **Design.** The screens follow the team's ARGUS_v13 mockup: a light theme and a 3D suit figure (three.js) with a wireframe fallback. The list does everything the figure does.
+- **Check-in readings** are saved as simulated, so they join the demo profile's history and its baseline.
+- **Signal delay** lives in one file, `src/data/environments.json`, as labelled demo values.
+- **Feel vs. data** is pitched as a small extra. The results table is the differentiator.
 
-1. Due banner
-2. Points and streaks, extra environments, second scenario, report (all optional anyway)
-3. Results table stays at one scenario
-4. Glucose, sleep and mood shown as "input only"
+## If something breaks before the pitch
 
-Never cut: the heart-rate flow, the list view, the cards, temperature with environment adjustment, emergency mode, the demo profile. The body figure stays too, but if time is short it is a simple outline with clickable regions, not an illustration.
+Fix in this order: the dashboard and the Earth to Mars transit switch on temperature, the alert test screen, emergency mode, the check-in. Press "Load demo profile" on the dashboard to reset the data.
 
 ## Rules for every merge
 
