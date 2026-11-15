@@ -1,0 +1,25 @@
+{
+  "id": "spike",
+  "title": "Sudden spike",
+  "note": "Body temperature jumps from the usual level to above the critical limit in one day and stays there, late in a Mars transit. Every value is a demo parameter chosen by the team, not a medical reference. The expectations below were written before the first run, but committed together with the results (unlike fever.json, which was committed first). If any value is changed after seeing results, say so on the project page.",
+  "seed": 20261117,
+  "indicator": "bodyTemperature",
+  "unit": "°C",
+  "context": "resting",
+  "environment": "marsTransit",
+  "firstMissionDay": 173,
+  "days": 33,
+  "lastTimestamp": "2026-11-07T13:00:00Z",
+  "base": 37.4,
+  "noise": 0.1,
+  "decimals": 1,
+  "pattern": "step",
+  "onsetMissionDay": 203,
+  "stepSize": 1.6,
+  "risePerDay": 0,
+  "expected": [
+    "All three methods: red on the onset day (day 0), because the reading is above the fixed critical limit.",
+    "No method misses a spike reading.",
+    "Earth range only: false amber in the healthy period, as in the fever test. The other two: none."
+  ]
+}
