@@ -29,42 +29,44 @@ Live site: https://argus-delta-gules.vercel.app
 ## Built
 
 - [x] Status engine: unknown, red, amber and green rules with plain-language reasons (`src/lib/status.ts`)
-- [x] Environment adjustment by mission day, for body temperature
+- [x] Environment adjustment by mission day, for body temperature (Stahn et al. 2017) and blood pressure (Norsk et al. 2015)
 - [x] Personal baseline that leaves unusual readings out (`src/lib/baseline.ts`)
 - [x] Blood pressure as two measures, worse status wins
-- [x] Thresholds for all six indicators, each with a source or a demo label (`src/data/indicators.json`)
-- [x] Storage in the browser and input checks (`src/lib/storage.ts`, `src/lib/validate.ts`)
+- [x] Thresholds for all six indicators, each with an opened source or a demo label (`src/data/indicators.json`)
+- [x] Storage in the browser with safe write error handling, plus input checks (`src/lib/storage.ts`, `src/lib/validate.ts`)
 - [x] Cards for all six indicators, five sections each (`src/data/cards.json`)
-- [x] Seeded generator and a demo profile for all six indicators (`scripts/generate.ts`, `src/data/seed.json`)
+- [x] Seeded generator and a demo profile for all six indicators, all green in Mars transit (`scripts/generate.ts`, `src/data/seed.json`)
 - [x] Demo profile loads automatically and from a button (`src/lib/demoProfile.ts`)
-- [x] Feel vs. data check on the check-in results (`src/lib/feelVsData.ts`)
+- [x] Feel vs. data check and combined multi-indicator alert notes on check-in results (`src/lib/feelVsData.ts`, `src/lib/checkInDue.ts`)
+- [x] Browser JSON / CSV device import with provenance tracking (`src/lib/deviceImport.ts`, `src/components/checkin/DeviceImport.tsx`)
 - [x] Dashboard with the body figure, the list, sparklines and the check-in due banner
-- [x] Check-in, one indicator per step, with results
+- [x] Check-in, one indicator per step, with advancing timestamps and results
 - [x] Indicator screen with the trend chart, reference range and baseline bands, and the card
 - [x] Escalation card on a red status, with the simulated signal delay from `src/data/environments.json`
-- [x] Emergency mode: one scenario, one step per screen, step log, time on the compressions step
-- [x] Alert results table for the fever scenario (`npm run evaluate`, `results/fever.md`) and the alert test screen
+- [x] Handover report (`/handover`) for the Crew Medical Officer and the ground: last 7 mission days, active alerts, self-ratings, print view and JSON packet export (`src/lib/handover.ts`, `src/components/screens/HandoverScreen.tsx`)
+- [x] Emergency mode: one scenario, one step per screen, step log, time on the compressions step (`src/data/emergency.json`, `src/lib/emergency.ts`)
+- [x] Alert evaluation across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 Monte Carlo seeds (`npm run evaluate`, `results/summary.md`) on the alert test screen
 - [x] CI runs lint, tests and build on every push; Vercel deploys `main`
 
-All 73 tests pass.
+All 125 tests pass.
 
 ## Left before the freeze (Sunday, 2:30 PM)
 
 - [ ] Name the submission owner
 - [ ] Ask the organizers about video length and slide limit; re-check this year's judging criteria
-- [ ] Two people who did not write the screens walk the demo path on the live site and list what breaks
-- [ ] A team member opens Hinkelbein et al. 2020 and fills "Opened by" in `SOURCES.md`; then the compressions step can be labelled "Published"
-- [ ] Final check of `SOURCES.md` (every row used has "Opened by") and `AI_USE.md` (every tool is listed)
+- [ ] Two people who did not write the screens walk `plan/SCREEN_TESTS.md` on the live site and sign the table
+- [x] A team member opens Hinkelbein et al. 2020 and fills "Opened by" in `SOURCES.md`; the compressions step is labelled "Published"
+- [x] Final check of `SOURCES.md` (every row used has "Opened by") and `AI_USE.md` (every tool is listed)
 - [ ] Project page text, slides, pitch script
 - [ ] Tag the build, record the commit, send the first complete submission
 
 After the freeze: record the demo video from the live site, rehearse the pitch twice, fix only material issues.
 
-## Not built
+## Notes on scope
 
 - The emergency tree lives in `src/data/emergency.json` and `src/lib/emergency.ts`. `tests/emergency.test.ts` checks every link, that every step is reachable with no loops, and every label and source.
-- Blood pressure has no environment adjustment. The Norsk 2015 shift is cited on the card but not applied by the engine, so only temperature adjusts.
-- Optional items from the docx: Moon and Mars surface, points and streaks, a second scenario, the report to the ground.
+- Both body temperature (Stahn et al. 2017) and blood pressure (Norsk et al. 2015) adjust for the spaceflight environment and mission day.
+- Optional items not included: Moon and Mars surface gravity environments, points and streaks.
 - `recharts` is installed but unused; the charts are hand-built SVG.
 
 ## Decisions made during the build
