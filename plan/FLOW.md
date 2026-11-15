@@ -18,7 +18,7 @@ Shared state lives in `src/components/ArgusProvider.tsx`: the environment, the m
 
 ## The shared console
 
-ARGUS runs as one console for the whole crew. A new browser opens on "Who is using this console?"; tapping a name signs that person in. The "Using this console" menu in the header switches straight to another crewmember on the same screen, and its "Sign out" returns to that first screen. Every screen starts again when the crewmember changes, so nothing one person typed is carried over. There is no password, because code in a browser cannot keep a secret.
+ARGUS runs as one console for the whole crew. A new browser opens on "Who is using this console?"; tapping a name signs that person in, and "Switch" in the header returns to that screen. Every screen starts again when the crewmember changes, so nothing one person typed is carried over. There is no password, because code in a browser cannot keep a secret.
 
 - Each crewmember's readings and check-ins are stored separately (`src/lib/storage.ts`: `argus.readings.<crew id>`). Every storage function works on the signed-in person unless it is given a crew id.
 - Every screen shows the signed-in person's data.

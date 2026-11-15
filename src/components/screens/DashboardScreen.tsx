@@ -189,10 +189,12 @@ export function DashboardScreen() {
               <table>
                 <thead>
                   <tr>
-                    <th>Ref</th>
+                    {/* Ref and the 14-day sparkline are dropped when the body map is enlarged, so the
+                        reading, status and age always fit beside it (globals.css, .split.wide). */}
+                    <th className="col-ref">Ref</th>
                     <th>Indicator · why this status</th>
                     <th className="r">Reading</th>
-                    <th>14 d</th>
+                    <th className="col-spark">14 d</th>
                     <th>Status</th>
                     <th className="r">Age</th>
                   </tr>
@@ -228,7 +230,7 @@ export function DashboardScreen() {
                             }}
                             onMouseEnter={() => setRowHot(id)}
                           >
-                            <td>
+                            <td className="col-ref">
                               <span className="ref mono">{meta.ref}</span>
                             </td>
                             <td>
@@ -249,7 +251,7 @@ export function DashboardScreen() {
                                 </span>
                               )}
                             </td>
-                            <td>
+                            <td className="col-spark">
                               <Sparkline history={history} result={result} missionDay={missionDay} />
                             </td>
                             <td>
