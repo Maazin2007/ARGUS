@@ -1,0 +1,28 @@
+{
+  "note": "Simulated astronaut for the demo. Every value here is a demo parameter chosen by the team, not a medical reference. bodyTemperature.base must be re-checked once Angad's temperature rule is in src/data/indicators.json: it should be amber on Earth ranges and green after the Mars transit adjustment.",
+  "seed": 20261114,
+  "environment": "marsTransit",
+  "lastMissionDay": 212,
+  "lastTimestamp": "2026-11-14T13:00:00Z",
+  "days": 30,
+  "indicators": [
+    {
+      "indicator": "heartRate",
+      "unit": "bpm",
+      "context": "resting",
+      "base": 62,
+      "noise": 3,
+      "decimals": 0,
+      "source": "demo parameter"
+    },
+    {
+      "indicator": "bodyTemperature",
+      "unit": "°C",
+      "context": "resting",
+      "base": 37.4,
+      "noise": 0.1,
+      "decimals": 1,
+      "source": "demo parameter"
+    }
+  ]
+}
