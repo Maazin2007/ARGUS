@@ -1,5 +1,5 @@
 {
-  "note": "Simulated astronaut for the demo. Every value here is a demo parameter chosen by the team, not a medical reference. bodyTemperature.base must be re-checked once Angad's temperature rule is in src/data/indicators.json: it should be amber on Earth ranges and green after the Mars transit adjustment. Units and contexts must match Angad's rules, or the reading shows as unknown.",
+  "note": "Simulated astronaut for the demo. Every value here is a demo parameter chosen by the team, not a medical reference. Units and contexts must match the rules in src/data/indicators.json, or the reading shows as unknown. bodyTemperature.base is chosen to be amber on the Earth range and green after the Mars transit adjustment. tests/seed.test.ts checks both.",
   "seed": 20261114,
   "environment": "marsTransit",
   "lastMissionDay": 212,
@@ -18,7 +18,7 @@
     {
       "indicator": "bodyTemperature",
       "unit": "°C",
-      "context": "restingCore",
+      "context": "resting",
       "base": 37.4,
       "noise": 0.1,
       "decimals": 1,
@@ -35,8 +35,8 @@
     },
     {
       "indicator": "sleepDuration",
-      "unit": "hours",
-      "context": "dailyTotal18to60",
+      "unit": "h",
+      "context": "overnight",
       "base": 7.6,
       "noise": 0.4,
       "decimals": 1,
@@ -44,8 +44,8 @@
     },
     {
       "indicator": "mood",
-      "unit": "1-5",
-      "context": "selfReported",
+      "unit": "of 5",
+      "context": "selfReport",
       "base": 4,
       "noise": 1,
       "decimals": 0,
