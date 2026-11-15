@@ -248,7 +248,7 @@ test("mission day 0 gives the unadjusted Earth range", () => {
 test("mission day past rampDays gives the full shift", () => {
   const tempRule = testRules[1];
   const range = adjustRange(tempRule, "marsTransit", 212);
-  assert.equal(range.low, 37);
+  assert.equal(range.low, 36); // a positive shift leaves the lower limit at the Earth value
   assert.equal(range.high, 38);
   assert.equal(range.adjusted, true);
 });
@@ -432,4 +432,18 @@ test("rule with only a critical limit still returns red past the limit", () => {
   const result = checkReading(crisisBp, [], noRangeRules, "earth", 0, now);
   assert.equal(result.status, "red");
   assert.equal(result.criticalLimitCrossed, true);
+});
+
+test("a negative shift lowers the lower limit and leaves the upper limit", () => {
+  const systolicRule = testRules[2]; // 90 to 120, shift -8
+  const range = adjustRange(systolicRule, "marsTransit", 212);
+  assert.equal(range.low, 82);
+  assert.equal(range.high, 120);
+  assert.equal(range.adjusted, true);
+});
+
+test("a temperature that is ordinary on Earth stays green late in the mission", () => {
+  const ordinary: Reading = { ...lateMissionTemperature, value: 36.8 };
+  const result = checkReading(ordinary, [], testRules, "marsTransit", 212, now);
+  assert.equal(result.status, "green");
 });

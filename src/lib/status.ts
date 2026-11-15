@@ -56,6 +56,9 @@ export function getStatus(
 
 // Shift the Earth reference range when the rule has an adjustment for this environment.
 // Formula: adjusted limit = earth limit + shift * min(missionDay / rampDays, 1)
+// Only the end the shift points towards moves: a rise in flight raises the upper limit,
+// a fall lowers the lower limit. The other end stays at the Earth value, so a reading
+// that is ordinary on Earth is never flagged just because the crew is in flight.
 export function adjustRange(
   rule: IndicatorRule,
   environment: Environment,
@@ -79,13 +82,13 @@ export function adjustRange(
 
   return {
     low:
-      rule.earthRange.low !== null
+      rule.earthRange.low !== null && shiftAmount < 0
         ? Number((rule.earthRange.low + shiftAmount).toFixed(2))
-        : null,
+        : rule.earthRange.low,
     high:
-      rule.earthRange.high !== null
+      rule.earthRange.high !== null && shiftAmount > 0
         ? Number((rule.earthRange.high + shiftAmount).toFixed(2))
-        : null,
+        : rule.earthRange.high,
     adjusted: true,
     source: `${rule.earthRange.source}; ${adjustment.source}`,
   };
