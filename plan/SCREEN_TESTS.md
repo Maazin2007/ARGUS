@@ -4,6 +4,15 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 
 **Setup:** `npm run dev`, open http://localhost:3000 in a private window (empty storage), screen at least 1280 px wide.
 
+## 0. Shared console
+
+- [ ] A new browser opens on "Who is using this console?" with five crew buttons. No password.
+- [ ] Tapping MS1 opens the dashboard; the header shows "Using this console: MS1" and a Switch button.
+- [ ] The Crew table lists all five with a status word and last reading day, and no values. PLT is Critical, MS2 is Unknown with "Check-in overdue"; both have "Open emergency".
+- [ ] Switch, then CDR: the dashboard shows the commander's own readings (heart rate differs from MS1's).
+- [ ] A check-in saved as CDR does not appear after switching to MS1.
+- [ ] EMERGENCY opens from the "Who is using this console?" screen without choosing anyone.
+
 ## 1. Dashboard (`/`)
 
 - [ ] The page loads with data: the demo profile loads by itself into empty storage. No empty dashboard.
@@ -44,10 +53,10 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 ## 5. Emergency (`/emergency`)
 
 - [ ] The red EMERGENCY button in the header opens it from every screen.
-- [ ] Emergency mode first asks "Who needs help?" (big buttons) and "Who is responding?". The steps start only once both are picked, in either order; Y and N do nothing before that.
-- [ ] Responder CDR, patient MS1 (this console): "Limited emergency view" shows only heart rate, blood pressure, temperature and glucose. "Open full record (logged)" adds sleep and mood with one tap, no PIN. "Copy message for the ground" lists who opened it and when.
-- [ ] Responder MS1, patient MS1: the full record shows straight away, with no button.
-- [ ] Patient CDR (another console): no readings shown; the panel says they are on CDR's own console. The message has no readings.
+- [ ] Signed in as MS1: emergency mode asks "Who needs help?". Tapping PLT starts the steps at once, with MS1 as the responder. Y and N do nothing before a patient is picked.
+- [ ] Signed in as MS1, patient PLT: "Limited emergency view" shows only heart rate, blood pressure, temperature (38.7 °C, Critical) and glucose. "Open full record (logged)" adds sleep and mood with one tap, no PIN. "Copy message for the ground" lists who opened it and when.
+- [ ] Signed in as MS1, patient MS1: the steps wait until a responder is chosen; with responder CDR the limited view shows.
+- [ ] Nobody signed in (press Switch, then EMERGENCY): emergency mode still opens and asks for both the patient and the responder.
 - [ ] **Y** and **N** keys answer; DONE / UNABLE on instruction steps.
 - [ ] Path "responsive → main problem not chest pain" reaches the general branch: read vitals, then red or worse? → call the crew medical officer, otherwise recheck in five minutes. The step counter shows "of 5".
 - [ ] Path "unresponsive → not breathing" reaches the compressions step: it shows the weightlessness-only note and the elapsed time, and no compression rate, depth or ratio.

@@ -16,7 +16,6 @@ import {
   accessFor,
   crewLabel,
   crewMember,
-  isConsoleOwner,
   type Access,
 } from "@/lib/crew";
 import { buildEmergencyMessage, type MessageVital } from "@/lib/emergencyMessage";
@@ -49,11 +48,11 @@ function ageText(missionDay: number, readingDay: number | null): string {
 }
 
 // The patient's latest stored readings, in the shape the ground message uses.
-function useVitalsForMessage(): () => MessageVital[] {
-  const { missionDay, statusFor } = useArgus();
+function useVitalsForMessage(crewId: string | null): () => MessageVital[] {
+  const { missionDay, statusForCrew } = useArgus();
   return () =>
     EMERGENCY_VITALS.map((id) => {
-      const { latest, result } = statusFor(id);
+      const { latest, result } = statusForCrew(crewId ?? "", id);
       return {
         name: INDICATORS[id].name,
         value: latest ? formatReading(latest) : "--",
@@ -65,10 +64,10 @@ function useVitalsForMessage(): () => MessageVital[] {
 }
 
 // One row of the vitals panel: value, unit, age and status.
-function VitalRow({ id }: { id: IndicatorId }) {
-  const { missionDay, statusFor } = useArgus();
+function VitalRow({ id, crewId }: { id: IndicatorId; crewId: string }) {
+  const { missionDay, statusForCrew } = useArgus();
   const meta = INDICATORS[id];
-  const { latest, result } = statusFor(id);
+  const { latest, result } = statusForCrew(crewId, id);
   return (
     <li title={result.reasons.join(" ")}>
       <span>
@@ -86,8 +85,8 @@ function VitalRow({ id }: { id: IndicatorId }) {
 }
 
 // The patient's latest STORED readings, not a live feed. What it shows depends on access
-// (src/lib/crew.ts): nothing when the readings are on another console, the emergency vitals
-// for a responder, and the full record for the patient or once a responder opens it (logged).
+// (src/lib/crew.ts): the emergency vitals for a responder, and the full record for the
+// patient themselves or once a responder opens it (logged).
 function VitalsPanel({
   patientId,
   access,
@@ -109,14 +108,12 @@ function VitalsPanel({
       ) : null}
     </div>
   );
-  if (!patient || access === null || access === "none") {
+  if (!patient || access === null) {
     return (
       <>
         {head}
         <p className="note" style={{ margin: "0 24px 16px" }}>
-          {patient
-            ? `${patient.code}'s readings are on ${patient.code}'s own console. Open emergency mode there for the limited emergency view, or read the monitor.`
-            : "Choose who needs help first."}
+          Choose who needs help first.
         </p>
       </>
     );
@@ -125,8 +122,8 @@ function VitalsPanel({
     <>
       {head}
       <ul className="log">
-        {ready ? EMERGENCY_VITALS.map((id) => <VitalRow key={id} id={id} />) : null}
-        {ready && access === "full" ? FULL_RECORD_EXTRA.map((id) => <VitalRow key={id} id={id} />) : null}
+        {ready ? EMERGENCY_VITALS.map((id) => <VitalRow key={id} id={id} crewId={patient.id} />) : null}
+        {ready && access === "full" ? FULL_RECORD_EXTRA.map((id) => <VitalRow key={id} id={id} crewId={patient.id} />) : null}
       </ul>
       {access === "emergency" ? (
         <div className="kv">
@@ -182,17 +179,21 @@ export function EmergencyScreen() {
       delete document.documentElement.dataset.mode;
     };
   }, []);
-  const { environment, missionDay } = useArgus();
+  const { environment, missionDay, activeCrewId } = useArgus();
   const [path, setPath] = useState<EmergencyAnswer[]>([]);
-  // Who needs help and who is helping. The steps start once both are chosen, in either
-  // order, so the responder is never assumed to be the console's owner.
+  // Who needs help and who is helping. The responder is whoever is using the console,
+  // so usually only the patient is asked. The one case the console cannot know is when
+  // the patient is the person signed in (someone else stepped up to help), or nobody is:
+  // then it asks who is responding. The steps start once both are known.
   const [patientId, setPatientId] = useState<string | null>(null);
-  const [responderId, setResponderId] = useState<string | null>(null);
+  const [chosenResponderId, setResponderId] = useState<string | null>(null);
+  const responderId =
+    chosenResponderId ?? (activeCrewId && patientId && activeCrewId !== patientId ? activeCrewId : null);
   const [copyMessage, setCopyMessage] = useState<string | null>(null);
   // Whether a responder has opened the patient's full record. Cleared on Restart.
   const [recordOpened, setRecordOpened] = useState(false);
   const [accessLog, setAccessLog] = useState<string[]>([]);
-  const vitalsForMessage = useVitalsForMessage();
+  const vitalsForMessage = useVitalsForMessage(patientId);
   const patient = crewMember(patientId);
   const responder = crewMember(responderId);
   const started = patient !== null && responder !== null;
@@ -260,7 +261,7 @@ export function EmergencyScreen() {
         answer: buttonLabel(step, given.answer),
         logged: given.answer === "yes" ? step.logYes : step.logNo,
       })),
-      vitals: isConsoleOwner(patient.id) ? vitalsForMessage() : null,
+      vitals: vitalsForMessage(),
       accessLog,
       finished: isFinished,
       lastActionNotDone: endedUnable,
@@ -344,8 +345,8 @@ export function EmergencyScreen() {
                 <span className="lbl">Before the steps</span>
                 <h1 className="em-q">Who needs help?</h1>
                 <p className="em-hint">
-                  Tap the crewmember, then who is responding. The steps start once both are chosen.
-                  The ground message names them, and only the patient&apos;s own readings are ever included.
+                  Tap the crewmember. You are the responder, so the steps start at once. If you are
+                  helping the person signed in to this console, also choose who is responding.
                 </p>
               </div>
               {/* Big targets: this is tapped in a hurry, maybe with gloves. */}
@@ -373,7 +374,7 @@ export function EmergencyScreen() {
                     <span className="mono" style={{ fontWeight: 500 }}>{c.code}</span>
                     <small style={{ color: "var(--mu)", fontSize: 13 }}>
                       {c.role}
-                      {isConsoleOwner(c.id) ? " · this console" : ""}
+                      {c.id === activeCrewId ? " · signed in" : ""}
                     </small>
                   </button>
                 ))}
@@ -393,7 +394,10 @@ export function EmergencyScreen() {
                   ))}
                 </div>
               </div>
-              <p className="hint">Crew roles are demo data. Each crewmember&apos;s readings stay on their own console.</p>
+              <p className="hint">
+                Crew roles are demo data. A responder sees only the vitals a rescuer needs; opening
+                the full record is logged.
+              </p>
             </div>
           ) : (
             <div className="stack" style={{ gap: 32 }}>
@@ -527,7 +531,7 @@ export function EmergencyScreen() {
             </button>
             <p className="hint" style={{ margin: 0 }}>
               Who needs help, who is responding, every step with its time
-              {patient && isConsoleOwner(patient.id) ? ", the emergency vitals and who opened the full record" : ""}. ARGUS
+              , the emergency vitals and who opened the full record. ARGUS
               does not send it: the ship&apos;s comms do.
             </p>
             <p role="status" className="hint" style={{ margin: 0 }}>

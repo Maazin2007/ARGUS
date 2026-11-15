@@ -7,7 +7,6 @@ import {
   CONSOLE_OWNER_ID,
   accessFor,
   crewMember,
-  isConsoleOwner,
 } from "@/lib/crew";
 
 // Test values: a made-up message on mission day 212 in Mars transit.
@@ -29,10 +28,9 @@ const base: EmergencyMessageInput = {
   finished: false,
 };
 
-test("the crew has unique ids and the console owner is one of them", () => {
+test("the crew has unique ids and the default crewmember is one of them", () => {
   assert.equal(new Set(CREW.map((c) => c.id)).size, CREW.length);
-  assert.ok(isConsoleOwner(CONSOLE_OWNER_ID));
-  assert.ok(!isConsoleOwner(other.id));
+  assert.ok(CREW.some((c) => c.id === CONSOLE_OWNER_ID));
 });
 
 test("the message names the patient, the responder and the reply time", () => {
@@ -47,14 +45,14 @@ test("every answered step is in the message with its time", () => {
   assert.match(buildEmergencyMessage(base), /18:39:10 {2}S1 {2}Conscious\? → YES/);
 });
 
-test("the patient's readings go in only when this console holds them", () => {
+test("the patient's emergency vitals go in the message; with none, it says so", () => {
   assert.match(buildEmergencyMessage(base), /Heart rate: 65 bpm/);
-  const text = buildEmergencyMessage({ ...base, patient: other, vitals: null });
+  const text = buildEmergencyMessage({ ...base, vitals: null });
   assert.doesNotMatch(text, /Heart rate/);
-  assert.match(text, /Not on this console/);
+  assert.match(text, /None included/);
 });
 
-test("a responder on the patient's console gets only the emergency view", () => {
+test("a responder gets only the emergency view of the patient", () => {
   assert.equal(accessFor(owner.id, other.id, false), "emergency");
 });
 
@@ -63,14 +61,14 @@ test("the patient helping themselves, or a responder who opened the record, gets
   assert.equal(accessFor(owner.id, other.id, true), "full");
 });
 
-test("another crewmember's readings are never on this console, unlocked or not", () => {
-  assert.equal(accessFor(other.id, owner.id, false), "none");
-  assert.equal(accessFor(other.id, owner.id, true), "none");
+test("access works the same whoever the patient is", () => {
+  assert.equal(accessFor(other.id, owner.id, false), "emergency");
+  assert.equal(accessFor(other.id, owner.id, true), "full");
 });
 
 test("the crew data holds no PIN or other secret", () => {
   for (const member of CREW) {
-    assert.deepEqual(Object.keys(member).sort(), ["code", "id", "role"]);
+    assert.deepEqual(Object.keys(member).sort(), ["code", "demo", "id", "role"]);
   }
 });
 

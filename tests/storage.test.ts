@@ -7,6 +7,8 @@ import {
   saveCheckIn,
   getCheckIns,
   clearAll,
+  getActiveCrewId,
+  setActiveCrewId,
 } from "@/lib/storage";
 
 import type { Reading, CheckIn } from "@/lib/types";
@@ -168,4 +170,24 @@ test("clearAll returns a message instead of throwing when storage is blocked", (
     localStorageMock.removeItem = realRemoveItem;
     console.error = realConsoleError;
   }
+});
+
+test("each crewmember's readings are stored separately", () => {
+  saveReading(reading, "cdr");
+
+  assert.deepEqual(getReadings(undefined, "cdr"), [reading]);
+  assert.deepEqual(getReadings(undefined, "plt"), []);
+});
+
+test("readings follow the active crewmember", () => {
+  setActiveCrewId("cdr");
+  saveReading(reading);
+  setActiveCrewId("plt");
+
+  assert.equal(getActiveCrewId(), "plt");
+  assert.deepEqual(getReadings(), []);
+  assert.deepEqual(getReadings(undefined, "cdr"), [reading]);
+
+  setActiveCrewId(null);
+  assert.equal(getActiveCrewId(), null);
 });

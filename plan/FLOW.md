@@ -16,6 +16,16 @@ The header is on every screen: mission day, the environment switch, the simulate
 
 Shared state lives in `src/components/ArgusProvider.tsx`: the environment, the mission day, the stored readings and `statusFor(indicator)`, which calls `getStatus` on the latest reading. Switching the environment in the header updates every screen at once.
 
+## The shared console
+
+ARGUS runs as one console for the whole crew. A new browser opens on "Who is using this console?"; tapping a name signs that person in, and "Switch" in the header returns to that screen. There is no password, because code in a browser cannot keep a secret.
+
+- Each crewmember's readings and check-ins are stored separately (`src/lib/storage.ts`: `argus.readings.<crew id>`). Every storage function works on the signed-in person unless it is given a crew id.
+- Every screen shows the signed-in person's data.
+- The dashboard's Crew table shows every crewmember as a status word and last reading day, never a value (`summarizeCrew` in `src/lib/crewBoard.ts`). A critical status, or no reading for two mission days ("Check-in overdue"), gets a button into emergency mode.
+- In emergency mode the signed-in person is the responder, so only the patient is asked. If the patient is the signed-in person, or nobody is signed in, it asks who is responding. The patient's rescue vitals show first; the full record opens with one logged tap.
+- The demo profile gives all five crewmembers readings. The demo parameters in `src/data/crew.json` make the pilot critical and mission specialist 2 overdue.
+
 ## Flow 1: a check-in
 
 ```

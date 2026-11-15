@@ -1,32 +1,47 @@
 {
-  "_note": "Demo crew for emergency mode. Roles only, no real people. Each crewmember has their own ARGUS console, and a console holds only its owner's readings. consoleOwnerId is whose console this demo is. A responder opens the patient's full record with one tap, and every opening is logged: accountability comes from the log, not from a secret, since code running in a browser cannot keep one.",
+  "_note": "Demo crew for the shared console. Roles only, no real people. The console holds every crewmember's readings; each person taps their name to use it, and consoleOwnerId is who is selected when nobody has chosen yet. There is no password: code running in a browser cannot keep a secret. Privacy comes from what is shown: crewmates see only a status word, and opening a full record in an emergency is logged. The demo values below are demo parameters that make the crew board show one critical and one overdue crewmember.",
   "source": "demo parameter",
   "consoleOwnerId": "ms1",
   "crew": [
     {
       "id": "cdr",
       "code": "CDR",
-      "role": "Commander"
+      "role": "Commander",
+      "demo": {
+        "heartRateOffset": 4
+      }
     },
     {
       "id": "plt",
       "code": "PLT",
-      "role": "Pilot"
+      "role": "Pilot",
+      "demo": {
+        "heartRateOffset": -3,
+        "lastDayTemperature": 38.7
+      }
     },
     {
       "id": "ms1",
       "code": "MS1",
-      "role": "Mission specialist 1"
+      "role": "Mission specialist 1",
+      "demo": {}
     },
     {
       "id": "ms2",
       "code": "MS2",
-      "role": "Mission specialist 2"
+      "role": "Mission specialist 2",
+      "demo": {
+        "heartRateOffset": 2,
+        "missedLastDays": 3
+      }
     },
     {
       "id": "cmo",
       "code": "CMO",
-      "role": "Crew medical officer"
+      "role": "Crew medical officer",
+      "demo": {
+        "heartRateOffset": -1
+      }
     }
   ],
   "medicalOfficerId": "cmo"

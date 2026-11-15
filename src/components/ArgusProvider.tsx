@@ -1,14 +1,16 @@
 "use client";
 
-// Shared app state: environment, mission day and the stored readings.
+// Shared app state: who is using the console, the environment, the mission day and the stored readings.
 // Every screen reads from here, so switching the environment in the header
 // updates the dashboard, the chart and the escalation card at once.
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { Environment, IndicatorId, Reading, StatusResult } from "@/lib/types";
 import { getStatus } from "@/lib/status";
-import { getCheckIns, getReadings } from "@/lib/storage";
+import { getActiveCrewId, getCheckIns, getReadings, setActiveCrewId } from "@/lib/storage";
 import { loadDemoProfile } from "@/lib/demoProfile";
+import { CREW } from "@/lib/crew";
+import { summarizeCrew, type CrewSummary } from "@/lib/crewBoard";
 import { INDICATOR_ORDER } from "@/lib/indicatorMeta";
 
 // demo parameter: the pitch runs on Mars transit, mission day 212 (plan/DESIGN_IDEAS.md).
@@ -36,6 +38,9 @@ export type IndicatorState = {
 
 type ArgusState = {
   ready: boolean; // false until storage has been read in the browser
+  // Who is using the shared console; null until someone taps their name.
+  activeCrewId: string | null;
+  setActiveCrew: (crewId: string | null) => void;
   environment: Environment;
   setEnvironment: (env: Environment) => void;
   missionDay: number;
@@ -50,6 +55,10 @@ type ArgusState = {
   storageError: string | null;
   setStorageError: (message: string | null) => void;
   statusFor: (id: IndicatorId) => IndicatorState;
+  // The same for any crewmember (emergency mode shows the patient's vitals).
+  statusForCrew: (crewId: string, id: IndicatorId) => IndicatorState;
+  // One status word and last-reading day per crewmember, for the crew board. No values.
+  crewSummary: (crewId: string) => CrewSummary;
 };
 
 const ArgusContext = createContext<ArgusState | null>(null);
@@ -64,7 +73,13 @@ const NO_READING: StatusResult = {
 
 export function ArgusProvider({ children }: { children: React.ReactNode }) {
   const [environment, setEnvironment] = useState<Environment>("marsTransit");
-  const [readings, setReadings] = useState<Reading[]>([]);
+  const [activeCrewId, setActiveCrewIdState] = useState<string | null>(null);
+  // Every crewmember's readings, by crew id. `readings` is the active person's.
+  const [allReadings, setAllReadings] = useState<Record<string, Reading[]>>({});
+  const readings = useMemo(
+    () => (activeCrewId ? (allReadings[activeCrewId] ?? []) : []),
+    [activeCrewId, allReadings],
+  );
   const [checkInTimes, setCheckInTimes] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const [lastIndicator, setLastIndicator] = useState<IndicatorId>("heartRate");
@@ -82,14 +97,25 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
   const reload = useCallback(() => {
     // Storage starts empty in a new browser. Load the demo profile so the first
     // screen always has data; the "Simulated data" tags say what it is.
-    if (getReadings().length === 0) {
+    if (CREW.every((member) => getReadings(undefined, member.id).length === 0)) {
       const loaded = loadDemoProfile();
       if (!loaded.ok) setStorageError(loaded.message);
     }
-    setReadings(getReadings());
-    setCheckInTimes(getCheckIns().map((c) => c.timestamp));
+    const active = getActiveCrewId();
+    setActiveCrewIdState(active);
+    setAllReadings(Object.fromEntries(CREW.map((member) => [member.id, getReadings(undefined, member.id)])));
+    setCheckInTimes(active ? getCheckIns(active).map((c) => c.timestamp) : []);
     setReady(true);
   }, []);
+
+  const setActiveCrew = useCallback(
+    (crewId: string | null) => {
+      const saved = setActiveCrewId(crewId);
+      if (!saved.ok) setStorageError(saved.message);
+      reload();
+    },
+    [reload],
+  );
 
   // Storage is read after the first paint, never during rendering (avoids hydration errors).
   // CODING_STANDARDS.md asks for exactly this pattern, so the lint rule is switched off here.
@@ -98,9 +124,9 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
     reload();
   }, [reload]);
 
-  const statusFor = useCallback(
-    (id: IndicatorId): IndicatorState => {
-      const history = readings.filter((r) => r.indicator === id);
+  const statusOf = useCallback(
+    (list: Reading[], id: IndicatorId): IndicatorState => {
+      const history = list.filter((r) => r.indicator === id);
       const latest = history.length ? history[history.length - 1] : null;
       if (!latest) return { latest, history, result: NO_READING };
       const earlier = history.slice(0, -1);
@@ -110,7 +136,16 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
         result: getStatus(latest, earlier, environment, missionDay, statusTime),
       };
     },
-    [readings, environment, missionDay, statusTime],
+    [environment, missionDay, statusTime],
+  );
+  const statusFor = useCallback((id: IndicatorId) => statusOf(readings, id), [statusOf, readings]);
+  const statusForCrew = useCallback(
+    (crewId: string, id: IndicatorId) => statusOf(allReadings[crewId] ?? [], id),
+    [statusOf, allReadings],
+  );
+  const crewSummary = useCallback(
+    (crewId: string) => summarizeCrew(allReadings[crewId] ?? [], environment, missionDay, statusTime),
+    [allReadings, environment, missionDay, statusTime],
   );
 
   // Last check-in: the newest saved check-in, or else the newest reading's mission day.
@@ -125,6 +160,8 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
 
   const value: ArgusState = {
     ready,
+    activeCrewId,
+    setActiveCrew,
     environment,
     setEnvironment,
     missionDay,
@@ -137,6 +174,8 @@ export function ArgusProvider({ children }: { children: React.ReactNode }) {
     storageError,
     setStorageError,
     statusFor,
+    statusForCrew,
+    crewSummary,
   };
 
   return <ArgusContext.Provider value={value}>{children}</ArgusContext.Provider>;

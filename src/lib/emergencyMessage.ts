@@ -1,9 +1,9 @@
 // The message for the ground in emergency mode: who needs help, who is
-// responding, every step answered with its time, and the patient's latest
-// readings when this console holds them (the emergency vitals only, never the full
-// record), and a log of who opened the full record. Pure: the screen passes everything in.
-// Privacy: only the patient's own readings can go in, and only when the patient
-// owns this console. No other crewmember's health data is ever included.
+// responding, every step answered with its time, the patient's latest stored
+// readings (the emergency vitals only, never the full record), and a log of who
+// opened the full record. Pure: the screen passes everything in.
+// Privacy: only the patient's own readings go in. No other crewmember's health
+// data is ever included.
 
 import type { CrewMember } from "@/lib/crew";
 
@@ -19,7 +19,7 @@ export type EmergencyMessageInput = {
   oneWayDelaySeconds: number;
   sentAtUtc: string; // "HH:MM:SS"
   steps: MessageStep[];
-  vitals: MessageVital[] | null; // null: the patient's readings are not on this console
+  vitals: MessageVital[] | null; // null: no readings to include
   accessLog: string[]; // who opened the patient's full record, and when
   finished: boolean;
   lastActionNotDone?: boolean; // the tree ended on UNABLE
@@ -51,7 +51,7 @@ export function buildEmergencyMessage(input: EmergencyMessageInput): string {
     "PATIENT'S LATEST READINGS:",
     ...(input.vitals
       ? input.vitals.map((v) => `  ${v.name}: ${v.value} ${v.unit} · ${v.status} · ${v.age}`)
-      : ["  Not on this console: each crewmember's readings stay on their own console."]),
+      : ["  None included."]),
     "",
     "FULL RECORD ACCESS:",
     ...(input.accessLog.length ? input.accessLog.map((line) => `  ${line}`) : ["  Not opened"]),
