@@ -2,11 +2,20 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import rules from "@/data/indicators.json";
+import cardsJson from "@/data/cards.json";
+import environmentsJson from "@/data/environments.json";
 import seed from "@/data/seed.json";
 import { getStatus } from "@/lib/status";
-import type { IndicatorRule, Reading } from "@/lib/types";
+import type {
+  Card,
+  EnvironmentConfig,
+  IndicatorRule,
+  Reading,
+} from "@/lib/types";
 
 const indicators = rules as IndicatorRule[];
+const cards = cardsJson as Card[];
+const environments = environmentsJson as EnvironmentConfig[];
 const seedReadings = seed as Reading[];
 
 test("indicator rules are not empty", () => {
@@ -132,4 +141,29 @@ test("seed day-212 body temperature 37.4°C is amber on Earth and green on Mars 
 
   assert.equal(earthResult.status, "amber");
   assert.equal(marsResult.status, "green");
+});
+
+test("every card section in cards.json has a non-empty source or demo label", () => {
+  assert.equal(cards.length, 6);
+  for (const card of cards) {
+    assert.ok(card.howToMeasure.source.trim(), `${card.indicator} howToMeasure missing source`);
+    assert.ok(card.whyItMatters.source.trim(), `${card.indicator} whyItMatters missing source`);
+    assert.ok(card.whenToEscalate.source.trim(), `${card.indicator} whenToEscalate missing source`);
+    assert.ok(card.hazardEffects.length > 0, `${card.indicator} has no hazardEffects`);
+    for (const effect of card.hazardEffects) {
+      assert.ok(effect.source.trim(), `${card.indicator} hazardEffect missing source`);
+    }
+    assert.ok(card.selfCare.length > 0, `${card.indicator} has no selfCare items`);
+    for (const item of card.selfCare) {
+      assert.ok(item.source.trim(), `${card.indicator} selfCare item missing source`);
+    }
+  }
+});
+
+test("every environment in environments.json has a non-empty source", () => {
+  assert.equal(environments.length, 3);
+  for (const env of environments) {
+    assert.ok(env.source.trim(), `${env.id} missing source`);
+    assert.ok(env.signalDelaySeconds >= 0, `${env.id} has negative delay`);
+  }
 });

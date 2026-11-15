@@ -13,8 +13,8 @@ Say it at the start and again at the end.
 ## The story in four beats
 
 1. **The problem.** Astronauts are not doctors, and on a Mars mission they cannot wait for one. The CPR guideline we cite puts the Mars communication delay at 3 to 23 minutes.
-2. **What ARGUS does.** Six readings, a plain-language status for each, a card that says what to do, and one emergency walked step by step.
-3. **Why you can trust it.** We tested the alerts on a simulated fever and publish the result, including where our method is slower. Every number has a source or is labelled a demo parameter.
+2. **What ARGUS does.** Six readings (typed or imported from a device file), a plain-language status for each, a card that says what to do, a 7-day handover report for the Crew Medical Officer and the ground, and an emergency mode with logged break-the-glass crew access.
+3. **Why you can trust it.** Many teams say Earth ranges do not fit space. We pre-registered expectations and tested ours across five scenarios and 100 random seeds—and we publish where our method is slower. Every medical rule, card, environment delay, and emergency step is checked by automated tests for a source or a demo label.
 4. **What it refuses to do.** No diagnosis, no medication advice, no green light for a reading it could not check.
 
 ## Demo path
@@ -23,12 +23,12 @@ Rehearse this exact path on the live site, https://argus-delta-gules.vercel.app.
 
 | # | Screen | Do | Say |
 |---|---|---|---|
-| 1 | Dashboard | Point at the six rows, all with a status. | "Mission day 212, Mars transit. Six indicators, each with a word, a symbol and a reason." |
-| 2 | Header | Switch Earth, then back to Mars transit. Watch body temperature. | "37.4 degrees needs review on Earth and is within range in flight. Core temperature rises on long missions, so the range moves. The critical limit never does." |
-| 3 | Check-in | Log the seven steps. Heart rate, temperature, blood pressure and sleep are filled in; type a glucose value, pick a mood, and choose 4 for the overall rating. | "A bad day: fever, short sleep. The astronaut still rates themselves 4 out of 5." |
-| 4 | Results | Show the feel vs. data message and the escalation card. | "The readings and the rating disagree, so it says so. A critical reading opens the escalation card: who to tell, what to do, and that an answer from Earth is 24 minutes away." |
-| 5 | Alert test | Show the table, then the trace. | "Earth ranges cry wolf for 30 days. The adjusted range stops that but takes 5 days to see the fever. Our personal baseline sees it in 3." |
-| 6 | Emergency | Press EMERGENCY, answer NO, NO. | "The challenge video opens with a crewmate collapsing. One question per screen, every answer logged. The method comes from the published microgravity CPR guideline." |
+| 1 | Dashboard | Point at the six rows and the six-site 3D body figure, all green. | "Mission day 212, Mars transit. Six indicators on the list and the suit figure, each with a word, a symbol and a reason." |
+| 2 | Header | Switch Earth, then back to Mars transit. Watch body temperature. | "37.4 degrees needs review on Earth and is within range in flight. Core temperature rises and blood pressure falls on long missions, so the ranges shift with the mission day. The critical limit never does." |
+| 3 | Check-in | Show "Load sample sensor packet" (device import), or log a check-in with fever, short sleep, low mood, and a self-rating of 4 out of 5. | "Readings come from a sensor CSV/JSON export or a step-by-step check-in. When the readings and the crewmember's self-rating disagree—or sleep and mood drop together—ARGUS points it out." |
+| 4 | Handover | Open `/handover` and click "Copy ground telemetry packet". | "You cannot wait 24 minutes for a reply from Earth, so ARGUS builds a 7-day handover report and JSON telemetry packet ready for the Crew Medical Officer and the ground." |
+| 5 | Alert test | Show the five-scenario, 100-seed headline table, then switch the trace chart. | "Many teams say Earth ranges don't fit space. We tested ours across five scenarios and 100 seeds. Earth ranges give 30 false alerts on a fever; our adjusted range and personal baseline give zero, catch the fever earlier, and ignore a single-day typo across all 100 seeds." |
+| 6 | Emergency | Press EMERGENCY, pick Patient (MS1) and Responder (CDR), answer NO, NO, and show "Open full record (logged)". | "When a crewmate collapses, the responder sees only the rescue vitals first, can open the full record in one logged tap without being blocked by a PIN, and walks the published microgravity CPR steps." |
 
 If time is short, keep steps 2, 5 and 6.
 
@@ -38,10 +38,10 @@ One take of the live site, with a voice-over. About 75 words.
 
 | Time | On screen | Voice-over |
 |---|---|---|
-| 0 to 5 s | Dashboard, six statuses | "Halfway to Mars, the nearest doctor is minutes away. ARGUS helps the crew check themselves." |
-| 5 to 12 s | Switch Earth and Mars transit; temperature changes | "Reference ranges adjust for spaceflight, using published astronaut data. The critical limit never moves." |
-| 12 to 20 s | Alert test table and trace | "We tested it on a simulated fever. Earth ranges gave 30 false alerts. Ours gave none, and caught it two days sooner." |
-| 20 to 27 s | Emergency: NO, NO, compressions step | "And when a crewmate collapses, it walks the crew through it, one step at a time." |
+| 0 to 5 s | Dashboard, six statuses and 3D figure | "Halfway to Mars, the nearest doctor is minutes away. ARGUS helps the crew check themselves." |
+| 5 to 12 s | Switch Earth and Mars transit; temperature changes | "Reference ranges adjust for spaceflight using published astronaut studies. The critical limit never moves." |
+| 12 to 20 s | Alert test: 5-scenario, 100-seed table and trace | "We tested our rules across five scenarios and 100 random seeds. Zero false alarms, earlier fever detection, and honest reporting where we're slower." |
+| 20 to 27 s | Emergency: pick patient & responder, NO, NO, Published CPR step | "And when a crewmate collapses, it logs responder access, walks microgravity CPR one step at a time, and prepares the ground packet." |
 | 27 to 30 s | ARGUS title and the URL | "ARGUS. For when Earth can't answer." |
 
 Record a second, longer take of the full demo path as a backup for the live pitch.
@@ -52,21 +52,21 @@ Cut the bracketed parts for a shorter slot.
 
 > Imagine you are halfway to Mars and your crewmate has chest pain. You are not a doctor. A question to Earth takes minutes to arrive and minutes to come back. That is the challenge the Brazilian Space Agency set, and that is who ARGUS is for.
 >
-> ARGUS is a health monitor that runs entirely on board. [No server, no connection to Earth; the readings never leave the device.] The astronaut logs six readings: heart rate, blood pressure, glucose, temperature, sleep and mood. Each one gets a status in plain words, with the reason, and a card that explains how to measure it, why it matters, what spaceflight does to it and when to escalate.
+> ARGUS is a health monitor that runs entirely on board. [No server, no connection to Earth; the readings stay on the crewmember's device.] The astronaut logs six readings—heart rate, blood pressure, glucose, temperature, sleep and mood—or imports a JSON or CSV packet from a sensor. Each reading gets a status in plain words, with the reason, and a five-section card that explains how to measure it, why it matters, what spaceflight does to it, what you can do and when to escalate.
 >
 > Three things make it more than a tracker.
 >
-> First, it knows it is in space. Research on the space station found that core body temperature rises by about a degree over the first months. A normal reading in flight would trip an alert built for Earth, every single day. So ARGUS shifts the reference range with the mission day. [Watch: 37.4 degrees needs review on Earth, and is within range in Mars transit.] The critical limit never moves.
+> First, it knows it is in space. Published studies on station astronauts found that resting core body temperature rises by about a degree over the first 75 days, while 24-hour blood pressure falls by 8 to 9 millimetres of mercury. An ordinary reading in flight would trip an Earth-based alert every day. So ARGUS shifts the reference range with the mission day. [Watch: 37.4 degrees needs review on Earth, and is within range in Mars transit.] The critical limit never moves.
 >
-> Second, it learns your normal. It builds a personal baseline from your own readings, and flags three readings in a row outside it.
+> Second, it learns your normal. It builds an outlier-resistant personal baseline from your own readings using the median and median absolute deviation, and flags three readings in a row outside it—while ignoring a single-day typo or sensor glitch.
 >
-> Third, we tested it and we publish the result. We simulated a slow fever and ran it three ways. Earth ranges gave 30 false alerts in 30 days. The adjusted range gave none, but took five days to notice the fever. Adding the personal baseline caught it in three. We wrote down what we expected before we ran it, and the code that produced the table is in the repository.
+> Third, many teams claim Earth ranges do not fit space—we tested it and publish the numbers. We ran five scenarios across 100 deterministic random seeds through the exact same function the dashboard uses. On a slow fever, Earth ranges gave 30 false alerts in 30 days. The adjusted range gave zero, but took five days to notice the fever. Adding the personal baseline caught it in three, and on the single-typo scenario it triggered zero false alerts across all 100 seeds.
 >
-> And for the moment in the challenge video, a crewmate collapsing, there is an emergency mode. One question per screen, big buttons, every answer logged with its time. [The compression method comes from the published guideline for CPR in microgravity, and the screen says plainly that CPR has never been performed on a person in space.]
+> When the crew needs to brief the Crew Medical Officer or Mission Control, a handover screen packages the last seven days, every alert, and every feel-versus-data mismatch into a printable report or JSON telemetry bundle.
 >
-> Just as important is what ARGUS refuses to do. It does not diagnose. It gives no medication advice. It never shows green for a reading it could not check. Every medical number has a source, or is labelled a demo parameter.
+> And for the moment in the challenge video, a crewmate collapsing, there is a full-screen emergency mode. The responder selects who collapsed and who is responding. It shows the rescue vitals immediately, lets the responder open the full record in one logged tap—because in an arrest a rescuer cannot be blocked by a PIN—and walks the published microgravity CPR guideline one step at a time.
 >
-> This is a weekend prototype on simulated data, not a medical device. But the same idea, a tool that explains, adjusts and admits what it does not know, is what a remote clinic on Earth needs too.
+> Just as important is what ARGUS refuses to do. It does not diagnose. It gives no medication advice. It never shows green for a reading it could not check. And 140 automated tests verify the logic and fail the build if any medical number, card, or emergency step lacks a source or demo label.
 >
 > On the way to Mars, the doctor is minutes away. ARGUS is for that gap.
 
@@ -78,11 +78,11 @@ Few words per slide. The demo carries the detail.
 |---|---|---|
 | 1 | ARGUS | The one line. Team SpaceRangers. The challenge name. |
 | 2 | The gap | "Astronauts are not doctors." Communication delay to Mars: 3 to 23 minutes (Hinkelbein et al. 2020). |
-| 3 | What it does | One screenshot of the dashboard. Six indicators, four statuses, a reason for each. |
-| 4 | It knows it is in space | Temperature screenshot on Earth and on Mars transit, side by side. "The range moves. The critical limit never does." |
-| 5 | We tested it | The results table, three rows. "Simulated. Expectations written before the run." |
-| 6 | When it goes wrong | Emergency step screenshot. "One step per screen. Sourced, or labelled demo copy." |
-| 7 | What it refuses to do | No diagnosis. No medication advice. No green without a check. Not a medical device. The URL and the repository. |
+| 3 | What it does | Dashboard screenshot (6-site 3D suit figure + list + light/dark mode). Six indicators, four statuses, device import, and `/handover` ground packet. |
+| 4 | It knows it is in space | Temperature & blood pressure adjustment (Stahn et al. 2017; Norsk et al. 2015) + outlier-resistant personal baseline. "The range moves. The critical limit never does." |
+| 5 | We tested it (5 scenarios × 100 seeds) | Headline results table (`results/summary.md`). "Pre-registered expectations. 100 Monte Carlo seeds per scenario. Honest trade-offs." |
+| 6 | When a crewmate collapses | Red emergency mode screenshot: Patient + Responder selection, logged break-the-glass vitals access, and Published microgravity CPR step (Hinkelbein et al. 2020). |
+| 7 | What it refuses to do | No diagnosis. No medication advice. No green without a check. 140 automated tests guarding every rule and source. Live URL and repository. |
 
 Screenshots: take them from the live site after pressing "Load demo profile", so every slide shows the same data.
 
@@ -92,49 +92,62 @@ Draft sections. Check the field names against this year's submission form.
 
 **High-level summary**
 
-ARGUS is a browser app that helps astronauts assess their own health when Earth is too far away to ask. The astronaut logs six indicators and gets a plain-language status for each, with the reasons and a guidance card. Reference ranges adjust for the space environment and mission day, a personal baseline flags sustained changes, and an emergency mode walks the crew through a collapse one step at a time. It runs entirely on the device, with no server. We tested the alert rules on a simulated fever and publish the results, including their limits.
+ARGUS is an on-board browser application that helps astronauts assess their own health when Earth is too far away to ask in real time. Crewmembers log six indicators—by hand or via browser CSV/JSON sensor import—and receive a plain-language status, explanation, and five-section reference card for each. Reference ranges shift with the spaceflight environment and mission day (Stahn et al. 2017 for core temperature; Norsk et al. 2015 for blood pressure), an outlier-resistant personal baseline flags sustained changes across three consecutive readings, a 7-day handover report packages alerts for the Crew Medical Officer and Mission Control, and a red emergency mode walks a responder through a collapse with logged break-the-glass vitals access. We tested the status engine across five scenarios and 100 random seeds per scenario, publishing both average and worst-case performance.
 
 **How it addresses the challenge**
 
-- Assess their own health: six indicators, four statuses (within range, needs review, critical, unknown), always as a word, a symbol and a colour.
-- Astronauts are not doctors: each card explains how to measure, why it matters, what spaceflight does, what you can do and when to escalate.
-- Guidance in an emergency: the chest-pain collapse from the challenge video, as yes/no steps with a log.
-- Different environments: Earth, space station and Mars transit, each with its own signal delay; the temperature range adjusts in flight.
-- Routine prompts: a check-in due banner on the dashboard.
-- Charts and colour coding: a trend chart per indicator with the reference range and personal baseline as bands.
+- **Assess their own health:** Six indicators (`heartRate`, `bloodPressure`, `bloodGlucose`, `bodyTemperature`, `sleepDuration`, `mood`), four statuses (`Within range`, `Needs review`, `Critical`, `Unknown`), always shown as a word, a symbol and a colour together, plus feel-vs-data and combined sleep/mood checks.
+- **Astronauts are not doctors:** Each indicator has a five-section guidance card (how to measure, why it matters, what spaceflight does, self-care, when to escalate), and a `/handover` report prepares a printable summary and JSON telemetry bundle for the Crew Medical Officer and the ground.
+- **Guidance in an emergency:** Tailored to the challenge video's chest-pain collapse scenario, with Patient and Responder selection, limited rescue vitals by default, one-tap logged full-record access ("break-the-glass"), Y/N keyboard-accessible steps, elapsed timer, and a ground emergency message builder.
+- **Different environments:** Earth, space station and Mars transit, each with its simulated one-way and round-trip signal delay; both body temperature and blood pressure reference ranges adjust by mission day.
+- **Routine prompts & device feeds:** A check-in due banner on the dashboard, advancing check-in timestamps, and browser-based CSV/JSON device import validated through the same bounds as typed entries.
+- **Charts, 3D figure and themes:** Interactive SVG strip charts with reference and personal baseline bands, a 6-site 3D suit figure (with wireframe fallback), and light/dark console themes.
 
 **How we built it**
 
-React and TypeScript on Next.js, hosted on Vercel. All logic is in plain functions with 73 automated tests. Medical numbers live in data files, each with a source or a "demo parameter" label, never in the code. `npm run evaluate` regenerates the alert results from a fixed scenario and seed.
+React and TypeScript on Next.js, hosted on Vercel, with zero server or database dependencies so all health data remains on board in `localStorage`. All status, baseline, validation, device-import, handover, and emergency-tree logic lives in pure functions backed by **140 automated tests**. Medical numbers live in JSON data files, each verified by automated tests to carry a citation from `plan/SOURCES.md` or an explicit `"demo parameter"` / `"Demo copy"` label. `npm run evaluate` deterministically regenerates `results/fever.md` and the 5-scenario, 100-seed `results/summary.md`.
 
 **Results**
 
-Paste the table from `results/fever.md` and its "Limits" section.
+Paste the headline table from `results/summary.md` and `results/fever.md` along with the "Limits" section.
 
 **Space agency data and resources**
 
-Take the list from `plan/SOURCES.md`. Name the three that carry the design: NASA Human Research Program (hazards and risks), Stahn et al. 2017 (core temperature in flight), Hinkelbein et al. 2020 (CPR in microgravity).
+Take the full table from `plan/SOURCES.md`. Highlight:
+- **NASA Human Research Program** (5 Hazards and Risks of Human Spaceflight: orthostatic intolerance, altered nutrition, sleep loss, behavioral conditions)
+- **Stahn et al. 2017** (*Scientific Reports*, core body temperature `+1.01 °C` shift over 75 mission days in ISS astronauts)
+- **Norsk et al. 2015** (*Journal of Physiology*, 24-hour ambulatory blood pressure `-8 mmHg` systolic / `-9 mmHg` diastolic shift in ISS astronauts)
+- **Hinkelbein et al. 2020** (*Scand J Trauma Resusc Emerg Med*, DGLRM/ESAM microgravity CPR guideline: Evetts-Russomano, Reverse-Bear-Hug, and Handstand methods)
+- **AHA, CDC, NIDDK, and ADA Standards of Care** (resting heart rate, blood pressure, sleep duration, and fasting/post-meal/Level-2 hypoglycaemia glucose thresholds)
 
 **Limits**
 
-All data is simulated. The alert test is one scenario with parameters we chose; it is a software test, not clinical validation. Several ranges are demo parameters. Only temperature adjusts for the environment. The emergency steps are labelled "Demo copy" unless a team member has opened the source. ARGUS is not a medical device.
+All readings in the demo are simulated. The alert evaluation is a software benchmark on five simulated scenarios (100 seeds each) with team-chosen demo parameters, not clinical validation. Only temperature and blood pressure adjust for the spaceflight environment. Unsourced emergency triage steps are labelled `"Demo copy"`, while the microgravity CPR compression step is labelled `"Published"`. ARGUS is not a medical device.
+
+**Next steps**
+
+1. **Replay against NASA bed-rest data:** Run `getStatus` unchanged against the UTMB head-down bed-rest dataset on the NASA Life Sciences / OSDR portal (DOI `10.83263/wjw1-ta27`) with planted fever and blood-pressure shifts to measure false-alarm and miss rates on human longitudinal vitals alongside our 100-seed synthetic benchmark.
+2. **Ephemeris-driven signal delay:** Replace the fixed `720 s` Mars transit demo parameter in `environments.json` with a precomputed JPL Horizons Earth–Mars one-way light-time table by mission day.
+3. **Passive cabin & radiation feeds:** Feed continuous dosimeter (MSL RAD / OSDR RadLab) and cabin $\text{CO}_2$ / $\text{SpO}_2$ streams through `deviceImport.ts`.
+4. **Objective cognitive check:** Add a 3-minute Psychomotor Vigilance Test (PVT-B) alongside self-reported sleep duration and mood.
 
 **Use of AI**
 
-Take this from `plan/AI_USE.md`. It must list every tool the team used and what for.
+Take this from `plan/AI_USE.md`. It lists every tool the team used and what for.
 
 ## Questions judges may ask
 
 | Question | Answer |
 |---|---|
-| Is this medically validated? | No. It is a prototype on simulated data. The screens and the results file say so. |
-| Why no AI model predicting illness? | Data from a few dozen astronauts is too little to train on, and a crew alone needs a reason for every alert. We detect changes from each astronaut's own baseline and explain them. |
-| Did you tune the test until you won? | No. The scenario and expected outcomes were committed before the evaluation script existed; the git history shows the order. |
-| Why does the baseline catch the fever sooner? | It is the astronaut's own usual band. Three readings in a row outside it turn amber, before the reading reaches the adjusted limit. |
-| Why trust station data for Mars? | Transit is weightless, like the station, so it is the closest published evidence. We label it, we never extend the shift past what was measured, and the critical limit never moves. |
-| Why no database? | The crew cannot depend on a link to Earth. Data stays on board, in the browser. Only one file touches storage, so it can be swapped later. |
-| What about the CPR instructions? | The method follows the published microgravity guideline. That guideline gives no rate or depth of its own, so we show none. The screen says CPR has never been performed on a person in space. |
-| What would you do next? | More scenarios in the alert test, a blood pressure adjustment from the published data, Moon and Mars surface, and a report the astronaut can choose to send to the ground. |
+| Is this medically validated? | No. It is a software prototype evaluated on simulated data. Every screen, the footer, and the results files state this plainly. |
+| Other teams shift ranges for space too—what makes yours different? | Many teams claim Earth ranges don't fit space. We pre-registered expectations and tested our status engine across five scenarios and 100 random seeds (`npm run evaluate`), and we publish where our method is slower (`results/summary.md`). |
+| Why use simulated scenarios instead of NASA bed-rest data? | Bed-rest studies contain no real fevers or emergencies, so teams using them still have to inject synthetic spikes. Controlled simulation lets us set the exact onset day and run 100 Monte Carlo seeds per scenario to measure mean and worst-case days-to-detection and prove that a single-day typo causes zero false alarms. Replaying our pure `getStatus` function on the UTMB bed-rest dataset is our first Next Step. |
+| Why is there no radiation or $\text{SpO}_2$ tile? | Radiation is measured continuously by spacecraft dosimeters, not self-administered crew check-ins. We focused on the six crew-logged indicators named in the challenge brief and built browser CSV/JSON device import so external sensor packets can feed into the same pipeline. |
+| Why one-tap logged unlock in emergency mode instead of a PIN? | Two reasons: in a collapse or cardiac arrest, a responder must never be blocked by a PIN they do not know; and in a client-side browser app with no server, a PIN in JavaScript cannot keep a secret from DevTools anyway. Instead, we use hospital "break-the-glass" access: rescue vitals show first, opening the full record takes one tap, and every access is logged with the responder's role and UTC timestamp into the ground message. |
+| Why no AI model predicting illness or prescribing treatment? | Data from a few dozen astronauts is too small to train a reliable clinical model, and an isolated crew needs a deterministic, auditable reason for every alert. We use median/MAD personal baselines with plain-language reasons, and we refuse to diagnose or recommend medications. |
+| Did you tune the fever test until you won? | No. `scripts/scenarios/fever.json` and its expected outcomes were committed before `scripts/evaluate.ts` existed; the git history shows the order. |
+| Why trust station data for Mars transit? | Mars transit is weightless like the station, making ISS studies (Stahn et al. 2017; Norsk et al. 2015) the closest published human evidence. We cap the shift at the published value, label the extrapolation, and never move the critical limit. |
+| What about the CPR instructions? | Step `a3` follows Recommendations 2, 3 and 10 of the published microgravity CPR guideline (Hinkelbein et al. 2020). Because the paper gives no compression rate or depth of its own and refers to Earth guidelines, we show an elapsed timer without inventing numbers, and note that CPR has never been performed on a human in spaceflight. |
 
 ## Before submitting
 
