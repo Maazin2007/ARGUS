@@ -20,6 +20,7 @@ export type EmergencyStepUi = EmergencyStep & {
   logYes: string;
   logNo: string;
   showLimits?: boolean;
+  showElapsed?: boolean; // show a running "time on this step" clock
 };
 
 const STEPS = emergencyData.steps as EmergencyStepUi[];
