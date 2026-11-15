@@ -360,3 +360,76 @@ test("blood pressure returns the worse status and combines plain-language reason
     "Diastolic blood pressure 130 mmHg is above the critical limit of 120 mmHg.",
   ]);
 });
+
+// Rules with no reference range (test values). Green needs a range check, so these never return green.
+const noRangeRules: IndicatorRule[] = [
+  {
+    measure: "bloodGlucose",
+    context: "fasting",
+    unit: "mg/dL",
+    earthRange: { low: null, high: null, source: "test value" },
+    criticalLimit: null,
+    baselineFloor: null,
+    adjustments: [],
+  },
+  {
+    measure: "systolic",
+    context: "resting",
+    unit: "mmHg",
+    earthRange: { low: null, high: null, source: "test value" },
+    criticalLimit: { low: null, high: 180, source: "test value" },
+    baselineFloor: null,
+    adjustments: [],
+  },
+  {
+    measure: "diastolic",
+    context: "resting",
+    unit: "mmHg",
+    earthRange: { low: null, high: null, source: "test value" },
+    criticalLimit: { low: null, high: 120, source: "test value" },
+    baselineFloor: null,
+    adjustments: [],
+  },
+];
+
+test("rule with no reference range and no critical limit returns unknown, never green", () => {
+  const highGlucose: Reading = {
+    ...restingHeartRate,
+    indicator: "bloodGlucose",
+    value: 400,
+    unit: "mg/dL",
+    context: "fasting",
+  };
+  const result = checkReading(highGlucose, [], noRangeRules, "earth", 0, now);
+  assert.equal(result.status, "unknown");
+  assert.equal(result.referenceRange, null);
+  assert.deepEqual(result.reasons, [
+    "Blood glucose has no reference range yet, so this reading was not checked.",
+  ]);
+});
+
+test("rule with only a critical limit returns unknown below the limit", () => {
+  const highBp: BloodPressureReading = {
+    ...restingBloodPressure,
+    systolic: 170,
+    diastolic: 110,
+  };
+  const result = checkReading(highBp, [], noRangeRules, "earth", 0, now);
+  assert.equal(result.status, "unknown");
+  assert.equal(result.criticalLimitCrossed, false);
+  assert.deepEqual(result.reasons, [
+    "Systolic blood pressure has no reference range yet. Only the critical limit was checked.",
+    "Diastolic blood pressure has no reference range yet. Only the critical limit was checked.",
+  ]);
+});
+
+test("rule with only a critical limit still returns red past the limit", () => {
+  const crisisBp: BloodPressureReading = {
+    ...restingBloodPressure,
+    systolic: 190,
+    diastolic: 110,
+  };
+  const result = checkReading(crisisBp, [], noRangeRules, "earth", 0, now);
+  assert.equal(result.status, "red");
+  assert.equal(result.criticalLimitCrossed, true);
+});

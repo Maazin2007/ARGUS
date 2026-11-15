@@ -188,7 +188,23 @@ function checkSingleMeasure(
     }
   }
 
-  // CHECK 3: Amber (reference range)
+  // CHECK 3: No reference range to check against.
+  // Green means a range check ran and found nothing, so a rule with no range can never be green.
+  if (referenceRange.low === null && referenceRange.high === null) {
+    return {
+      status: "unknown",
+      reasons: [
+        rule.criticalLimit !== null
+          ? `${label} has no reference range yet. Only the critical limit was checked.`
+          : `${label} has no reference range yet, so this reading was not checked.`,
+      ],
+      referenceRange: null,
+      baseline,
+      criticalLimitCrossed: false,
+    };
+  }
+
+  // CHECK 4: Amber (reference range)
   if (referenceRange.low !== null && reading.value < referenceRange.low) {
     return {
       status: "amber",
@@ -213,7 +229,7 @@ function checkSingleMeasure(
     };
   }
 
-  // CHECK 4: Amber (personal baseline - 3 consecutive readings outside baseline)
+  // CHECK 5: Amber (personal baseline - 3 consecutive readings outside baseline)
   if (baseline !== null) {
     const earlierMatching = history
       .filter(
@@ -249,7 +265,7 @@ function checkSingleMeasure(
     }
   }
 
-  // CHECK 5: Green (nothing fired)
+  // CHECK 6: Green (nothing fired)
   const reasons = ["No checks fired."];
   if (baseline === null && rule.baselineFloor !== null) {
     reasons.push("Baseline not available yet.");
