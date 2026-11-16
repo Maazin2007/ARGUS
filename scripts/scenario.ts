@@ -307,3 +307,127 @@ export function buildSummary(seedCount = SEED_COUNT): Summary {
     })),
   };
 }
+
+// ---------- sensitivity grid ----------
+
+// The fever scenario rerun with other noise sizes and rise speeds
+// (scripts/scenarios/sensitivity.json), to see whether the result depends on
+// the one setting fever.json uses. The grid and predictions were committed
+// before this code was written.
+
+export type SensitivityConfig = {
+  note: string;
+  baseScenario: string;
+  seedCount: number;
+  noise: number[];
+  risePerDay: number[];
+  predictions: { id: string; text: string }[];
+};
+
+export type SensitivityPoint = {
+  noise: number;
+  risePerDay: number;
+  result: MultiSeedResult;
+};
+
+export type PredictionVerdict = "met" | "not met" | "not testable";
+export type PredictionCheck = { id: string; text: string; verdict: PredictionVerdict; detail: string };
+
+export type Sensitivity = {
+  config: SensitivityConfig;
+  points: SensitivityPoint[];
+  checks: PredictionCheck[];
+};
+
+const method = (point: SensitivityPoint, id: MethodId) =>
+  point.result.methods.find((m) => m.id === id)!;
+const falseMean = (m: MultiSeedMethodResult) => round2(m.falseAmber.mean + m.falseRed.mean);
+const where = (p: SensitivityPoint) => `noise ${p.noise}, rise ${p.risePerDay}`;
+
+// Each prediction from sensitivity.json, checked against the grid. The rule
+// for each one is written to match its text word for word.
+export function checkPredictions(config: SensitivityConfig, points: SensitivityPoint[]): PredictionCheck[] {
+  const text = (id: string) => config.predictions.find((p) => p.id === id)?.text ?? "";
+  const verdict = (id: string, failures: string[], ok: string): PredictionCheck => ({
+    id,
+    text: text(id),
+    verdict: failures.length === 0 ? "met" : "not met",
+    detail: failures.length === 0 ? ok : `Fails at: ${failures.join("; ")}`,
+  });
+
+  const p1 = points.filter((p) => falseMean(method(p, "adjustedRange")) !== 0).map(where);
+  const p2 = points.filter((p) => falseMean(method(p, "adjustedRangeAndBaseline")) >= 1).map(where);
+  const p3 = points.filter((p) => falseMean(method(p, "earthRange")) < 20).map(where);
+
+  const p4 = points
+    .filter((p) => {
+      const a = method(p, "adjustedRange").firstAmberDay.mean;
+      const b = method(p, "adjustedRangeAndBaseline").firstAmberDay.mean;
+      return a !== null && b !== null && b > a;
+    })
+    .map(where);
+
+  const p5Points = points.filter((p) => p.risePerDay === 0.05 && p.noise <= 0.1);
+  const p5 = p5Points
+    .filter((p) => {
+      const n = p.result.seedCount;
+      return (
+        method(p, "adjustedRange").firstAmberDay.never !== n ||
+        method(p, "adjustedRangeAndBaseline").firstAmberDay.never >= n / 2
+      );
+    })
+    .map(where);
+
+  // P6: the baseline's lead at noise 0.3 against noise 0.05, per rise.
+  const lead = (p: SensitivityPoint | undefined) => {
+    if (!p) return null;
+    const a = method(p, "adjustedRange").firstAmberDay.mean;
+    const b = method(p, "adjustedRangeAndBaseline").firstAmberDay.mean;
+    return a === null || b === null ? null : round2(a - b);
+  };
+  const p6Failures: string[] = [];
+  const p6Untestable: string[] = [];
+  for (const rise of config.risePerDay) {
+    const low = lead(points.find((p) => p.risePerDay === rise && p.noise === 0.05));
+    const high = lead(points.find((p) => p.risePerDay === rise && p.noise === 0.3));
+    if (low === null || high === null) p6Untestable.push(`rise ${rise}`);
+    else if (high > low) p6Failures.push(`rise ${rise} (lead ${low} at noise 0.05, ${high} at noise 0.3)`);
+  }
+  const p6: PredictionCheck = {
+    id: "P6",
+    text: text("P6"),
+    verdict:
+      p6Failures.length > 0 ? "not met" : p6Untestable.length === config.risePerDay.length ? "not testable" : "met",
+    detail: [
+      p6Failures.length ? `Fails at: ${p6Failures.join("; ")}` : "",
+      p6Untestable.length ? `Not testable at: ${p6Untestable.join(", ")}` : "",
+    ]
+      .filter(Boolean)
+      .join(". ") || "Holds at every rise.",
+  };
+
+  const p7 = points
+    .filter((p) => new Set(p.result.methods.map((m) => m.firstRedDay.mean)).size !== 1)
+    .map(where);
+
+  return [
+    verdict("P1", p1, "Holds at every grid point."),
+    verdict("P2", p2, "Holds at every grid point."),
+    verdict("P3", p3, "Holds at every grid point."),
+    verdict("P4", p4, "Holds at every grid point where both methods fire."),
+    verdict("P5", p5, "Holds at both grid points it covers."),
+    p6,
+    verdict("P7", p7, "Holds at every grid point."),
+  ];
+}
+
+export function buildSensitivity(config: SensitivityConfig, base: Scenario): Sensitivity {
+  const points: SensitivityPoint[] = config.noise.flatMap((noise) =>
+    config.risePerDay.map((risePerDay) => ({
+      noise,
+      risePerDay,
+      result: evaluateScenarioMultiSeed({ ...base, noise, risePerDay }, config.seedCount),
+    })),
+  );
+  return { config, points, checks: checkPredictions(config, points) };
+}

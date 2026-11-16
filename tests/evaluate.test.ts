@@ -1,15 +1,19 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  buildSensitivity,
   buildSummary,
   evaluateScenario,
   evaluateScenarioMultiSeed,
   SCENARIOS,
   type Scenario,
+  type SensitivityConfig,
 } from "../scripts/scenario";
 import scenarioJson from "../scripts/scenarios/fever.json";
 import committedResult from "../results/fever.json";
 import committedSummary from "../results/summary.json";
+import sensitivityJson from "../scripts/scenarios/sensitivity.json";
+import committedSensitivity from "../results/sensitivity.json";
 
 const scenario = scenarioJson as Scenario;
 
@@ -95,4 +99,29 @@ test("sleep debt and falling mood give the same result with all three methods", 
     assert.deepEqual(strip(a), strip(b), id);
     assert.deepEqual(strip(b), strip(c), id);
   }
+});
+
+// ---------- sensitivity grid ----------
+
+const sensitivityConfig = sensitivityJson as SensitivityConfig;
+const sensitivity = buildSensitivity(sensitivityConfig, scenario);
+
+test("results/sensitivity.json matches the current status engine and grid", () => {
+  assert.deepEqual(JSON.parse(JSON.stringify(sensitivity)), committedSensitivity);
+});
+
+test("the grid point with fever.json's own setting gives the same 100-seed result", () => {
+  const point = sensitivity.points.find(
+    (p) => p.noise === scenario.noise && p.risePerDay === scenario.risePerDay,
+  );
+  assert.ok(point, "the grid includes fever.json's setting");
+  assert.deepEqual(point.result, entry("fever").multiSeed);
+});
+
+test("every pre-registered prediction gets a verdict", () => {
+  assert.deepEqual(
+    sensitivity.checks.map((c) => c.id),
+    sensitivityConfig.predictions.map((p) => p.id),
+  );
+  for (const c of sensitivity.checks) assert.equal(c.text, sensitivityConfig.predictions.find((p) => p.id === c.id)?.text);
 });
