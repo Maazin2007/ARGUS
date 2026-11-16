@@ -116,7 +116,7 @@ First red on the fever is 7.27 / 8 (mean / worst) for all three methods.
 ### What the results mean
 
 - **Adjusted ranges remove the false alerts, if the in-flight rise is real.** The healthy base of 37.4 °C sits above the Earth upper limit of 37.2 °C by construction, because spaceflight raises core temperature (Stahn et al. 2017). So the 30 Earth false alerts are a consequence of that assumption, not a discovery. What the test does show is that the adjusted range and the baseline remove them **without** delaying the red alert.
-- **The baseline buys earlier warning.** On the fever it warns about two days before the adjusted range alone, while ignoring a single odd reading in every seed.
+- **The baseline buys earlier warning.** On the fever it warns two days before the adjusted range alone on the frozen seed (day 3 vs. day 5), and about 1.5 days earlier on average over 100 seeds (mean 3.84 vs. 5.3), while ignoring a single odd reading in every seed.
 - **The fixed critical limit works as designed.** No method changes the red day.
 - **Sleep and mood do not compare the methods.** They have no spaceflight adjustment and no baseline in our rules, so all three methods are the same function call. They only check that the reference ranges fire. Only three of the five scenarios (fever, odd reading, spike) test the comparison.
 
