@@ -19,11 +19,11 @@ On a long mission, astronauts have to spot health changes in themselves, and the
 - **An escalation card and handover report (`/handover`):** who to notify, what to do meanwhile, the simulated signal delay to Earth, and a printable / JSON-exportable 7-day handover report for the Crew Medical Officer and the ground.
 - **A shared crew console.** Each crewmember taps their name and sees their own readings. Crewmates see only a status word and the last reading day, so a critical status or a missed check-in is visible without exposing anyone's data. No password: a browser cannot keep one.
 - **Emergency mode** for a crewmate who collapses after chest pain: patient and responder role selection, rescue vitals with logged one-tap full-record access ("break-the-glass"), yes/no questions one step per screen, a timestamped step log, microgravity CPR guidance sourced to Hinkelbein et al. 2020, and a ground emergency message builder.
-- **A multi-scenario alert test** that compares three alert methods across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 Monte Carlo seeds.
+- **A documented alert test** that compares three alert methods across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 seeds each, plus a pre-registered 2,000-run sensitivity grid. Protocol, timeline and limits: [plan/EVALUATION.md](plan/EVALUATION.md).
 
 ## Does the alerting work?
 
-We ran five simulated scenarios through the same `getStatus` function the dashboard uses, comparing three methods on both a frozen seed and 100 deterministic random seeds. Full results: [results/summary.md](results/summary.md) and [results/fever.md](results/fever.md).
+We ran five simulated scenarios through the same `getStatus` function the dashboard uses, comparing three methods on both a frozen seed and 100 deterministic random seeds. The protocol, what was pre-registered and when, and the limits are in [plan/EVALUATION.md](plan/EVALUATION.md). Full results: [results/summary.md](results/summary.md), [results/fever.md](results/fever.md) and [results/sensitivity.md](results/sensitivity.md).
 
 On the slow-onset fever scenario (30 ordinary days in Mars transit, then a temperature rising 0.15 °C a day for 10 days):
 
@@ -33,9 +33,11 @@ On the slow-onset fever scenario (30 ordinary days in Mars transit, then a tempe
 | Adjusted range | 5 | 7 | 5 | 0 | 5.3 / 6 | 0 / 0 |
 | Adjusted range and baseline | 3 | 7 | 3 | 0 | 3.84 / 5 | 0 / 0 |
 
-Earth ranges flag every ordinary day in flight. The adjusted range removes those false alerts, and adding the personal baseline catches the fever earlier while a single odd reading (`scripts/scenarios/typo.json`) causes zero false alerts across all 100 seeds. Red arrives on the same day for all three methods, because nothing moves the critical limit.
+Earth ranges flag every ordinary day in flight (this follows from the in-flight base of 37.4 °C we assume from Stahn et al. 2017, above the Earth limit of 37.2 °C). The adjusted range removes those false alerts, and adding the personal baseline catches the fever earlier while a single odd reading (`scripts/scenarios/typo.json`) causes zero false alerts across all 100 seeds. Red arrives on the same day for all three methods, because nothing moves the critical limit.
 
-This is a software test on simulated scenarios with parameters the team chose. It is not clinical validation.
+**Sensitivity.** We then varied the noise (0.05 to 0.3 °C) and the fever speed (0.05 to 0.3 °C a day), 100 seeds per setting, with seven predictions committed before the code existed. Five were met: across all 20 settings the adjusted range gave no false alerts, the baseline was never slower, and the red day never moved. Two were not: a fever rising only 0.05 °C a day is caught by the baseline in just 33 of 100 seeds at normal noise, and the baseline's lead on fast fevers grew slightly with noise instead of shrinking. Slow fevers are the weak spot.
+
+Only the fever scenario and the sensitivity grid were pre-registered; the other four scenarios' expectations were committed with their results. This is a software test on simulated scenarios with parameters the team chose. It is not clinical validation.
 
 ## Getting started
 
@@ -91,6 +93,7 @@ plan/             build plan and team documents
 |---|---|
 | [plan/BUILD.md](plan/BUILD.md) | What is built, what is left, decisions made |
 | [plan/FLOW.md](plan/FLOW.md) | How the app works end to end |
+| [plan/EVALUATION.md](plan/EVALUATION.md) | How the alert test works, what was pre-registered, results and limits |
 | [plan/BACKEND.md](plan/BACKEND.md) | The step-by-step plan for the logic and data |
 | [plan/CODING_STANDARDS.md](plan/CODING_STANDARDS.md) | Rules for code, tests and git |
 | [plan/DESIGN_IDEAS.md](plan/DESIGN_IDEAS.md) | Design guidance for the screens |

@@ -72,6 +72,7 @@ A prediction is only convincing if it was written down before the result was kno
 | 15 Nov 01:23 | `81983c1` | `scripts/evaluate.ts` and the first fever results | The results came after the expectations |
 | 15 Nov 03:41 | `5497197` | Four more scenarios, their expectations, the 100-seed run, and their results, all in one commit | Nothing about order: expectations and results arrived together |
 | 15 Nov 21:32 | `6c665d2` | `sensitivity.json`: the sensitivity grid and seven predictions | The sensitivity predictions existed before the sensitivity code (section 8) |
+| 15 Nov 21:34 | `68e5869` | Sensitivity code and its first results | The sensitivity results came after the predictions; nothing in `sensitivity.json` changed |
 
 What we can and cannot claim:
 
@@ -125,7 +126,8 @@ First red on the fever is 7.27 / 8 (mean / worst) for all three methods.
 - **Simple noise.** Each day's noise is independent and spread evenly. Real sensors drift, have outliers and correlated error.
 - **Perfect compliance.** One reading every day, no missed days, no duplicates. In the app, missed days make readings stale (unknown).
 - **One indicator at a time.** Combined checks (such as sleep with mood) are not tested here.
-- **100 seeds vary only the noise draw.** They show the frozen-seed table was not luck. They do not vary the noise size, the fever speed or the base. Section 8 covers the first two.
+- **100 seeds vary only the noise draw.** They show the frozen-seed table was not luck. They do not vary the noise size, the fever speed or the base. Section 8 varies the first two; the base and the fever length are still fixed.
+- **Slow fevers are mostly missed** (section 8, finding 2).
 - **Mean first alert is over the seeds where the alert fired.** If a method rarely fires, its mean can look good. The "none in N of 100" count must be read beside it.
 - **Seeds are consecutive** (the frozen seed and the 99 after it), not drawn at random.
 
@@ -134,8 +136,37 @@ First red on the fever is 7.27 / 8 (mean / worst) for all three methods.
 The 100-seed run repeats one setting. This test asks whether the fever result holds when the setting changes.
 
 - **Design:** `scripts/scenarios/sensitivity.json`. The fever scenario is rerun with noise of 0.05, 0.1, 0.2 and 0.3 °C and a rise of 0.05, 0.1, 0.15, 0.2 and 0.3 °C a day. That makes 20 grid points with 100 seeds each, 2,000 runs. Everything else is as in `fever.json`.
-- **Pre-registration:** the grid and seven predictions (P1 to P7) were committed in `6c665d2`, before any sensitivity code existed. They will not be changed after seeing the results.
-- **Results:** added in the commit after this one, with each prediction marked as met or not met.
+- **Pre-registration:** the grid and seven predictions (P1 to P7) were committed in `6c665d2`, before any sensitivity code existed. The code and results followed in `68e5869`. The predictions were not changed.
+- **Checking:** `checkPredictions` in `scripts/scenario.ts` checks each prediction against the grid automatically, so the verdict is not a judgement call.
+- **Full results:** [results/sensitivity.md](../results/sensitivity.md), every grid point and method.
+
+### Predictions and verdicts
+
+| # | Prediction (as committed) | Verdict | What happened |
+|---|---|---|---|
+| P1 | Adjusted range: mean false alerts 0 at every grid point | **Met** | 0 everywhere |
+| P2 | Adjusted range and baseline: mean false alerts below 1 at every grid point | **Met** | 0 at noise up to 0.2; 0.03 at noise 0.3 (one false amber in one seed of 100) |
+| P3 | Earth range: mean false alerts at least 20 of 30 at every grid point | **Met** | |
+| P4 | Where both fire, the baseline's mean first amber is no later than the adjusted range's | **Met** | |
+| P5 | At rise 0.05 and noise ≤ 0.1, the adjusted range never fires, and the baseline fires in more than half the seeds | **Not met** | The adjusted range never fired, as predicted. The baseline fired in 100 of 100 seeds at noise 0.05, but only 33 of 100 at noise 0.1 |
+| P6 | The baseline's lead over the adjusted range is no larger at noise 0.3 than at 0.05, for each rise | **Not met** | Fails at rise 0.3: lead 0 days at noise 0.05, 0.13 days at noise 0.3. Not testable at rise 0.05, where the adjusted range never fires |
+| P7 | Mean first red is the same for all three methods at every grid point | **Met** | |
+
+### What we learned
+
+1. **The main result holds across the grid.** At all 20 settings, the adjusted range gives no false alerts, the baseline is never slower than the adjusted range, and the red day never changes.
+2. **Slow fevers are ARGUS's weak spot.** A rise of 0.05 °C a day (0.5 °C over ten days) never crosses the adjusted upper limit of 38.21 °C. Only the baseline can catch it, and only when readings are steady: in 100 of 100 seeds at noise 0.05, but 33 at noise 0.1 and 22 at noise 0.2 and 0.3. We expected better (P5). A crewmember whose temperature creeps up slowly would usually stay green for the ten days tested.
+3. **The baseline's advantage is largest for medium fevers.** At 0.1 to 0.15 °C a day it warns one to three days earlier than the adjusted range alone. At 0.3 °C a day, both warn by about day 2 and the advantage almost disappears.
+4. **P6 failed, but the difference is small.** At a fast rise the lead is 0 days with steady readings and 0.13 days with noisy ones. The means are taken over the seeds that fired, which are not the same seeds for both methods, so a difference this small is within what that can produce. We still report it as not met.
+5. **The first baseline false alert appears at noise 0.3.** It happened in one seed of 100: three noisy readings in a row outside the baseline band.
+6. **"First amber" undercounts warnings for fast fevers.** At a rise of 0.3 °C a day, up to 23 of 100 seeds go straight from green to red with no amber day. That is a warning, not a miss (the "missed" count stays low), but the first-amber column shows "none" for those seeds. A "first warning, amber or red" measure would be fairer. We did not pre-register it, so it is not reported as a result.
+7. **Consistency check.** The grid point with fever.json's own setting (noise 0.1, rise 0.15) gives exactly the 100-seed fever result in section 6. A test checks this.
+
+### What we would change next
+
+- Pre-register a "first warning (amber or red)" measure for the next run.
+- Test longer fever periods, to see when a slow fever is eventually caught.
+- Treat the slow-fever gap as a design question for the baseline (for example a trend check), not something to tune away by moving the floor after seeing these results.
 
 ## 9. How the results are protected
 
@@ -146,7 +177,7 @@ The 100-seed run repeats one setting. This test asks whether the fever result ho
 
 ```
 npm install
-npm run evaluate     # rewrites results/fever.*, results/summary.*
+npm run evaluate     # rewrites results/fever.*, results/summary.*, results/sensitivity.*
 npm test             # checks the committed results match
 git status           # no changes means you got the same numbers we did
 ```

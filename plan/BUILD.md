@@ -47,6 +47,8 @@ Live site: https://argus-delta-gules.vercel.app
 - [x] Shared crew console: "Who is using this console?", per-crewmember readings, and a crew board that shows a status word and last reading day with no values (`src/lib/crewBoard.ts`, `src/lib/storage.ts`, `src/lib/demoProfile.ts`)
 - [x] Emergency mode: patient and responder selection, limited rescue vitals with logged one-tap full-record access ("break-the-glass"), step log, time on the compressions step, and ground message builder (`src/data/emergency.json`, `src/lib/emergency.ts`, `src/lib/crew.ts`, `src/lib/emergencyMessage.ts`)
 - [x] Alert evaluation across five scenarios (slow-onset fever, single odd reading, sudden spike, creeping sleep debt, falling mood) and 100 Monte Carlo seeds (`npm run evaluate`, `results/summary.md`) on the alert test screen
+- [x] Pre-registered fever sensitivity grid, 2,000 runs, 5 of 7 predictions met (`results/sensitivity.md`)
+- [x] Alert test protocol, pre-registration timeline and limits written up (`plan/EVALUATION.md`)
 - [x] Light and dark console themes (`ThemeButton.tsx`) and all six indicators mapped to sites on the 3D body figure (`BodyMap.tsx`)
 - [x] CI runs lint, tests and build on every push; Vercel deploys `main`
 
@@ -80,7 +82,7 @@ These differ from the docx or settle something it left open.
 - **Baseline.** Unusual readings are left out of the baseline, so a slow fever cannot pull it up. Temperature and heart rate have a baseline; the other indicators do not.
 - **Config shape.** One rule per measure and context. Blood pressure has two measures; glucose has a fasting rule and an after-meal rule. A reading with no matching rule is unknown.
 - **CPR numbers.** Hinkelbein et al. 2020 gives no compression rate, depth or ratio of its own and refers to Earth-based guidelines. The numbers from the mockup were removed, and the timer shows elapsed time with no pulse.
-- **Alert test.** The scenario and its expected outcomes were committed before the evaluation script existed. Nothing was changed after the first run.
+- **Alert test.** The fever scenario and its expected outcomes were committed before the evaluation script existed, and its results have not changed since. The other four scenarios' expectations were committed together with their results, so they are not called pre-registered. The sensitivity grid's predictions were committed before its code. Details: `plan/EVALUATION.md`, section 5.
 - **Design.** The screens follow the team's ARGUS_v13 mockup: a light theme and a 3D suit figure (three.js) with a wireframe fallback. The list does everything the figure does.
 - **Check-in readings** are saved as simulated, so they join the demo profile's history and its baseline.
 - **Signal delay** lives in one file, `src/data/environments.json`, as labelled demo values.
