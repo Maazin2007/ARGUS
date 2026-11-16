@@ -122,7 +122,7 @@ Team SpaceRangers.
 | Arnav | Screens and components |
 | Shail | Project page, video, slides, AI disclosure |
 
-AI tools were used during the build; every use is listed in [plan/AI_USE.md](plan/AI_USE.md).
+AI tool use is disclosed in [plan/AI_USE.md](plan/AI_USE.md).
 
 ## Privacy and safety
 
