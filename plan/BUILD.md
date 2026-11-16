@@ -11,6 +11,7 @@ Live site: https://argus-delta-gules.vercel.app
 | `CODING_STANDARDS.md` | Rules everyone follows |
 | `DESIGN_IDEAS.md` | Design guidance, with a note on what was adopted |
 | `EVALUATION.md` | The alert test: protocol, what was pre-registered and when, results and limits |
+| `TESTING.md` | What the automated tests check and which safety rules they enforce |
 | `SCREEN_TESTS.md` | The click-through checklist for every screen |
 | `DEPLOYMENT.md` | The pipeline, Vercel, releasing, checking and rolling back a deploy |
 | `SOURCES.md` | Where every medical number comes from; add a row when you open a source |
