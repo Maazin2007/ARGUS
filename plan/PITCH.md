@@ -28,7 +28,7 @@ Rehearse this exact path on the live site, https://argus-delta-gules.vercel.app.
 | 3 | Check-in | Show "Load sample sensor packet" (device import), or log a check-in with fever, short sleep, low mood, and a self-rating of 4 out of 5. | "Readings come from a sensor CSV/JSON export or a step-by-step check-in. When the readings and the crewmember's self-rating disagree—or sleep and mood drop together—ARGUS points it out." |
 | 4 | Handover | Open `/handover` and click "Copy ground telemetry packet". | "You cannot wait 24 minutes for a reply from Earth, so ARGUS builds a 7-day handover report and JSON telemetry packet ready for the Crew Medical Officer and the ground." |
 | 5 | Alert test | Show the five-scenario, 100-seed headline table, then switch the trace chart. | "Temperature runs about a degree higher in flight, so Earth ranges flag every healthy day: 30 false alerts before the fever. Our adjusted range gives zero, the personal baseline catches the fever two days sooner, and a single-day typo raises nothing in 100 seeds. We wrote the predictions down before running it, and we publish the ones we got wrong." |
-| 6 | Emergency | From the Crew table press "Open emergency", pick the pilot, answer NO, NO, and show "Open full record (logged)". | "You are the responder, so it only asks who needs help. You see the rescue vitals first, here a fever of 38.7, and can open the full record in one logged tap. Then the published microgravity CPR steps." |
+| 6 | Emergency | From the Crew table press "Open emergency" on the pilot's row, show "Open full record (logged)", then answer NO, NO. | "I'm signed in, so I'm the responder, and the pilot is already the patient: it goes straight to the steps. You see the rescue vitals first, here a fever of 38.7, and can open the full record in one logged tap. Then the published microgravity CPR steps." |
 
 If time is short, keep steps 2, 5 and 6.
 
@@ -41,7 +41,7 @@ One take of the live site, with a voice-over. About 75 words.
 | 0 to 5 s | Dashboard, six statuses and 3D figure | "Halfway to Mars, the nearest doctor is minutes away. ARGUS helps the crew check themselves." |
 | 5 to 12 s | Switch Earth and Mars transit; temperature changes | "Reference ranges adjust for spaceflight using published astronaut studies. The critical limit never moves." |
 | 12 to 20 s | Alert test: 5-scenario, 100-seed table and trace | "We tested our rules across five scenarios and 100 random seeds. Zero false alarms, earlier fever detection, and honest reporting where we're slower." |
-| 20 to 27 s | Emergency: pick patient & responder, NO, NO, Published CPR step | "And when a crewmate collapses, it logs responder access, walks microgravity CPR one step at a time, and prepares the ground packet." |
+| 20 to 27 s | Emergency: "Open emergency" on the pilot, NO, NO, Published CPR step | "And when a crewmate collapses, it logs responder access, walks microgravity CPR one step at a time, and prepares the ground packet." |
 | 27 to 30 s | ARGUS title and the URL | "ARGUS. For when Earth can't answer." |
 
 Record a second, longer take of the full demo path as a backup for the live pitch.
@@ -66,7 +66,7 @@ Cut the bracketed parts for a shorter slot.
 >
 > And for the moment in the challenge video, a crewmate collapsing, there is a full-screen emergency mode. The responder selects who collapsed and who is responding. It shows the rescue vitals immediately, lets the responder open the full record in one logged tap—because in an arrest a rescuer cannot be blocked by a PIN—and walks the published microgravity CPR guideline one step at a time.
 >
-> Just as important is what ARGUS refuses to do. It does not diagnose. It gives no medication advice. It never shows green for a reading it could not check. And 150 automated tests verify the logic and fail the build if any medical number, card, or emergency step lacks a source or demo label.
+> Just as important is what ARGUS refuses to do. It does not diagnose. It gives no medication advice. It never shows green for a reading it could not check. And 153 automated tests verify the logic and fail the build if any medical number, card, or emergency step lacks a source or demo label.
 >
 > On the way to Mars, the doctor is minutes away. ARGUS is for that gap.
 
@@ -82,7 +82,7 @@ Few words per slide. The demo carries the detail.
 | 4 | It knows it is in space | Temperature & blood pressure adjustment (Stahn et al. 2017; Norsk et al. 2015) + outlier-resistant personal baseline. "The range moves. The critical limit never does." |
 | 5 | We tested it (5 scenarios × 100 seeds, plus a 2,000-run sensitivity grid) | Headline results table (`results/summary.md`) and the prediction verdicts (`plan/EVALUATION.md`, section 8). "Predictions committed before the code. 5 of 7 met. Slow fevers are our weak spot." |
 | 6 | When a crewmate collapses | Red emergency mode screenshot: Patient + Responder selection, logged break-the-glass vitals access, and Published microgravity CPR step (Hinkelbein et al. 2020). |
-| 7 | What it refuses to do | No diagnosis. No medication advice. No green without a check. 150 automated tests guarding every rule and source. Live URL and repository. |
+| 7 | What it refuses to do | No diagnosis. No medication advice. No green without a check. 153 automated tests guarding every rule and source. Live URL and repository. |
 
 Screenshots: take them from the live site after pressing "Load demo profile", so every slide shows the same data.
 
@@ -105,7 +105,7 @@ ARGUS is an on-board browser application that helps astronauts assess their own 
 
 **How we built it**
 
-React and TypeScript on Next.js, hosted on Vercel, with zero server or database dependencies so all health data remains on board in `localStorage`. All status, baseline, validation, device-import, handover, and emergency-tree logic lives in pure functions backed by **150 automated tests**. Medical numbers live in JSON data files, each verified by automated tests to carry a citation from `plan/SOURCES.md` or an explicit `"demo parameter"` / `"Demo copy"` label. `npm run evaluate` deterministically regenerates `results/fever.md`, the 5-scenario, 100-seed `results/summary.md`, and the 2,000-run `results/sensitivity.md`. The test protocol, the commit timeline behind each pre-registration claim, and the limits are in `plan/EVALUATION.md`.
+React and TypeScript on Next.js, hosted on Vercel, with zero server or database dependencies so all health data remains on board in `localStorage`. All status, baseline, validation, device-import, handover, and emergency-tree logic lives in pure functions backed by **153 automated tests**. Medical numbers live in JSON data files, each verified by automated tests to carry a citation from `plan/SOURCES.md` or an explicit `"demo parameter"` / `"Demo copy"` label. `npm run evaluate` deterministically regenerates `results/fever.md`, the 5-scenario, 100-seed `results/summary.md`, and the 2,000-run `results/sensitivity.md`. The test protocol, the commit timeline behind each pre-registration claim, and the limits are in `plan/EVALUATION.md`.
 
 **Results**
 

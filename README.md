@@ -6,6 +6,8 @@ Health monitoring software for astronauts on space missions. Built by team Space
 
 On a long mission, astronauts have to spot health changes in themselves, and they are not doctors. On the way to Mars a message to Earth can take many minutes each way, so the crew cannot wait for a doctor. ARGUS lets an astronaut enter six health readings, explains what each one means, says what to do about it, and guides the crew through one emergency.
 
+The name comes from Argus Panoptes, the hundred-eyed watchman of Greek myth.
+
 > ARGUS is a hackathon project. It is not a medical device and has not been clinically validated. All data in the demo is simulated.
 
 ## What it does
@@ -50,16 +52,16 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. The demo profile loads by itself; "Load demo profile" on the dashboard resets it.
+Open http://localhost:3000 and tap a crewmember on "Who is using this console?" (MS1 is the one used in the demo). The demo profile loads by itself for all five crewmembers; "Load demo profile" on the dashboard resets it.
 
 | Command | What it does |
 |---|---|
 | `npm run dev` | Runs the app locally |
-| `npm test` | Runs the tests in `tests/` |
+| `npm test` | Runs the 153 tests in `tests/`: status rules, baseline, input checks, storage, device import, handover, crew board, emergency tree and message, data sources, and that `results/` matches the engine |
 | `npm run lint` | Checks code style and common mistakes |
 | `npm run build` | Builds the app the way Vercel does |
 | `npm run generate` | Regenerates the simulated demo data in `src/data/seed.json` |
-| `npm run evaluate` | Regenerates the alert results in `results/` |
+| `npm run evaluate` | Regenerates the alert results in `results/` (fever, five-scenario summary, sensitivity grid) |
 
 Run `npm run lint && npm test && npm run build` before you push.
 
@@ -76,13 +78,15 @@ React and TypeScript on Next.js, styled with CSS and Tailwind, hosted on Vercel.
 | Emergency | `/emergency` |
 | Alert test | `/alerts` |
 
+Every pull request runs lint, tests and build on GitHub Actions and gets a Vercel preview link; merging to `main` updates the live site. How to release, check, and roll back a deploy: [plan/DEPLOYMENT.md](plan/DEPLOYMENT.md).
+
 ```
-src/app/          routes for the five screens
+src/app/          routes for the six screens
 src/components/   screens, body figure, charts, status badge, escalation card
 src/lib/          logic: types, storage, input checks, baseline, status rules, feel vs. data
 src/data/         thresholds, card text, emergency steps, environments, demo data (all with sources)
-scripts/          simulated data generator, fever scenario, alert evaluation
-results/          generated alert results
+scripts/          simulated data generator, alert scenarios, alert evaluation
+results/          generated alert results (never edited by hand)
 tests/            tests for the logic and the data
 plan/             build plan and team documents
 ```
@@ -93,6 +97,7 @@ plan/             build plan and team documents
 |---|---|
 | [plan/BUILD.md](plan/BUILD.md) | What is built, what is left, decisions made |
 | [plan/FLOW.md](plan/FLOW.md) | How the app works end to end |
+| [plan/SCREEN_TESTS.md](plan/SCREEN_TESTS.md) | The click-through checklist for every screen |
 | [plan/EVALUATION.md](plan/EVALUATION.md) | How the alert test works, what was pre-registered, results and limits |
 | [plan/BACKEND.md](plan/BACKEND.md) | The step-by-step plan for the logic and data |
 | [plan/CODING_STANDARDS.md](plan/CODING_STANDARDS.md) | Rules for code, tests and git |
@@ -100,8 +105,31 @@ plan/             build plan and team documents
 | [plan/SOURCES.md](plan/SOURCES.md) | Where every medical number comes from |
 | [plan/AI_USE.md](plan/AI_USE.md) | AI disclosure log |
 | [plan/PITCH.md](plan/PITCH.md) | Pitch script, video, slides and project page text |
+| [plan/DEPLOYMENT.md](plan/DEPLOYMENT.md) | The pipeline, Vercel, releasing, checking and rolling back a deploy |
 
-New to the project? Read `FLOW.md`, then `CODING_STANDARDS.md`, then `BUILD.md`.
+New to the project? Read `FLOW.md`, then `CODING_STANDARDS.md`, then `BUILD.md`. Checking our evidence? Read `EVALUATION.md`, then `SOURCES.md`.
+
+## Team
+
+Team SpaceRangers.
+
+| Name | Area |
+|---|---|
+| Maazin (team lead) | Status engine, alert evaluation |
+| Angad | Storage, input checks, thresholds |
+| James | Feel vs. data, seeded generator, demo data |
+| Ihsan | Indicator cards |
+| Arnav | Screens and components |
+| Shail | Project page, video, slides, AI disclosure |
+
+AI tool use is disclosed in [plan/AI_USE.md](plan/AI_USE.md).
+
+## Privacy and safety
+
+- **Health data never leaves the browser.** Readings live in `localStorage` on the device; the app only downloads its own files (pages, scripts, the 3D model) and never sends readings anywhere. There is no server or database.
+- **No passwords.** Code in a browser cannot keep a secret, so ARGUS does not pretend to. On the shared console, crewmates see only a status word and the last reading day, never values.
+- **Emergency access is logged, not blocked.** A responder sees the rescue vitals first; opening the full record takes one tap and records who opened it and when, in the message for the ground.
+- **Not a medical device.** It explains and recommends, never diagnoses, and gives no medication or dosing advice. All demo data is simulated and labelled.
 
 ## Ground rules
 
