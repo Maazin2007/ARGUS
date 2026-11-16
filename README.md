@@ -126,7 +126,7 @@ AI tool use is disclosed in [plan/AI_USE.md](plan/AI_USE.md).
 
 ## Privacy and safety
 
-- **Health data never leaves the browser.** Readings live in `localStorage` on the device; the app makes no network calls of its own and has no server or database.
+- **Health data never leaves the browser.** Readings live in `localStorage` on the device; the app only downloads its own files (pages, scripts, the 3D model) and never sends readings anywhere. There is no server or database.
 - **No passwords.** Code in a browser cannot keep a secret, so ARGUS does not pretend to. On the shared console, crewmates see only a status word and the last reading day, never values.
 - **Emergency access is logged, not blocked.** A responder sees the rescue vitals first; opening the full record takes one tap and records who opened it and when, in the message for the ground.
 - **Not a medical device.** It explains and recommends, never diagnoses, and gives no medication or dosing advice. All demo data is simulated and labelled.

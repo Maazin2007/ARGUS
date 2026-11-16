@@ -10,7 +10,7 @@ How ARGUS gets from a laptop to the public URL, how to check a deploy, and how t
 ARGUS is a Next.js app with no server code, no database, no accounts and no environment variables. Vercel builds it and serves the pages and scripts. Everything after that runs in the visitor's browser:
 
 - Readings and check-ins are kept in the browser's `localStorage` (`src/lib/storage.ts`, the only file that touches it).
-- The app makes no network calls of its own. No health data is ever sent to Vercel or anywhere else. Vercel only sees ordinary page requests, as for any website.
+- The app only requests its own files from Vercel (pages, scripts, fonts, the 3D model in `public/models/`). No health data is ever sent to Vercel or anywhere else. Vercel only sees ordinary page requests, as for any website.
 - There are no secrets to manage. Anything in the code is public, which is why ARGUS has no PIN or password (see `plan/PITCH.md`, judge questions).
 
 ## The three places it runs
