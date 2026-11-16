@@ -56,6 +56,8 @@ Values we chose ourselves because no source gives them. Each is labelled `"demo 
 | Check-in due reminder threshold and combined sleep/mood review rule | `24 hours` since last check-in; short sleep + low mood on the same day | `src/lib/checkInDue.ts` |
 | Typo-catching input validation bounds (not medical limits) | `heartRate: 20–250 bpm`, `systolic: 40–300 mmHg`, `diastolic: 20–200 mmHg`, `bloodGlucose: 20–600 mg/dL`, `bodyTemperature: 25–45 °C`, `sleepDuration: 0–24 h`, `mood: 1–5 integer` | `src/lib/validate.ts` |
 | Fever scenario: base `37.4 ± 0.1 °C` for 30 healthy days, then a rise of `0.15 °C` per day for 10 days, Mars transit days 173 to 212 | see file | `scripts/scenarios/fever.json` |
+| Other alert scenarios: single odd reading, sudden spike, sleep debt, falling mood | see files | `scripts/scenarios/typo.json`, `spike.json`, `sleepDebt.json`, `moodDrop.json` |
+| Fever sensitivity grid: noise `0.05, 0.1, 0.2, 0.3 °C` × rise `0.05, 0.1, 0.15, 0.2, 0.3 °C` per day, 100 seeds each | see file | `scripts/scenarios/sensitivity.json` |
 
 ## Clinical sanity check
 

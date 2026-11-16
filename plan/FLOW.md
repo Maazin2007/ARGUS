@@ -96,8 +96,11 @@ npm run generate   →  scripts/generate.ts                     →  src/data/se
                       reads scripts/profiles/demo.json           (fixed seed, same output every run)
 
 npm run evaluate   →  scripts/evaluate.ts, scripts/scenario.ts →  results/fever.md, results/fever.json
-                      reads scripts/scenarios/fever.json         (three methods compared)
+                      reads scripts/scenarios/*.json             results/summary.md, results/summary.json
+                      (three methods compared)                   results/sensitivity.md, results/sensitivity.json
 ```
+
+The full protocol (how the data is made, what each measure means, what was pre-registered and when, results and limits) is in `plan/EVALUATION.md`.
 
 The three methods call the same `getStatus` the app uses. Only the inputs differ:
 

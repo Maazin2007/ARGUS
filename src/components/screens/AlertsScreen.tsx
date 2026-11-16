@@ -353,7 +353,10 @@ export function AlertsScreen() {
               committed before it was first run. The other four were added later, with their
               expected outcomes written before their first run but committed together with the
               results. Sleep and mood have no spaceflight adjustment and no personal
-              baseline in our rules, so all three methods give the same result for them.
+              baseline in our rules, so all three methods give the same result for them. A
+              pre-registered sensitivity test (2,000 runs, plan/EVALUATION.md) varies the noise and
+              the fever speed: the result holds everywhere, but a fever rising only 0.05 °C a day is
+              usually missed.
             </p>
           </div>
         </div>

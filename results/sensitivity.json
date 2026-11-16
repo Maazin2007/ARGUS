@@ -1,0 +1,1856 @@
+{
+  "config": {
+    "note": "Sensitivity test for the slow-onset fever. Same scenario as fever.json, but the noise and the rise per day are varied over a grid, 100 seeds per grid point. Every value is a demo parameter chosen by the team, not a medical reference. This file and the predictions below were committed before the sensitivity code existed and before it was first run. The grid and the predictions must not change after seeing results; if they do, say so in plan/EVALUATION.md.",
+    "baseScenario": "fever.json",
+    "seedCount": 100,
+    "noise": [
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "risePerDay": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3
+    ],
+    "predictions": [
+      {
+        "id": "P1",
+        "text": "Adjusted range: mean false alerts is 0 at every grid point."
+      },
+      {
+        "id": "P2",
+        "text": "Adjusted range and baseline: mean false alerts is below 1 (of 30 healthy days) at every grid point."
+      },
+      {
+        "id": "P3",
+        "text": "Earth range only: mean false alerts is at least 20 (of 30 healthy days) at every grid point."
+      },
+      {
+        "id": "P4",
+        "text": "At every grid point where both methods fire, the mean first amber of adjusted range and baseline is no later than that of the adjusted range alone."
+      },
+      {
+        "id": "P5",
+        "text": "At a rise of 0.05 °C a day and noise of 0.1 or less, the adjusted range alone gives no amber in any seed, while adjusted range and baseline gives amber in more than half the seeds."
+      },
+      {
+        "id": "P6",
+        "text": "For each rise per day, the baseline's lead over the adjusted range alone (difference in mean first amber) is no larger at noise 0.3 than at noise 0.05. Rises where either method never fires at one of those two noise levels are reported as not testable."
+      },
+      {
+        "id": "P7",
+        "text": "Mean first red is the same for all three methods at every grid point, because the critical limit is fixed."
+      }
+    ]
+  },
+  "points": [
+    {
+      "noise": 0.05,
+      "risePerDay": 0.05,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 10,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 8.52,
+              "worst": 9,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 8.52,
+              "worst": 9
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.05,
+      "risePerDay": 0.1,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 8,
+              "worst": 8,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 8,
+              "worst": 8
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 5,
+              "worst": 5,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 5,
+              "worst": 5
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.05,
+      "risePerDay": 0.15,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 7,
+              "worst": 7,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 5,
+              "worst": 5,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 7,
+              "worst": 7,
+              "never": 0
+            },
+            "missed": {
+              "mean": 5,
+              "worst": 5
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 4,
+              "worst": 4,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 7,
+              "worst": 7,
+              "never": 0
+            },
+            "missed": {
+              "mean": 4,
+              "worst": 4
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.05,
+      "risePerDay": 0.2,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5,
+              "worst": 5,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 4,
+              "worst": 4,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5,
+              "worst": 5,
+              "never": 0
+            },
+            "missed": {
+              "mean": 4,
+              "worst": 4
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 3,
+              "worst": 3,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5,
+              "worst": 5,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.05,
+      "risePerDay": 0.3,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 3,
+              "worst": 3,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 2,
+              "worst": 2,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 3,
+              "worst": 3,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2,
+              "worst": 2
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 2,
+              "worst": 2,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 3,
+              "worst": 3,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2,
+              "worst": 2
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.1,
+      "risePerDay": 0.05,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 10,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 8.12,
+              "worst": 9,
+              "never": 67
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 9.4,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.1,
+      "risePerDay": 0.1,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 8.06,
+              "worst": 9,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 8.09,
+              "worst": 9
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 5.09,
+              "worst": 7,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 5.09,
+              "worst": 7
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.1,
+      "risePerDay": 0.15,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 7.27,
+              "worst": 8,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 5.3,
+              "worst": 6,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 7.27,
+              "worst": 8,
+              "never": 0
+            },
+            "missed": {
+              "mean": 5.3,
+              "worst": 6
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 3.84,
+              "worst": 5,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 7.27,
+              "worst": 8,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.84,
+              "worst": 5
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.1,
+      "risePerDay": 0.2,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5.3,
+              "worst": 6,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 3.73,
+              "worst": 4,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5.3,
+              "worst": 6,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.73,
+              "worst": 4
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 3.25,
+              "worst": 4,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5.3,
+              "worst": 6,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.25,
+              "worst": 4
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.1,
+      "risePerDay": 0.3,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 3.19,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 30,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 2.09,
+              "worst": 3,
+              "never": 22
+            },
+            "firstRedDay": {
+              "mean": 3.19,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2.29,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 2.08,
+              "worst": 3,
+              "never": 16
+            },
+            "firstRedDay": {
+              "mean": 3.19,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2.23,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.2,
+      "risePerDay": 0.05,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 26.29,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 10,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 7.05,
+              "worst": 9,
+              "never": 78
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 9.48,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.2,
+      "risePerDay": 0.1,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 9,
+              "worst": 9,
+              "never": 85
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 26.29,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 7.59,
+              "worst": 9,
+              "never": 5
+            },
+            "firstRedDay": {
+              "mean": 9,
+              "worst": 9,
+              "never": 85
+            },
+            "missed": {
+              "mean": 8.06,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 5.87,
+              "worst": 9,
+              "never": 1
+            },
+            "firstRedDay": {
+              "mean": 9,
+              "worst": 9,
+              "never": 85
+            },
+            "missed": {
+              "mean": 5.97,
+              "worst": 9
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.2,
+      "risePerDay": 0.15,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 6.99,
+              "worst": 8,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 26.29,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 5.15,
+              "worst": 7,
+              "never": 7
+            },
+            "firstRedDay": {
+              "mean": 6.99,
+              "worst": 8,
+              "never": 0
+            },
+            "missed": {
+              "mean": 5.22,
+              "worst": 6
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 4.1,
+              "worst": 6,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 6.99,
+              "worst": 8,
+              "never": 0
+            },
+            "missed": {
+              "mean": 4.11,
+              "worst": 6
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.2,
+      "risePerDay": 0.2,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5.28,
+              "worst": 6,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 26.29,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 3.66,
+              "worst": 5,
+              "never": 8
+            },
+            "firstRedDay": {
+              "mean": 5.28,
+              "worst": 6,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.74,
+              "worst": 5
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 3.28,
+              "worst": 5,
+              "never": 1
+            },
+            "firstRedDay": {
+              "mean": 5.28,
+              "worst": 6,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.27,
+              "worst": 4
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.2,
+      "risePerDay": 0.3,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 3.38,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 26.29,
+              "worst": 30
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 2.2,
+              "worst": 3,
+              "never": 21
+            },
+            "firstRedDay": {
+              "mean": 3.38,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2.37,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 2.1,
+              "worst": 3,
+              "never": 13
+            },
+            "firstRedDay": {
+              "mean": 3.38,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2.22,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.3,
+      "risePerDay": 0.05,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0.13,
+              "worst": 1,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 0.2,
+              "worst": 1
+            },
+            "falseAmber": {
+              "mean": 22.39,
+              "worst": 28
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 10,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 6.59,
+              "worst": 9,
+              "never": 78
+            },
+            "firstRedDay": {
+              "mean": null,
+              "worst": null,
+              "never": 100
+            },
+            "missed": {
+              "mean": 9.48,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0.03,
+              "worst": 1
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.3,
+      "risePerDay": 0.1,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0.06,
+              "worst": 1,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 8.69,
+              "worst": 9,
+              "never": 64
+            },
+            "missed": {
+              "mean": 0.06,
+              "worst": 1
+            },
+            "falseAmber": {
+              "mean": 22.39,
+              "worst": 28
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 6.8,
+              "worst": 9,
+              "never": 16
+            },
+            "firstRedDay": {
+              "mean": 8.69,
+              "worst": 9,
+              "never": 64
+            },
+            "missed": {
+              "mean": 7.95,
+              "worst": 10
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 5.83,
+              "worst": 9,
+              "never": 1
+            },
+            "firstRedDay": {
+              "mean": 8.69,
+              "worst": 9,
+              "never": 64
+            },
+            "missed": {
+              "mean": 6.38,
+              "worst": 9
+            },
+            "falseAmber": {
+              "mean": 0.03,
+              "worst": 1
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.3,
+      "risePerDay": 0.15,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 6.69,
+              "worst": 9,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 22.39,
+              "worst": 28
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 5.06,
+              "worst": 8,
+              "never": 10
+            },
+            "firstRedDay": {
+              "mean": 6.69,
+              "worst": 9,
+              "never": 0
+            },
+            "missed": {
+              "mean": 5.23,
+              "worst": 7
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 4.16,
+              "worst": 8,
+              "never": 6
+            },
+            "firstRedDay": {
+              "mean": 6.69,
+              "worst": 9,
+              "never": 0
+            },
+            "missed": {
+              "mean": 4.26,
+              "worst": 7
+            },
+            "falseAmber": {
+              "mean": 0.03,
+              "worst": 1
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.3,
+      "risePerDay": 0.2,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 5.22,
+              "worst": 7,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 22.39,
+              "worst": 28
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 3.59,
+              "worst": 6,
+              "never": 12
+            },
+            "firstRedDay": {
+              "mean": 5.22,
+              "worst": 7,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.76,
+              "worst": 5
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 3.23,
+              "worst": 5,
+              "never": 3
+            },
+            "firstRedDay": {
+              "mean": 5.22,
+              "worst": 7,
+              "never": 0
+            },
+            "missed": {
+              "mean": 3.25,
+              "worst": 5
+            },
+            "falseAmber": {
+              "mean": 0.03,
+              "worst": 1
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "noise": 0.3,
+      "risePerDay": 0.3,
+      "result": {
+        "seedCount": 100,
+        "firstSeed": 20261115,
+        "methods": [
+          {
+            "id": "earthRange",
+            "label": "Earth range only",
+            "firstAmberDay": {
+              "mean": 0,
+              "worst": 0,
+              "never": 0
+            },
+            "firstRedDay": {
+              "mean": 3.39,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseAmber": {
+              "mean": 22.39,
+              "worst": 28
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRange",
+            "label": "Adjusted range",
+            "firstAmberDay": {
+              "mean": 2.25,
+              "worst": 3,
+              "never": 23
+            },
+            "firstRedDay": {
+              "mean": 3.39,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2.39,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0,
+              "worst": 0
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          },
+          {
+            "id": "adjustedRangeAndBaseline",
+            "label": "Adjusted range and baseline",
+            "firstAmberDay": {
+              "mean": 2.12,
+              "worst": 3,
+              "never": 17
+            },
+            "firstRedDay": {
+              "mean": 3.39,
+              "worst": 4,
+              "never": 0
+            },
+            "missed": {
+              "mean": 2.23,
+              "worst": 3
+            },
+            "falseAmber": {
+              "mean": 0.03,
+              "worst": 1
+            },
+            "falseRed": {
+              "mean": 0,
+              "worst": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "P1",
+      "text": "Adjusted range: mean false alerts is 0 at every grid point.",
+      "verdict": "met",
+      "detail": "Holds at every grid point."
+    },
+    {
+      "id": "P2",
+      "text": "Adjusted range and baseline: mean false alerts is below 1 (of 30 healthy days) at every grid point.",
+      "verdict": "met",
+      "detail": "Holds at every grid point."
+    },
+    {
+      "id": "P3",
+      "text": "Earth range only: mean false alerts is at least 20 (of 30 healthy days) at every grid point.",
+      "verdict": "met",
+      "detail": "Holds at every grid point."
+    },
+    {
+      "id": "P4",
+      "text": "At every grid point where both methods fire, the mean first amber of adjusted range and baseline is no later than that of the adjusted range alone.",
+      "verdict": "met",
+      "detail": "Holds at every grid point where both methods fire."
+    },
+    {
+      "id": "P5",
+      "text": "At a rise of 0.05 °C a day and noise of 0.1 or less, the adjusted range alone gives no amber in any seed, while adjusted range and baseline gives amber in more than half the seeds.",
+      "verdict": "not met",
+      "detail": "Fails at: noise 0.1, rise 0.05"
+    },
+    {
+      "id": "P6",
+      "text": "For each rise per day, the baseline's lead over the adjusted range alone (difference in mean first amber) is no larger at noise 0.3 than at noise 0.05. Rises where either method never fires at one of those two noise levels are reported as not testable.",
+      "verdict": "not met",
+      "detail": "Fails at: rise 0.3 (lead 0 at noise 0.05, 0.13 at noise 0.3). Not testable at: rise 0.05"
+    },
+    {
+      "id": "P7",
+      "text": "Mean first red is the same for all three methods at every grid point, because the critical limit is fixed.",
+      "verdict": "met",
+      "detail": "Holds at every grid point."
+    }
+  ]
+}

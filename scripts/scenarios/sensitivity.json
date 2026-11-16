@@ -1,0 +1,16 @@
+{
+  "note": "Sensitivity test for the slow-onset fever. Same scenario as fever.json, but the noise and the rise per day are varied over a grid, 100 seeds per grid point. Every value is a demo parameter chosen by the team, not a medical reference. This file and the predictions below were committed before the sensitivity code existed and before it was first run. The grid and the predictions must not change after seeing results; if they do, say so in plan/EVALUATION.md.",
+  "baseScenario": "fever.json",
+  "seedCount": 100,
+  "noise": [0.05, 0.1, 0.2, 0.3],
+  "risePerDay": [0.05, 0.1, 0.15, 0.2, 0.3],
+  "predictions": [
+    { "id": "P1", "text": "Adjusted range: mean false alerts is 0 at every grid point." },
+    { "id": "P2", "text": "Adjusted range and baseline: mean false alerts is below 1 (of 30 healthy days) at every grid point." },
+    { "id": "P3", "text": "Earth range only: mean false alerts is at least 20 (of 30 healthy days) at every grid point." },
+    { "id": "P4", "text": "At every grid point where both methods fire, the mean first amber of adjusted range and baseline is no later than that of the adjusted range alone." },
+    { "id": "P5", "text": "At a rise of 0.05 °C a day and noise of 0.1 or less, the adjusted range alone gives no amber in any seed, while adjusted range and baseline gives amber in more than half the seeds." },
+    { "id": "P6", "text": "For each rise per day, the baseline's lead over the adjusted range alone (difference in mean first amber) is no larger at noise 0.3 than at noise 0.05. Rises where either method never fires at one of those two noise levels are reported as not testable." },
+    { "id": "P7", "text": "Mean first red is the same for all three methods at every grid point, because the critical limit is fixed." }
+  ]
+}
