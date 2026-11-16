@@ -64,7 +64,8 @@ Short rules so six people's code reads like one person's. When a rule and a dead
 - Logic in `src/lib/` gets a test file in `tests/` with the same name: `baseline.ts` → `baseline.test.ts`.
 - Test names say what should happen: `"exercise heart rate returns unknown"`.
 - One behaviour per test. Fixed dates and fixed seeds, so a test passes today and tomorrow.
-- Screens are tested by a teammate clicking through them.
+- Screens are tested by a teammate clicking through them (`plan/SCREEN_TESTS.md`).
+- What every test file covers, and which safety rule each test enforces: `plan/TESTING.md`.
 
 ## Git
 

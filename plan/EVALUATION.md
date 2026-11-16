@@ -133,7 +133,7 @@ First red on the fever is 7.27 / 8 (mean / worst) for all three methods.
 
 ## 8. Sensitivity test (pre-registered)
 
-The 100-seed run repeats one setting. This test asks whether the fever result holds when the setting changes.
+In plain words: the main fever test uses one setting, so a fair question is "what if the readings were noisier, or the fever rose faster or slower?" This test reruns the same fever under 20 different conditions (4 noise levels × 5 fever speeds), 100 times each with different random noise, which makes 2,000 simulated runs. We wrote down what we expected before running it.
 
 - **Design:** `scripts/scenarios/sensitivity.json`. The fever scenario is rerun with noise of 0.05, 0.1, 0.2 and 0.3 °C and a rise of 0.05, 0.1, 0.15, 0.2 and 0.3 °C a day. That makes 20 grid points with 100 seeds each, 2,000 runs. Everything else is as in `fever.json`.
 - **Pre-registration:** the grid and seven predictions (P1 to P7) were committed in `6c665d2`, before any sensitivity code existed. The code and results followed in `68e5869`. The predictions were not changed.

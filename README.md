@@ -97,6 +97,7 @@ plan/             build plan and team documents
 |---|---|
 | [plan/BUILD.md](plan/BUILD.md) | What is built, what is left, decisions made |
 | [plan/FLOW.md](plan/FLOW.md) | How the app works end to end |
+| [plan/TESTING.md](plan/TESTING.md) | What the 153 automated tests check and which safety rules they enforce |
 | [plan/SCREEN_TESTS.md](plan/SCREEN_TESTS.md) | The click-through checklist for every screen |
 | [plan/EVALUATION.md](plan/EVALUATION.md) | How the alert test works, what was pre-registered, results and limits |
 | [plan/BACKEND.md](plan/BACKEND.md) | The step-by-step plan for the logic and data |
