@@ -12,6 +12,7 @@ Live site: https://argus-delta-gules.vercel.app
 | `DESIGN_IDEAS.md` | Design guidance, with a note on what was adopted |
 | `EVALUATION.md` | The alert test: protocol, what was pre-registered and when, results and limits |
 | `SCREEN_TESTS.md` | The click-through checklist for every screen |
+| `DEPLOYMENT.md` | The pipeline, Vercel, releasing, checking and rolling back a deploy |
 | `SOURCES.md` | Where every medical number comes from; add a row when you open a source |
 | `AI_USE.md` | AI disclosure log; add a row when you use an AI tool |
 | `PITCH.md` | Pitch script, 30-second video, slides, project page text and judge questions |
@@ -65,7 +66,8 @@ All 153 tests pass.
 - [x] Final check of `SOURCES.md` (every row used has "Opened by") and `AI_USE.md` (every tool is listed)
 - [x] Slides and pitch script; pitch delivered on 15 November
 - [ ] Project page text
-- [ ] Tag the build, record the commit, send the first complete submission
+- [ ] Tag the build as `submission` (`plan/DEPLOYMENT.md`, Tags), record the commit, send the first complete submission
+- [ ] Optional: protect `main` on GitHub so every change needs a pull request and a passing build (`plan/DEPLOYMENT.md`, Known gaps)
 
 After the freeze: record the demo video from the live site, rehearse the pitch twice, fix only material issues.
 

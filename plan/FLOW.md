@@ -130,6 +130,8 @@ Storage is empty in a new browser. `ArgusProvider` then calls `loadDemoProfile()
 2. A teammate checks the preview and merges with "Create a merge commit".
 3. Vercel rebuilds `main` and updates https://argus-delta-gules.vercel.app, usually within two minutes.
 
+Releasing, checking and rolling back a deploy: `plan/DEPLOYMENT.md`.
+
 ## What the screens call
 
 | Function or file | Owner | Returns |
