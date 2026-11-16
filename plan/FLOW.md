@@ -1,15 +1,16 @@
 # How ARGUS works, end to end
 
-ARGUS is a browser app. An astronaut enters readings, the app explains each one, and it guides the crew through one emergency. There is no server: the code is hosted on Vercel and all data stays in the astronaut's browser.
+ARGUS is a browser app. An astronaut enters or imports readings, the app explains each one, packages a handover report for the ground, and guides the crew through one emergency. There is no server: the code is hosted on Vercel and all data stays in the astronaut's browser.
 
-## The five screens
+## The six screens
 
 | Screen | Route | What the astronaut does |
 |---|---|---|
 | Dashboard | `/` | Sees six statuses on the body figure and in a list. Sees the check-in due banner and, on a red status, the escalation card. |
 | Check-in | `/check-in` | Enters the six readings and one "how do you feel" rating, one step at a time, then sees the results. |
 | Indicator | `/indicator/[id]` | Reads the trend chart and the five-section card for one indicator. |
-| Emergency | `/emergency` | Answers yes/no questions, one step per screen. |
+| Handover | `/handover` | Reads the last 7 mission days, every alert with its reason, and the self-ratings; prints it or copies a JSON packet for the ground. |
+| Emergency | `/emergency` | Picks who needs help, sees their rescue vitals, answers yes/no questions one step per screen, and copies a message for the ground. |
 | Alert test | `/alerts` | Reads the results table and the day-by-day trace of the fever scenario. |
 
 The header is on every screen: mission day, the environment switch, the simulated signal delay, a count of the six statuses and the emergency button.
@@ -53,6 +54,8 @@ saveReading(), saveCheckIn()   src/lib/storage.ts   writes to localStorage
 
 Nothing is stored until the astronaut presses "Save to dashboard". Readings saved here are marked simulated, so they join the demo profile's history.
 
+Device import on the same screen takes a JSON or CSV file instead: `parseDeviceText()` and `rowsToReadings()` in `src/lib/deviceImport.ts` run every row through the same `validateEntry()` as a typed reading, refuse duplicates, future times and times with no time zone, and save the rest marked `provenance: "device"`.
+
 ## Flow 2: how a status is decided
 
 `getStatus` stops at the first rule that fires.
@@ -81,13 +84,14 @@ Blood pressure has two measures, systolic and diastolic. Each is checked on its 
 
 ## Flow 4: emergency mode
 
-1. The astronaut presses the emergency button in the header.
-2. The screen shows the first step from `src/data/emergency.json`.
-3. Each answer is logged with its time, and `nextStepId(step, answer)` picks the next step. The Y and N keys answer too.
-4. Each step shows its label, "Published" or "Demo copy", and its source. The compressions step shows how long it has been open.
-5. The tree ends when a step has no next step.
+1. The astronaut presses the emergency button in the header, or "Open emergency" on a crewmate's row in the Crew table (`/emergency?patient=<crew id>`).
+2. Who is who: the signed-in person is the responder. From the Crew table the patient is already chosen, so the steps start at once. From the header it asks "Who needs help?". It asks "Who is responding?" only when the patient is the signed-in person or nobody is signed in.
+3. The vitals panel shows the patient's rescue vitals (heart rate, blood pressure, temperature, glucose) with their statuses, and the body figure marks any that are amber or red. "Open full record (logged)" adds the rest with one tap and records who opened it and when (`accessFor` in `src/lib/crew.ts`). There is no PIN.
+4. The screen shows the first step from `src/data/emergency.json`. Each answer is logged with its time, and `nextStepId(step, answer)` picks the next step. The Y and N keys answer too.
+5. Each step shows its label, "Published" or "Demo copy", and its source. The compressions step shows how long it has been open.
+6. The tree ends when a step has no next step. "Copy message for the ground" (`buildEmergencyMessage` in `src/lib/emergencyMessage.ts`) puts the patient, the vitals, the step log and the access log into one plain-text message.
 
-Emergency mode reads no stored readings, so it works even if everything else is broken. The screen never adds medical wording of its own; all of it comes from the data file.
+The steps read no stored readings, so the questions still work if storage is broken; only the vitals panel reads them. The Switch button is hidden in emergency mode so the log cannot be lost. The screen never adds medical wording of its own; all of it comes from the data file.
 
 ## Flow 5: the evidence
 
@@ -100,6 +104,10 @@ npm run evaluate   →  scripts/evaluate.ts, scripts/scenario.ts →  results/fe
                       (three methods compared)                   results/sensitivity.md, results/sensitivity.json
 ```
 
+- `fever.*`: the frozen fever scenario, one seed, with the status of every reading.
+- `summary.*`: all five scenarios, the frozen seed and 100 seeds each.
+- `sensitivity.*`: the fever rerun over 4 noise sizes × 5 rise speeds × 100 seeds, with each pre-registered prediction marked met or not met.
+
 The full protocol (how the data is made, what each measure means, what was pre-registered and when, results and limits) is in `plan/EVALUATION.md`.
 
 The three methods call the same `getStatus` the app uses. Only the inputs differ:
@@ -110,17 +118,19 @@ The three methods call the same `getStatus` the app uses. Only the inputs differ
 | Adjusted range | the scenario's environment | none |
 | Adjusted range and baseline | the scenario's environment | all earlier readings |
 
-The alert test screen reads `results/fever.json` and draws it. `tests/evaluate.test.ts` fails if the committed results no longer match the engine; run `npm run evaluate` and commit the new files.
+The alert test screen reads `results/summary.json` and draws the table and the trace for each scenario. `tests/evaluate.test.ts` fails if the committed results no longer match the engine; run `npm run evaluate` and commit the new files.
 
 ## Flow 6: the demo profile
 
-Storage is empty in a new browser. `ArgusProvider` then calls `loadDemoProfile()` (`src/lib/demoProfile.ts`), which saves every reading from `seed.json`. The "Load demo profile" button on the dashboard does the same after clearing what is stored. Every seed reading is marked simulated, and the screens show a "Simulated data" tag.
+Storage is empty in a new browser. `ArgusProvider` then calls `loadDemoProfile()` (`src/lib/demoProfile.ts`), which gives every crewmember their own copy of `seed.json`: `demoReadingsFor(crewId)` shifts each indicator by that person's offsets in `src/data/crew.json`, and can change their last day (the pilot's fever, the medical officer's short sleep) or drop it (mission specialist 2's missed check-ins). The "Load demo profile" button on the dashboard does the same after clearing what is stored. Every seed reading is marked simulated, and the screens show a "Simulated data" tag.
 
 ## Flow 7: from your laptop to the public URL
 
 1. You push a branch and open a pull request. GitHub runs lint, tests and build; Vercel builds a preview link.
 2. A teammate checks the preview and merges with "Create a merge commit".
 3. Vercel rebuilds `main` and updates https://argus-delta-gules.vercel.app, usually within two minutes.
+
+Releasing, checking and rolling back a deploy: `plan/DEPLOYMENT.md`.
 
 ## What the screens call
 
@@ -133,11 +143,17 @@ Storage is empty in a new browser. `ArgusProvider` then calls `loadDemoProfile()
 | `src/data/indicators.json` | Angad | one rule per measure and context |
 | `checkFeelVsData(selfRating, statuses)` in `src/lib/feelVsData.ts` | James | a message or `null` |
 | `src/data/seed.json` | James | demo readings, all marked simulated |
-| `loadDemoProfile()` in `src/lib/demoProfile.ts` | Maazin | fills storage from `seed.json` |
+| `loadDemoProfile()`, `demoReadingsFor(crewId)` in `src/lib/demoProfile.ts` | Maazin | fills every crewmember's storage from `seed.json` |
+| `summarizeCrew(readings, environment, missionDay, now)` in `src/lib/crewBoard.ts` | Maazin | worst status, last reading day and overdue flag for the Crew table |
+| `accessFor(patientId, responderId, opened)` in `src/lib/crew.ts`, `src/data/crew.json` | Arnav | "emergency" or "full" vitals access |
+| `buildEmergencyMessage(input)` in `src/lib/emergencyMessage.ts` | Arnav | the plain-text message for the ground |
+| `parseDeviceText`, `rowsToReadings` in `src/lib/deviceImport.ts` | Arnav | readings from a device file, plus the rows refused and why |
+| `buildHandover`, `telemetryPacket` in `src/lib/handover.ts` | Arnav | the 7-day handover report and its JSON packet |
+| `isCheckInDue`, `checkCombinedAlerts` in `src/lib/checkInDue.ts` | Maazin | the check-in due banner and the sleep-with-mood note |
 | `getStep(id)`, `nextStepId(step, answer)` in `src/lib/emergency.ts` | Arnav | emergency steps |
 | `src/data/cards.json` | Ihsan | card text |
 | `src/data/environments.json` | Maazin | label and simulated signal delay per environment |
-| `results/fever.json` | Maazin | the alert test results |
+| `results/summary.json`, `results/sensitivity.json` | Maazin | the alert test results (`plan/EVALUATION.md`) |
 | `src/lib/indicatorMeta.ts` | Arnav | display names, units, context buttons, status words and symbols |
 
 Only `src/lib/storage.ts` touches `localStorage`. The check-in due banner is worked out on the dashboard from the last check-in's mission day.

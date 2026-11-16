@@ -74,6 +74,7 @@ Screens are tested by a teammate clicking through them (`CODING_STANDARDS.md`). 
 - [ ] The numbers match `results/summary.md`.
 - [ ] The scenario switcher changes the trace chart for Slow-onset fever, Single odd reading, Sudden spike, Creeping sleep debt and Falling mood.
 - [ ] Sleep and mood traces show the lower limit line.
+- [ ] The Limits note mentions the pre-registered sensitivity test and that a fever rising 0.05 °C a day is usually missed.
 
 ## 7. Handover report (`/handover`)
 
