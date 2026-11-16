@@ -9,5 +9,7 @@ Space Apps asks teams to disclose AI use. This log lists the main ways the team 
 | 14 Nov 2026 | James | Claude Code | Tutoring on the seeded generator and help with the feel-vs-data check and demo data |
 | 14 Nov 2026 | Ihsan | Antigravity | Help drafting and structuring the indicator cards |
 | 14–15 Nov 2026 | Arnav | Claude Code | Help porting the team's design mockup into screens, and with device import, the handover report, the emergency steps and the extra alert scenarios |
+| 15 Nov 2026 | Shail | Codex | Reviewed the current repository and created `wiki/Home.md`, a GitHub Wiki-ready project page covering ARGUS's workflow, architecture, structured data, simulated evaluation, limitations, and source links. No application logic, medical rules, or presentation deck were changed.
+
 
 Every medical number and source was checked by a team member (`plan/SOURCES.md`). No AI tool marked an emergency step "Published".
