@@ -1,5 +1,7 @@
 # AI use log
 
+15 Nov 2026 — Shail, Codex: reviewed the current repository and created `wiki/Home.md`, a GitHub Wiki-ready project page covering ARGUS's workflow, architecture, structured data, simulated evaluation, limitations, and source links. No application logic, medical rules, or presentation deck were changed.
+
 Space Apps asks teams to disclose AI use. Add a row whenever an AI tool helps with code, text, images or research. This file becomes the AI disclosure on the project page.
 
 | Date        | Who    | Tool                   | Used for                                                                                                                                                                                                                                                                                                                                    |
