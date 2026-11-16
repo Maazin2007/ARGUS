@@ -136,7 +136,7 @@ First red on the fever is 7.27 / 8 (mean / worst) for all three methods.
 The 100-seed run repeats one setting. This test asks whether the fever result holds when the setting changes.
 
 - **Design:** `scripts/scenarios/sensitivity.json`. The fever scenario is rerun with noise of 0.05, 0.1, 0.2 and 0.3 °C and a rise of 0.05, 0.1, 0.15, 0.2 and 0.3 °C a day. That makes 20 grid points with 100 seeds each, 2,000 runs. Everything else is as in `fever.json`.
-- **Pre-registration:** the grid and seven predictions (P1 to P7) were committed in `6c665d2`, before any sensitivity code existed. The code and results followed in `68e5869`. The predictions were not changed.
+- **Pre-registration:** the grid and seven predictions (P1 to P7) were committed in `6c665d2`, before any sensitivity code existed. The code and results followed in `68e5869`. The predictions were not changed. They were drafted with an AI tool and committed by the team lead (`plan/AI_USE.md`).
 - **Checking:** `checkPredictions` in `scripts/scenario.ts` checks each prediction against the grid automatically, so the verdict is not a judgement call.
 - **Full results:** [results/sensitivity.md](../results/sensitivity.md), every grid point and method.
 

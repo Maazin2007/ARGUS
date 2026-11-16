@@ -1,6 +1,6 @@
 # Build status
 
-Where the build stands against `SpaceRangers_Final_Build_Plan.docx`. Last updated 15 November 2026, before the feature freeze.
+Where the build stands against `SpaceRangers_Final_Build_Plan.docx`. Last updated 15 November 2026, after the pitch.
 
 Live site: https://argus-delta-gules.vercel.app
 
@@ -10,6 +10,8 @@ Live site: https://argus-delta-gules.vercel.app
 | `BACKEND.md` | The step-by-step backend plan, with a note on what was built |
 | `CODING_STANDARDS.md` | Rules everyone follows |
 | `DESIGN_IDEAS.md` | Design guidance, with a note on what was adopted |
+| `EVALUATION.md` | The alert test: protocol, what was pre-registered and when, results and limits |
+| `SCREEN_TESTS.md` | The click-through checklist for every screen |
 | `SOURCES.md` | Where every medical number comes from; add a row when you open a source |
 | `AI_USE.md` | AI disclosure log; add a row when you use an AI tool |
 | `PITCH.md` | Pitch script, 30-second video, slides, project page text and judge questions |
@@ -35,7 +37,7 @@ Live site: https://argus-delta-gules.vercel.app
 - [x] Thresholds for all six indicators, each with an opened source or a demo label (`src/data/indicators.json`)
 - [x] Storage in the browser with safe write error handling, plus input checks (`src/lib/storage.ts`, `src/lib/validate.ts`)
 - [x] Cards for all six indicators, five sections each (`src/data/cards.json`)
-- [x] Seeded generator and a demo profile for all six indicators, all green in Mars transit (`scripts/generate.ts`, `src/data/seed.json`)
+- [x] Seeded generator and a demo profile for all six indicators, all green in Mars transit (`scripts/generate.ts`, `src/data/seed.json`); each crewmember gets their own shifted copy, with the pilot critical, the medical officer short of sleep and mission specialist 2 overdue (`src/data/crew.json`)
 - [x] Demo profile loads automatically and from a button (`src/lib/demoProfile.ts`)
 - [x] Feel vs. data check and combined multi-indicator alert notes on check-in results (`src/lib/feelVsData.ts`, `src/lib/checkInDue.ts`)
 - [x] Browser JSON / CSV device import with provenance tracking (`src/lib/deviceImport.ts`, `src/components/checkin/DeviceImport.tsx`)
@@ -52,7 +54,7 @@ Live site: https://argus-delta-gules.vercel.app
 - [x] Light and dark console themes (`ThemeButton.tsx`) and all six indicators mapped to sites on the 3D body figure (`BodyMap.tsx`)
 - [x] CI runs lint, tests and build on every push; Vercel deploys `main`
 
-All 150 tests pass.
+All 153 tests pass.
 
 ## Left before the freeze (Sunday, 2:30 PM)
 
@@ -61,7 +63,8 @@ All 150 tests pass.
 - [ ] Two people who did not write the screens walk `plan/SCREEN_TESTS.md` on the live site and sign the table
 - [x] A team member opens Hinkelbein et al. 2020 and fills "Opened by" in `SOURCES.md`; the compressions step is labelled "Published"
 - [x] Final check of `SOURCES.md` (every row used has "Opened by") and `AI_USE.md` (every tool is listed)
-- [ ] Project page text, slides, pitch script
+- [x] Slides and pitch script; pitch delivered on 15 November
+- [ ] Project page text
 - [ ] Tag the build, record the commit, send the first complete submission
 
 After the freeze: record the demo video from the live site, rehearse the pitch twice, fix only material issues.
@@ -72,6 +75,7 @@ After the freeze: record the demo video from the live site, rehearse the pitch t
 - Both body temperature (Stahn et al. 2017) and blood pressure (Norsk et al. 2015) adjust for the spaceflight environment and mission day.
 - Optional items not included: Moon and Mars surface gravity environments, points and streaks.
 - `recharts` is installed but unused; the charts are hand-built SVG.
+- Known weak spot: a fever that rises 0.05 °C a day is usually missed within ten days (`plan/EVALUATION.md`, section 8).
 
 ## Decisions made during the build
 
@@ -79,7 +83,7 @@ These differ from the docx or settle something it left open.
 
 - **Green needs a range check.** A rule with no reference range returns unknown, never green.
 - **The adjustment moves one end of the range.** A rise in flight raises the upper limit and leaves the lower limit at the Earth value, so an ordinary Earth reading is not flagged in flight.
-- **Baseline.** Unusual readings are left out of the baseline, so a slow fever cannot pull it up. Temperature and heart rate have a baseline; the other indicators do not.
+- **Baseline.** Unusual readings are left out of the baseline, so a slow fever cannot pull it up. Heart rate, temperature and blood pressure (systolic and diastolic) have a baseline; glucose, sleep and mood do not.
 - **Config shape.** One rule per measure and context. Blood pressure has two measures; glucose has a fasting rule and an after-meal rule. A reading with no matching rule is unknown.
 - **CPR numbers.** Hinkelbein et al. 2020 gives no compression rate, depth or ratio of its own and refers to Earth-based guidelines. The numbers from the mockup were removed, and the timer shows elapsed time with no pulse.
 - **Alert test.** The fever scenario and its expected outcomes were committed before the evaluation script existed, and its results have not changed since. The other four scenarios' expectations were committed together with their results, so they are not called pre-registered. The sensitivity grid's predictions were committed before its code. Details: `plan/EVALUATION.md`, section 5.
